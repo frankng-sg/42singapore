@@ -1,0 +1,32 @@
+0: nulla
+1: unus
+2: duo
+3: tres
+4: quattuor
+5: quinque
+6: sex
+7: septem
+8: octo
+9: novem
+10: decem
+11: undecim
+12: duodecim
+13: tredecim
+14: quatuordecim
+15: quindecim
+16: sedecim
+17: septendecim
+18: duodeviginti
+19: undeviginti
+20: viginti
+30: triginta
+40: quadraginta
+50: quinquaginta
+60: sexaginta
+70: septuaginta
+80: octoginta
+90: nonaginta
+100: centum
+1000: mille
+1000000: mille centum milia
+1000000000: mille milliones

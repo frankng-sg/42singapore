@@ -1,0 +1,29 @@
+# TEST 1 - Normal Case
+./rush-02 "numbers.dict" 123456
+BASIC: one hundred twenty three thousand four hundred fifty six
+ADV: one hundred twenty-three thousand, four hundred fifty-six
+
+# TEST 2 - Dict With Empty Lines
+./rush-02 dict_with_empty_lines.dict 123456
+BASIC: one hundred twenty three thousand four hundred fifty six
+ADV: one hundred twenty-three thousand, four hundred fifty-six
+
+# TEST 3 - Dict With New Entries
+./rush-02 dict_with_new_entries.dict 123456
+BASIC: one hundred twenty three thousand four hundred fifty six
+ADV: one hundred twenty-three thousand, four hundred fifty-six
+
+# TEST 4- Dict With Parsing Error
+./rush-02 dict_with_parsing_error.dict 123456
+Dict Error
+
+# TEST 5 - Number is not an unsigned integer
+./rush-02 123.456
+Error
+
+# TEST 6 - Dict With Entries In Random Order
+./rush-02 dict_with_random_entry_order.dict 123456
+BASIC: one hundred twenty three thousand four hundred fifty six
+ADV: one hundred twenty-three thousand, four hundred fifty-six
+
+
