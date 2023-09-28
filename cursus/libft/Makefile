@@ -6,7 +6,7 @@
 #    By: vietnguy <vietnguy@student.42singapore.sg  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 14:29:25 by vietnguy          #+#    #+#              #
-#    Updated: 2023/09/28 16:22:12 by vietnguy         ###   ########.fr        #
+#    Updated: 2023/09/28 19:55:31 by vietnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,9 +35,12 @@ RESET := \033[0m
 
 .PHONY: all bonus clean fclean re
 
-all: $(OBJ) 
-	@$(AR) $(NAME) $(OBJ)
+all: $(NAME) bonus 
 	@echo "$(GREEN)Completed Mandatory Part$(RESET)"
+
+$(NAME): $(OBJ)
+	@$(AR) $(NAME) $(OBJ)
+
 
 bonus: all $(BOBJ)
 	@$(AR) $(NAME) $(BOBJ)

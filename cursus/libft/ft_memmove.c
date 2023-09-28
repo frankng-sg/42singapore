@@ -6,7 +6,7 @@
 /*   By: vietnguy <vietnguy@student.42singapore.sg  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 15:27:56 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/08/20 19:16:00 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/09/28 20:04:26 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,17 @@
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	unsigned char	*tmp;
+	unsigned char	*d;
+	unsigned char	*s;
 
-	tmp = (unsigned char *)malloc(n * sizeof(unsigned char));
-	ft_memcpy(tmp, src, n);
-	ft_memcpy(dest, tmp, n);
-	free(tmp);
+	if (dest < src)
+		return (ft_memcpy(dest, src, n));
+	if (dest > src)
+	{
+		d = (unsigned char *)dest;
+		s = (unsigned char *)src;
+		while (n-- > 0)
+			d[n] = s[n];
+	}
 	return (dest);
 }
