@@ -6,7 +6,7 @@
 /*   By: vietnguy <vietnguy@student.42singapore.sg  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 11:34:58 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/09/28 20:15:27 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/09/28 22:34:06 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,4 @@ int	ft_memcmp(const void *s1, const void *s2, size_t n)
 		v2++;
 	}
 	return (*v1 - *v2);
-}
-
-#include <stdio.h>
-int	main(void)
-{
-	printf("%d", ft_memcmp("abcdefghij", "abcdefgxyz", 7));
 }
