@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:29:54 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/10/01 16:38:17 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/10/01 16:59:51 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ size_t	ft_strlen(char *s)
 
 char	*ft_strchr(char *s, int c)
 {
+	if (s == NULL)
+		return (NULL);
 	while (*s)
 	{
 		if (*s == (char)c)
