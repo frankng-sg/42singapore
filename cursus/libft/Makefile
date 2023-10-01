@@ -20,7 +20,7 @@ FILES:=ft_isalpha ft_isdigit ft_isalnum ft_isascii ft_isprint ft_toupper \
 	ft_memmove ft_memcpy ft_bzero ft_memset ft_calloc ft_strdup \
 	ft_substr ft_strjoin ft_strtrim ft_strndup ft_min ft_max ft_split \
 	ft_wordcount ft_itoa ft_strmapi ft_striteri ft_putchar_fd \
-	ft_putstr_fd ft_putendl_fd ft_putnbr_fd ft_lstadd_back
+	ft_putstr_fd ft_putendl_fd ft_putnbr_fd ft_lstadd_back ft_putchar
 BFILES:=ft_lstnew ft_lstadd_front ft_lstsize ft_lstdelone ft_lstclear \
 	ft_lstiter ft_lstmap ft_lstlast
 OBJ:=$(FILES:=.o)
@@ -35,7 +35,7 @@ RESET := \033[0m
 
 .PHONY: all bonus clean fclean re
 
-all: $(NAME) bonus 
+all: $(NAME) 
 	@echo "$(GREEN)Completed Mandatory Part$(RESET)"
 
 $(NAME): $(OBJ)

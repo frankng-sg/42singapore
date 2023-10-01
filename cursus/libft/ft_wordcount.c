@@ -34,7 +34,7 @@ int	ft_wordcount2(const char *s, const char *sep)
 	if (slen <= 0)
 		return (0);
 	i = 255;
-	while (i > 0) 
+	while (i > 0)
 		issep[i--] = 0;
 	while (*sep)
 		issep[(int)(*sep++)] = 1;
