@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 12:07:24 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/10/01 12:30:12 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/10/01 14:59:27 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	putnbr(long num)
 {
 	if (num < 10)
 		return (ft_putchar(num + '0'));
-	return (putnbr(num / 10) + putnbr(num % 10)); 
+	return (putnbr(num / 10) + putnbr(num % 10));
 }
 
 int	ft_putnbr(long num)

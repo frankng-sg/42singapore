@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 12:30:36 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/10/01 13:03:57 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/10/01 14:38:32 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 int	ft_putchar(char c);
 int	ft_putstr(char *str);
-int	ft_puthex(size_t num, int iscap);
+int	ft_puthex(size_t num, int isupper);
 int	ft_putptr(uintptr_t ptr);
 int	ft_putnbr(long num);
 
