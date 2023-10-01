@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:29:54 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/10/01 15:29:55 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/10/01 16:38:17 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,25 @@
 
 size_t	ft_strlen(char *s)
 {
-	size_t	i;
+	size_t	len;
 
-	i = 0;
-	if (!s)
+	if (s == NULL)
 		return (0);
-	while (s[i] != '\0')
-		i++;
-	return (i);
+	len = 0;
+	while (*s++)
+		len++;
+	return (len);
 }
 
 char	*ft_strchr(char *s, int c)
 {
-	int	i;
-
-	i = 0;
-	if (!s)
-		return (0);
-	if (c == '\0')
-		return ((char *)&s[ft_strlen(s)]);
-	while (s[i] != '\0')
+	while (*s)
 	{
-		if (s[i] == (char) c)
-			return ((char *)&s[i]);
-		i++;
+		if (*s == (char)c)
+			return ((char *)s);
+		s++;
 	}
-	return (0);
+	return (NULL);
 }
 
 char	*ft_strjoin(char *line, char *buff)
@@ -68,4 +61,24 @@ char	*ft_strjoin(char *line, char *buff)
 	str[ft_strlen(line) + ft_strlen(buff)] = '\0';
 	free(line);
 	return (str);
+}
+
+char	*ft_strdup(char *s)
+{
+	char	*dup;
+	size_t	slen;
+	size_t	i;
+
+	slen = ft_strlen(s);
+	dup = (char *)malloc((slen + 1));
+	if (dup == NULL)
+		return (NULL);
+	dup[slen] = 0;
+	i = 0;
+	while (i < slen)
+	{
+		dup[i] = s[i];
+		i++;
+	}
+	return (dup);
 }

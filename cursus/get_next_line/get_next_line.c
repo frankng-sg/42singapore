@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:45:28 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/10/01 15:36:33 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/10/01 16:52:36 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,71 +32,48 @@ static char	*readwbuff(int fd, char *line)
 	return (line);
 }
 
-char	*new_line(char *line)
+static char	*frontcut(char *data, size_t n)
 {
-	int		i;
-	int		j;
-	char	*str;
+	char	*out;
 
-	i = 0;
-	while (line[i] && line[i] != '\n')
-		i++;
-	if (!line[i])
-	{
-		free(line);
-		return (NULL);
-	}
-	str = (char *)malloc(sizeof(char) * (ft_strlen(line) - i + 1));
-	if (!str)
-		return (NULL);
-	i++;
-	j = 0;
-	while (line[i])
-		str[j++] = line[i++];
-	str[j] = '\0';
-	free(line);
-	return (str);
+	out = ft_strdup(&data[n]);
+	free(data);
+	return (out);
 }
 
-char	*ft_get_next_line(char *line)
+char	*ft_getline(char *data)
 {
-	int		i;
-	char	*str;
+	int		len;
+	char	*line;
 
-	i = 0;
-	if (!line[i])
+	len = 0;
+	while (data[len] != '\n' && data[len])
+		len++;
+	if (data[len] == '\n')
+		len++;
+	line = (char *)malloc(len);
+	if (line == NULL)
 		return (NULL);
-	while (line[i] && line[i] != '\n')
-		i++;
-	str = (char *)malloc(i + 2);
-	if (!str)
-		return (NULL);
-	i = 0;
-	while (line[i] && line[i] != '\n')
-	{
-		str[i] = line[i];
-		i++;
-	}
-	if (line[i] == '\n')
-	{
-		str[i] = line[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
+	line[--len] = 0;
+	while (--len >= 0)
+		line[len] = data[len];
+	return (line);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*line;
-	char		*next_line;
+	static char	*data;
+	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	line = readwbuff(fd, line);
-	if (!line)
+	data = readwbuff(fd, data);
+	if (data == NULL)
 		return (NULL);
-	next_line = ft_get_next_line(line);
-	line = new_line(line);
-	return (next_line);
+	line = ft_getline(data);
+	if (line == NULL)
+		free(data);
+	else
+		data = frontcut(data, ft_strlen(line));
+	return (line);
 }

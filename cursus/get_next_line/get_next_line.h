@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:31:08 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/10/01 15:31:10 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/10/01 16:38:30 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@
 char	*get_next_line(int fd);
 char	*ft_strjoin(char *line, char *buff);
 char	*ft_strchr(char *s, int c);
+char	*ft_strdup(char *s);
 size_t	ft_strlen(char *s);
-char	*new_line(char *line);
-char	*ft_get_line(int fd, char *line);
-char	*ft_get_next_line(char	*line);
 
 #endif
