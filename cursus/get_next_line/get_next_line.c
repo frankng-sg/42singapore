@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:45:28 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/10/01 15:30:52 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/10/01 15:36:33 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,4 @@ char	*get_next_line(int fd)
 	next_line = ft_get_next_line(line);
 	line = new_line(line);
 	return (next_line);
-}
-
-int	main(void)
-{
-	printf("%s", get_next_line(1));
 }
