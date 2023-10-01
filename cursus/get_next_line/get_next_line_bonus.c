@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gemartin <gemartin@student.42barc...>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/07 00:41:32 by gemartin          #+#    #+#             */
-/*   Updated: 2023/10/01 15:16:21 by vietnguy         ###   ########.fr       */
+/*   Created: 2022/03/02 12:42:12 by gemartin          #+#    #+#             */
+/*   Updated: 2022/03/02 14:36:32 by gemartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_free(char **str)
 {
@@ -83,35 +83,18 @@ char	*readbuf(int fd, char *storage)
 
 char	*get_next_line(int fd)
 {
-	static char	*storage = {0};
+	static char	*storage[OPEN_MAX];
 	char		*line;
 
 	if (fd < 0)
 		return (NULL);
-	if ((storage && !ft_strchr(storage, '\n')) || !storage)
-		storage = readbuf (fd, storage);
-	if (!storage)
+	if ((storage[fd] && !ft_strchr(storage[fd], '\n')) || !storage[fd])
+		storage[fd] = readbuf (fd, storage[fd]);
+	if (!storage[fd])
 		return (NULL);
-	line = new_line(storage);
+	line = new_line(storage[fd]);
 	if (!line)
-		return (ft_free(&storage));
-	storage = clean_storage(storage);
+		return (ft_free(&storage[fd]));
+	storage[fd] = clean_storage(storage[fd]);
 	return (line);
 }
-//
-//int	main(void)
-//{
-//	int	fd;
-//	int	i;
-//	char	*line;
-//
-//	fd = open("testdata/giant_line.txt", O_RDONLY);
-//	i = 0;
-//	while (1)
-//	{
-//		line = get_next_line(fd);
-//		if (line == NULL)
-//			return (0);
-//		printf("LINE %d: %s", ++i, line);
-//	}
-//}
