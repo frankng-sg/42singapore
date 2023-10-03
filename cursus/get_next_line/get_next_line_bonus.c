@@ -6,11 +6,11 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 21:23:59 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/10/03 21:24:01 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/10/03 13:31:42 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static int	has_newline(char *s, int n)
 {
@@ -81,20 +81,20 @@ char	*get_next_line(int fd)
 	char		*line;
 	char		*tmp;
 
-	if (fd < 0 || BUFFER_SIZE < 1)
+	if (fd < 0 || BUFFER_SIZE < 1 || fd >= OPEN_MAX)
 		return (NULL);
-	data = readbuf(fd, data);
-	if (data != NULL && *data == 0)
+	data[fd] = readbuf(fd, data[fd]);
+	if (data[fd] != NULL && *(data[fd]) == 0)
 	{
-		free(data);
-		data = NULL;
+		free(data[fd]);
+		data[fd] = NULL;
 	}
-	if (data == NULL)
+	if (data[fd] == NULL)
 		return (NULL);
-	line = nextline(data);
-	tmp = ft_strdup(&data[ft_strlen(line)]);
-	free(data);
-	data = tmp;
+	line = nextline(data[fd]);
+	tmp = ft_strdup(&data[fd][ft_strlen(line)]);
+	free(data[fd]);
+	data[fd] = tmp;
 	return (line);
 }
 //

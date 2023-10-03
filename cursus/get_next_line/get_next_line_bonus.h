@@ -6,12 +6,12 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 21:24:09 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/10/03 21:24:10 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/10/03 13:25:25 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 10000
 # endif

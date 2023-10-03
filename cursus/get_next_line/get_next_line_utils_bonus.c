@@ -6,11 +6,11 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 21:24:20 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/10/03 21:24:23 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/10/03 13:25:53 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_strjoin(char *s1, char *s2)
 {
