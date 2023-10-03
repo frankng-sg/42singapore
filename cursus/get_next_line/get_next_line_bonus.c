@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gemartin <gemartin@student.42barc...>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 00:41:32 by gemartin          #+#    #+#             */
-/*   Updated: 2023/10/03 13:17:00 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/10/03 13:21:02 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static char	*nextline(char *data)
 
 char	*get_next_line(int fd)
 {
-	static char	*data = {0};
+	static char	*data[OPEN_MAX] = {0};
 	char		*line;
 	char		*tmp;
 
