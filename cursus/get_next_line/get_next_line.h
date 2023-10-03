@@ -6,7 +6,7 @@
 /*   By: gemartin <gemartin@student.42barc...>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 00:41:32 by gemartin          #+#    #+#             */
-/*   Updated: 2023/10/01 16:15:33 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/10/03 19:17:34 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef GET_NEXT_LINE_H
@@ -23,9 +23,8 @@
 
 size_t	ft_strlen(char *s);
 char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strdup(char *s1);
+char	*ft_strdup(char *s);
 char	*ft_strchr(char *s, int c);
 char	*ft_substr(char *s, unsigned int start, size_t len);
 char	*get_next_line(int fd);
-void	*ft_cleanstr(char *s);
 #endif

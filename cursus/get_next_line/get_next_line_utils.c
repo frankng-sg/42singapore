@@ -6,7 +6,7 @@
 /*   By: gemartin <gemartin@student.42barc...>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 12:58:22 by gemartin          #+#    #+#             */
-/*   Updated: 2023/10/01 16:23:45 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/10/03 19:28:16 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ char	*ft_strjoin(char *s1, char *s2)
 		s1[0] = 0;
 	}
 	str = (char *)malloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!str)
-		return (ft_cleanstr(s1));
+	if (str == NULL)
+		return (NULL);
 	i = -1;
 	while (s1[++i])
 		str[i] = s1[i];
@@ -35,7 +35,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	while (s2[++c])
 		str[i + c] = s2[c];
 	str[i + c] = '\0';
-	free(s1);
 	return (str);
 }
 
@@ -93,8 +92,21 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	return (res);
 }
 
-void	*ft_cleanstr(char *s)
+char	*ft_strdup(char *s)
 {
-	free(s);
-	return (NULL);
+	char	*dup;
+	char	*addr;
+	size_t	slen;
+
+	if (s == NULL)
+		return (NULL);
+	slen = ft_strlen(s);
+	dup = (char *)malloc(slen + 1);
+	if (dup == NULL)
+		return (NULL);
+	addr = dup;
+	while (*s)
+		*dup++ = *s++;
+	*dup = 0;
+	return (addr);
 }
