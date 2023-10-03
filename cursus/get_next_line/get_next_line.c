@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 21:23:24 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/10/03 21:23:29 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/10/03 13:54:01 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ char	*get_next_line(int fd)
 //	int	i;
 //	char	*line;
 //
-//	fd = open("testdata/1char.txt", O_RDONLY);
+//	fd = open("buflen.inp", O_RDONLY);
 //	i = 0;
 //	while (1)
 //	{

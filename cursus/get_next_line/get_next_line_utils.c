@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 21:23:49 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/10/03 21:23:51 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/10/03 14:24:49 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ char	*ft_strjoin(char *s1, char *s2)
 {
 	int		s1len;
 	int		s2len;
-	char	*s;
-	char	*p;
+	char	*out;
+	char	*ptr;
 
 	if (s1 == NULL && s2 == NULL)
 		return (NULL);
@@ -27,16 +27,16 @@ char	*ft_strjoin(char *s1, char *s2)
 		return (ft_strdup(s1));
 	s1len = ft_strlen(s1);
 	s2len = ft_strlen(s2);
-	s = (char *)malloc(s1len + s2len + 1);
-	if (s == NULL)
+	out = (char *)malloc(s1len + s2len + 1);
+	if (out == NULL)
 		return (NULL);
-	p = s;
+	ptr = out;
 	while (*s1)
-		*p++ = *s1++;
+		*ptr++ = *s1++;
 	while (*s2)
-		*p++ = *s2++;
-	*p = 0;
-	return (s);
+		*ptr++ = *s2++;
+	*ptr = 0;
+	return (out);
 }
 
 char	*ft_strchr(char *s, int c)

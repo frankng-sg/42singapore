@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 21:23:59 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/10/03 13:31:42 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/10/03 13:34:59 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,11 @@ static char	*nextline(char *data)
 
 char	*get_next_line(int fd)
 {
-	static char	*data[OPEN_MAX] = {0};
+	static char	*data[OPEN_MAX + 1] = {0};
 	char		*line;
 	char		*tmp;
 
-	if (fd < 0 || BUFFER_SIZE < 1 || fd >= OPEN_MAX)
+	if (fd < 0 || BUFFER_SIZE < 1 || fd > OPEN_MAX)
 		return (NULL);
 	data[fd] = readbuf(fd, data[fd]);
 	if (data[fd] != NULL && *(data[fd]) == 0)
