@@ -6,112 +6,97 @@
 /*   By: gemartin <gemartin@student.42barc...>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 00:41:32 by gemartin          #+#    #+#             */
-/*   Updated: 2023/10/01 15:16:21 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/10/01 16:27:20 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_free(char **str)
+static char	*prunestr(char *data, size_t n)
 {
-	free(*str);
-	*str = NULL;
-	return (NULL);
+	char	*out;
+
+	out = ft_substr(data, 0, n);
+	ft_cleanstr(data);
+	return (out);
 }
 
-char	*clean_storage(char *storage)
+static int	has_newline(char *s, int n)
 {
-	char	*new_storage;
-	char	*ptr;
-	int		len;
-
-	ptr = ft_strchr(storage, '\n');
-	if (!ptr)
+	while (--n >= 0)
 	{
-		new_storage = NULL;
-		return (ft_free(&storage));
+		if (*s == '\n')
+			return (1);
+		s++;
 	}
-	else
-		len = (ptr - storage) + 1;
-	if (!storage[len])
-		return (ft_free(&storage));
-	new_storage = ft_substr(storage, len, ft_strlen(storage) - len);
-	ft_free(&storage);
-	if (!new_storage)
-		return (NULL);
-	return (new_storage);
+	return (0);
 }
 
-char	*new_line(char *storage)
+static char	*readbuf(int fd, char *data)
 {
-	char	*line;
-	char	*ptr;
-	int		len;
+	char	*buf;
+	int		loc;
+	int		len;	
 
-	ptr = ft_strchr(storage, '\n');
-	len = (ptr - storage) + 1;
-	line = ft_substr(storage, 0, len);
-	if (!line)
-		return (NULL);
-	return (line);
-}
-
-char	*readbuf(int fd, char *storage)
-{
-	int		rid;
-	char	*buffer;
-
-	rid = 1;
-	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buffer)
-		return (ft_free(&storage));
-	buffer[0] = '\0';
-	while (rid > 0 && !ft_strchr(buffer, '\n'))
+	buf = (char *)malloc(BUFFER_SIZE + 1);
+	if (buf == NULL)
+		return (ft_cleanstr(data));
+	buf[0] = '\0';
+	loc = 0;
+	len = ft_strlen(data);
+	while (has_newline(&data[loc], len))
 	{
-		rid = read (fd, buffer, BUFFER_SIZE);
-		if (rid > 0)
-		{
-			buffer[rid] = '\0';
-			storage = ft_strjoin(storage, buffer);
-		}
+		loc += len;
+		len = read(fd, buf, BUFFER_SIZE);
+		if (len <= 0)
+			break ;
+		buf[loc] = 0;
+		data = ft_strjoin(data, buf);
 	}
-	free(buffer);
-	if (rid == -1)
-		return (ft_free(&storage));
-	return (storage);
+	free(buf);
+	if (len == -1)
+		return (ft_cleanstr(data));
+	return (data);
+}
+
+static char	*nextline(char *data)
+{
+	char	*ptr;
+
+	ptr = ft_strchr(data, '\n');
+	return (ft_substr(data, 0, ptr - data + 1));
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*storage = {0};
+	static char	*data = {0};
 	char		*line;
 
 	if (fd < 0)
 		return (NULL);
-	if ((storage && !ft_strchr(storage, '\n')) || !storage)
-		storage = readbuf (fd, storage);
-	if (!storage)
+	data = readbuf (fd, data);
+	if (data == NULL)
 		return (NULL);
-	line = new_line(storage);
-	if (!line)
-		return (ft_free(&storage));
-	storage = clean_storage(storage);
+	line = nextline(data);
+	if (line == NULL)
+		return (ft_cleanstr(data));
+	data = prunestr(data, ft_strlen(line));
 	return (line);
 }
-//
-//int	main(void)
-//{
-//	int	fd;
-//	int	i;
-//	char	*line;
-//
-//	fd = open("testdata/giant_line.txt", O_RDONLY);
-//	i = 0;
-//	while (1)
-//	{
-//		line = get_next_line(fd);
-//		if (line == NULL)
-//			return (0);
-//		printf("LINE %d: %s", ++i, line);
-//	}
-//}
+
+int	main(void)
+{
+	int	fd;
+	int	i;
+	char	*line;
+
+	fd = open("testdata/1char.txt", O_RDONLY);
+	i = 0;
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (line == NULL)
+			return (0);
+		printf("LINE %d: %s", ++i, line);
+	}
+}

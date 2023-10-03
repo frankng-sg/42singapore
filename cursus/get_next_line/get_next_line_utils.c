@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   nextline.c                                         :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gemartin <gemartin@student.42barc...>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 12:58:22 by gemartin          #+#    #+#             */
-/*   Updated: 2022/03/02 14:38:29 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/01 16:23:45 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	}
 	str = (char *)malloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!str)
-		return (ft_free(&s1));
+		return (ft_cleanstr(s1));
 	i = -1;
 	while (s1[++i])
 		str[i] = s1[i];
@@ -53,18 +53,17 @@ size_t	ft_strlen(char *s)
 
 char	*ft_strchr(char *s, int c)
 {
-	int	i;
-
-	i = 0;
-	while (s[i] != '\0')
+	if (s == NULL)
+		return (NULL);
+	if (c == 0)
+		return (s);
+	while (*s)
 	{
-		if (s[i] == (char)c)
-			return (&((char *)s)[i]);
-		i++;
+		if (*s == (char)c)
+			return (s);
+		s++;
 	}
-	if ((char)c == '\0')
-		return (&((char *)s)[i]);
-	return (0);
+	return (NULL);
 }
 
 char	*ft_substr(char *s, unsigned int start, size_t len)
@@ -92,4 +91,10 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 		res[i++] = s[start++];
 	res[i] = '\0';
 	return (res);
+}
+
+void	*ft_cleanstr(char *s)
+{
+	free(s);
+	return (NULL);
 }
