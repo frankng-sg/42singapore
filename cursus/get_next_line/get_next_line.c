@@ -6,7 +6,7 @@
 /*   By: gemartin <gemartin@student.42barc...>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 00:41:32 by gemartin          #+#    #+#             */
-/*   Updated: 2023/10/03 19:54:52 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/10/03 20:53:11 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,12 @@ static int	has_newline(char *s, int n)
 	return (0);
 }
 
-static char	*readbuf(int fd, char *data)
+void	*do_readbuf(int fd, char *data, char *buf)
 {
-	char	*buf;
 	int		loc;
-	int		len;	
+	int		len;
+	char	*tmp;
 
-	buf = (char *)malloc(BUFFER_SIZE + 1);
-	if (buf == NULL)
-	{
-		free(data);
-		return (NULL);
-	}
-	buf[0] = '\0';
 	loc = 0;
 	len = ft_strlen(data);
 	while (!has_newline(&data[loc], len))
@@ -45,15 +38,31 @@ static char	*readbuf(int fd, char *data)
 		if (len <= 0)
 			break ;
 		buf[len] = 0;
-		data = ft_strjoin(data, buf);
+		tmp = ft_strjoin(data, buf);
+		free(data);
+		data = tmp;
 	}
 	free(buf);
-	if (len == -1)
+	if (len < 0)
 	{
 		free(data);
 		return (NULL);
 	}
 	return (data);
+}
+
+static char	*readbuf(int fd, char *data)
+{
+	char	*buf;
+
+	buf = (char *)malloc(BUFFER_SIZE + 1);
+	if (buf == NULL)
+	{
+		free(data);
+		return (NULL);
+	}
+	buf[0] = '\0';
+	return (do_readbuf(fd, data, buf));
 }
 
 static char	*nextline(char *data)
@@ -75,11 +84,11 @@ char	*get_next_line(int fd)
 	if (fd < 0)
 		return (NULL);
 	data = readbuf(fd, data);
-	if (*data == 0)
+	if (data != NULL && *data == 0)
 	{
 		free(data);
 		data = NULL;
-	}	
+	}
 	if (data == NULL)
 		return (NULL);
 	line = nextline(data);
@@ -88,7 +97,7 @@ char	*get_next_line(int fd)
 	data = tmp;
 	return (line);
 }
-//
+
 //int	main(void)
 //{
 //	int	fd;

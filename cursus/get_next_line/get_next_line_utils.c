@@ -6,7 +6,7 @@
 /*   By: gemartin <gemartin@student.42barc...>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 12:58:22 by gemartin          #+#    #+#             */
-/*   Updated: 2023/10/03 19:28:16 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/10/03 20:38:30 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,40 +14,29 @@
 
 char	*ft_strjoin(char *s1, char *s2)
 {
-	char	*str;
-	size_t	i;
-	size_t	c;
+	int		s1len;
+	int		s2len;
+	char	*s;
+	char	*p;
 
-	if (!s1)
-	{
-		s1 = malloc(sizeof(char) + 1);
-		if (!s1)
-			return (0);
-		s1[0] = 0;
-	}
-	str = (char *)malloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (str == NULL)
+	if (s1 == NULL && s2 == NULL)
 		return (NULL);
-	i = -1;
-	while (s1[++i])
-		str[i] = s1[i];
-	c = -1;
-	while (s2[++c])
-		str[i + c] = s2[c];
-	str[i + c] = '\0';
-	return (str);
-}
-
-size_t	ft_strlen(char *s)
-{
-	size_t	i;
-
-	i = 0;
-	if (!s)
-		return (0);
-	while (s[i] != '\0')
-		i++;
-	return (i);
+	if (s1 == NULL)
+		return (ft_strdup(s2));
+	if (s2 == NULL)
+		return (ft_strdup(s1));
+	s1len = ft_strlen(s1);
+	s2len = ft_strlen(s2);
+	s = (char *)malloc(s1len + s2len + 1);
+	if (s == NULL)
+		return (NULL);
+	p = s;
+	while (*s1)
+		*p++ = *s1++;
+	while (*s2)
+		*p++ = *s2++;
+	*p = 0;
+	return (s);
 }
 
 char	*ft_strchr(char *s, int c)
@@ -56,40 +45,36 @@ char	*ft_strchr(char *s, int c)
 		return (NULL);
 	if (c == 0)
 		return (s);
-	while (*s)
-	{
-		if (*s == (char)c)
-			return (s);
+	while (*s && *s != (char)c)
 		s++;
-	}
+	if (*s == (char)c)
+		return ((char *)s);
 	return (NULL);
 }
 
 char	*ft_substr(char *s, unsigned int start, size_t len)
 {
-	size_t	i;
-	char	*res;
+	size_t	slen;
+	size_t	sublen;
+	char	*substr;
+	char	*ptr;
 
-	i = 0;
-	if (!s)
-		return (0);
-	if (start > ft_strlen(s))
-	{
-		res = malloc(sizeof(char) * (1));
-		if (!res)
-			return (NULL);
-		res[0] = '\0';
-		return (res);
-	}
-	if (ft_strlen(s) - start < len)
-		len = ft_strlen(s) - start;
-	res = malloc(sizeof(char) * (len + 1));
-	if (!res)
+	slen = ft_strlen(s);
+	if (start >= slen)
+		sublen = 0;
+	else if (slen - start < len)
+		sublen = slen - start;
+	else
+		sublen = len;
+	substr = (char *)malloc(sublen + 1);
+	if (substr == NULL)
 		return (NULL);
-	while (start < ft_strlen(s) && i < len && s[start])
-		res[i++] = s[start++];
-	res[i] = '\0';
-	return (res);
+	ptr = substr;
+	s += start;
+	while (sublen --)
+		*ptr++ = *s++;
+	*ptr = 0;
+	return (substr);
 }
 
 char	*ft_strdup(char *s)
@@ -109,4 +94,16 @@ char	*ft_strdup(char *s)
 		*dup++ = *s++;
 	*dup = 0;
 	return (addr);
+}
+
+size_t	ft_strlen(char *s)
+{
+	size_t	len;
+
+	if (s == NULL)
+		return (0);
+	len = 0;
+	while (*s++ != 0)
+		len++;
+	return (len);
 }
