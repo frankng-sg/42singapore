@@ -5,95 +5,41 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/03 21:24:20 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/10/03 13:25:53 by vietnguy         ###   ########.fr       */
+/*   Created: 2023/10/03 21:23:49 by vietnguy          #+#    #+#             */
+/*   Updated: 2023/10/04 14:26:01 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strdup(char *s)
 {
-	int		s1len;
-	int		s2len;
-	char	*s;
+	char	*out;
 	char	*p;
 
-	if (s1 == NULL && s2 == NULL)
-		return (NULL);
-	if (s1 == NULL)
-		return (ft_strdup(s2));
-	if (s2 == NULL)
-		return (ft_strdup(s1));
-	s1len = ft_strlen(s1);
-	s2len = ft_strlen(s2);
-	s = (char *)malloc(s1len + s2len + 1);
 	if (s == NULL)
 		return (NULL);
-	p = s;
-	while (*s1)
-		*p++ = *s1++;
-	while (*s2)
-		*p++ = *s2++;
-	*p = 0;
-	return (s);
+	out = (char *)malloc(ft_strlen(s) + 1);
+	if (out == NULL)
+		return (NULL);
+	p = out;
+	while (*s)
+		*p++ = *s++;
+	*p = *s;
+	return (out);
 }
 
-char	*ft_strchr(char *s, int c)
+char	*ft_strchr(char *s, char c)
 {
 	if (s == NULL)
 		return (NULL);
 	if (c == 0)
 		return (s);
-	while (*s && *s != (char)c)
+	while (*s && *s != c)
 		s++;
-	if (*s == (char)c)
-		return ((char *)s);
-	return (NULL);
-}
-
-char	*ft_substr(char *s, unsigned int start, size_t len)
-{
-	size_t	slen;
-	size_t	sublen;
-	char	*substr;
-	char	*ptr;
-
-	slen = ft_strlen(s);
-	if (start >= slen)
-		sublen = 0;
-	else if (slen - start < len)
-		sublen = slen - start;
-	else
-		sublen = len;
-	substr = (char *)malloc(sublen + 1);
-	if (substr == NULL)
+	if (*s == 0)
 		return (NULL);
-	ptr = substr;
-	s += start;
-	while (sublen --)
-		*ptr++ = *s++;
-	*ptr = 0;
-	return (substr);
-}
-
-char	*ft_strdup(char *s)
-{
-	char	*dup;
-	char	*addr;
-	size_t	slen;
-
-	if (s == NULL)
-		return (NULL);
-	slen = ft_strlen(s);
-	dup = (char *)malloc(slen + 1);
-	if (dup == NULL)
-		return (NULL);
-	addr = dup;
-	while (*s)
-		*dup++ = *s++;
-	*dup = 0;
-	return (addr);
+	return (s);
 }
 
 size_t	ft_strlen(char *s)
@@ -103,7 +49,52 @@ size_t	ft_strlen(char *s)
 	if (s == NULL)
 		return (0);
 	len = 0;
-	while (*s++ != 0)
+	while (*s++)
 		len++;
 	return (len);
+}
+
+char	*ft_substr(char *s, size_t start, size_t n)
+{
+	size_t	slen;
+	char	*out;
+	size_t	i;
+
+	if (s == NULL)
+		return (NULL);
+	slen = ft_strlen(&s[start]);
+	if (slen > n)
+		slen = n;
+	out = (char *)malloc(slen + 1);
+	if (out == NULL)
+		return (NULL);
+	i = 0;
+	while (i < slen)
+	{
+		out[i] = s[start + i];
+		i++;
+	}
+	out[i] = 0;
+	return (out);
+}
+
+char	*ft_strjoin(char *s1, char *s2)
+{
+	char	*out;
+	char	*p;
+
+	if (s1 == NULL)
+		return (ft_strdup(s2));
+	if (s2 == NULL)
+		return (ft_strdup(s1));
+	out = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (out == NULL)
+		return (NULL);
+	p = out;
+	while (*s1)
+		*p++ = *s1++;
+	while (*s2)
+		*p++ = *s2++;
+	*p = 0;
+	return (out);
 }
