@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 12:34:07 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/10/07 13:45:25 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/10/08 08:17:36 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,54 +59,54 @@ int	ft_printf(const char *fmt, ...)
 	va_end(vl);
 	return (nchars);
 }
-#include <stdio.h>
-
-int	main(void)
-{
-	char	*str = "Hello";
-	char	*null = NULL;
-
-	ft_printf("\nTEST %%c\n");
-	printf("Actual:%d\n", ft_printf("%c\n", 65));
-	printf("Expected:%d\n", printf("%c\n", 65));
-
-	ft_printf("\nTEST %%s\n");
-	printf("Actual:%d\n", ft_printf("%s\n", str));
-	printf("Expected:%d\n", printf("%s\n", str));
-
-	ft_printf("\nTEST %%p\n");
-	printf("Actual:%d\n", ft_printf("%p\n", str));
-	printf("Expected:%d\n", printf("%p\n", str));
-
-	ft_printf("\nTEST %%p\n");
-	printf("Actual:%d\n", ft_printf("%p\n", null));
-	printf("Expected:%d\n", printf("%p\n", null));
-
-
-	ft_printf("\nTEST %%d\n");
-	printf("Actual:%d\n", ft_printf("%d\n", -9876));
-	printf("Expected:%d\n", printf("%d\n", -9876));
-
-	ft_printf("\nTEST %%i\n");
-	printf("Actual:%d\n", ft_printf("%i\n", -9876));
-	printf("Expected:%d\n", printf("%i\n", -9876));
-
-	ft_printf("\nTEST %%u\n");
-	printf("Actual:%d\n", ft_printf("%u\n", -9876));
-	printf("Expected:%d\n", printf("%u\n", -9876));
-
-	ft_printf("\nTEST %%x\n");
-	printf("Actual:%d\n", ft_printf("%x\n", -9876));
-	printf("Expected:%d\n", printf("%x\n", -9876));
-
-	ft_printf("\nTEST %%X\n");
-	printf("Actual:%d\n", ft_printf("%X\n", -9876));
-	printf("Expected:%d\n", printf("%X\n", -9876));
-
-	ft_printf("\nTEST %%%%\n");
-	printf("Actual:%d\n", ft_printf("%%\n"));
-	printf("Expected:%d\n", printf("%%\n"));
-
-
-}
-
+//#include <stdio.h>
+//
+//int	main(void)
+//{
+//	char	*str = "Hello";
+//	char	*null = NULL;
+//
+//	ft_printf("\nTEST %%c\n");
+//	printf("Actual:%d\n", ft_printf("%c\n", 65));
+//	printf("Expected:%d\n", printf("%c\n", 65));
+//
+//	ft_printf("\nTEST %%s\n");
+//	printf("Actual:%d\n", ft_printf("%s\n", str));
+//	printf("Expected:%d\n", printf("%s\n", str));
+//
+//	ft_printf("\nTEST %%p\n");
+//	printf("Actual:%d\n", ft_printf("%p\n", str));
+//	printf("Expected:%d\n", printf("%p\n", str));
+//
+//	ft_printf("\nTEST %%p\n");
+//	printf("Actual:%d\n", ft_printf("%p\n", null));
+//	printf("Expected:%d\n", printf("%p\n", null));
+//
+//
+//	ft_printf("\nTEST %%d\n");
+//	printf("Actual:%d\n", ft_printf("%d\n", -9876));
+//	printf("Expected:%d\n", printf("%d\n", -9876));
+//
+//	ft_printf("\nTEST %%i\n");
+//	printf("Actual:%d\n", ft_printf("%i\n", -9876));
+//	printf("Expected:%d\n", printf("%i\n", -9876));
+//
+//	ft_printf("\nTEST %%u\n");
+//	printf("Actual:%d\n", ft_printf("%u\n", -9876));
+//	printf("Expected:%d\n", printf("%u\n", -9876));
+//
+//	ft_printf("\nTEST %%x\n");
+//	printf("Actual:%d\n", ft_printf("%x\n", -9876));
+//	printf("Expected:%d\n", printf("%x\n", -9876));
+//
+//	ft_printf("\nTEST %%X\n");
+//	printf("Actual:%d\n", ft_printf("%X\n", -9876));
+//	printf("Expected:%d\n", printf("%X\n", -9876));
+//
+//	ft_printf("\nTEST %%%%\n");
+//	printf("Actual:%d\n", ft_printf("%%\n"));
+//	printf("Expected:%d\n", printf("%%\n"));
+//
+//
+//}
+//
