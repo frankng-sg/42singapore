@@ -1,0 +1,2 @@
+User: ftpuser
+Pass: 1FTPtestaccount
