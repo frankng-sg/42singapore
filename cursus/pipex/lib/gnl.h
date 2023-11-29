@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   gnl.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 21:23:37 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/10/04 13:41:53 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/11/29 15:33:47 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <limits.h>
+# include "libft.h"
 
 char	*get_next_line(int fd);
-char	*ft_strdup(char *s);
-char	*ft_strchr(char *s, char c);
-size_t	ft_strlen(char *s);
-char	*ft_substr(char *s, size_t start, size_t n);
-char	*ft_strjoin(char *s1, char *s2);
 #endif

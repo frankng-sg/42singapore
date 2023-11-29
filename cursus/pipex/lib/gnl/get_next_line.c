@@ -6,11 +6,11 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 21:23:24 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/10/04 14:08:33 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/11/29 15:26:51 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../gnl.h"
 
 static char	*ft_free(char *s)
 {

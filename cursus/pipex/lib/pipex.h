@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstiter.c                                       :+:      :+:    :+:   */
+/*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vietnguy <vietnguy@student.42singapore.sg  +#+  +:+       +#+        */
+/*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/28 15:49:11 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/09/28 15:50:58 by vietnguy         ###   ########.fr       */
+/*   Created: 2023/11/29 15:10:34 by vietnguy          #+#    #+#             */
+/*   Updated: 2023/11/29 15:22:17 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#ifndef PIPEX_H
+# define PIPEX_H
+# include <stdio.h>
 
-#include "../libft.h"
+# define PARAMS_MISMATCHED "given params are invalid"
 
-void	ft_lstiter(t_list *lst, void (*f)(void *))
-{
-	if (lst == NULL)
-		return ;
-	while (lst)
-	{
-		f(lst->content);
-		lst = lst->next;
-	}
-}
+#endif

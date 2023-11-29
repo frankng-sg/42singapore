@@ -6,11 +6,11 @@
 /*   By: vietnguy <vietnguy@student.42singapore.sg  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 10:47:40 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/09/28 10:48:36 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/11/29 15:40:19 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 
 void	ft_putchar_fd(char c, int fd)
 {

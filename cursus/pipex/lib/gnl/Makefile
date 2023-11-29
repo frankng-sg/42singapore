@@ -6,7 +6,7 @@
 #    By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/29 11:50:16 by vietnguy          #+#    #+#              #
-#    Updated: 2023/11/29 13:14:06 by vietnguy         ###   ########.fr        #
+#    Updated: 2023/11/29 15:27:26 by vietnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ CC:=cc
 CFLAGS:=-std=c99 -Wall -Wextra -Werror
 AR:= ar crs
 RM:=rm -rf
-SRCS:=get_next_line get_next_line_utils
+SRCS:=get_next_line
 OBJ:=$(SRCS:=.o)
 TARGET:=gnl.a
 

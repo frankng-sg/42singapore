@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 
 unsigned int	ft_umax(unsigned int a, unsigned int b)
 {
