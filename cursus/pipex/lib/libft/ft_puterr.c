@@ -6,13 +6,15 @@
 /*   By: vietnguy <vietnguy@student.42singapore.sg  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 10:52:30 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/11/29 15:45:19 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/11/29 16:15:23 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 
-void	ft_puterr(char *s)
+int	ft_puterr(char *s)
 {
 	ft_putstr_fd(s, 2);
+	ft_putstr_fd("\n", 2);
+	return (0);
 }

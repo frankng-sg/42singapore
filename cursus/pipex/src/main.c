@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 11:40:59 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/11/29 15:43:07 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/11/29 16:13:24 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,16 @@
 
 int	main(int argc, char *argv[], char *envp[])
 {
+	int	fin;
+	int	fout;
+
 	if (argc != 5)
-		ft_puterr(PARAMS_MISMATCHED);
-	else
-	{
-		ft_putstr("OK");
-	}
-	if (argv == NULL || envp == NULL)
-	{
-	}
-	return (1);
+		return (ft_puterr(PARAMS_MISMATCHED));
+	if ((fin = open(argv[1], O_RDONLY)) < 0)
+		return (ft_puterr(INVALID_FILE));
+	if ((fout = open(argv[4], O_WRONLY | O_CREAT)) < 0)
+		return (ft_puterr(INVALID_FILE)); 
+	if (envp == NULL)
+	{}
+	return (0);
 }
