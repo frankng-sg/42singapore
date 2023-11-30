@@ -1,0 +1,25 @@
+Born2beRoot
+
+# How to check if AppArmor for Debian is running at startup?
+
+Try
+cat /sys/kernel/security/apparmor/profiles
+Expect
+AppArmor is running if we see a list of profiles
+AppArmor is stopped if we see empty content
+
+# Why do you choose Debian over Rocky?
+
+Rocky
+	Pros:
+		- It is stable because new changes are thoroughly  tested and pushed to Fedora Linux first.
+		- It is open source enterprise OS designed to be 100% bug-for-bug compatible with Red Hat Enterprise Linux
+		- It has ten-year support life cycle for the major release alongside regular updates
+	Cons:
+		- It was released in 2021, thus, it is not very established in the community
+		- It does not support as much processor architectures as Debian
+Debian
+	Pros:
+		- Debian was released in 1993, thus, it is a well established and widely used by the community
+		- Debian can run on almost every architecture available in the market
+
