@@ -6,7 +6,7 @@
 /*   By: vietnguy <vietnguy@student.42singapore.sg  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 10:52:30 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/11/29 15:21:08 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/09 22:37:46 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,3 @@ void	ft_putstr_fd(char *s, int fd)
 	}
 }
 
-void	ft_putstr(char *s)
-{
-	if (s == NULL)
-		return ;
-	while (*s)
-	{
-		ft_putchar(*s);
-		s++;
-	}
-}

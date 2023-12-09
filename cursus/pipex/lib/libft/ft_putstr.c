@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/29 15:10:34 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/10 17:12:13 by vietnguy         ###   ########.fr       */
+/*   Created: 2023/10/01 11:35:43 by vietnguy          #+#    #+#             */
+/*   Updated: 2023/12/09 22:31:26 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef PIPEX_H
-#define PIPEX_H
 
-#include <stdio.h>
-#include <sys/wait.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdlib.h>
+#include "../libft.h"
 
-typedef struct	s_global
+int	ft_putstr(char *str)
 {
-	char	**envp;
-	int		pipefd[2];
-} t_global;
+	int	nchars;
 
-#endif
+	if (str == NULL)
+	{
+		write(1, "(null)", 6);
+		return (6);
+	}
+	nchars = 0;
+	while (*str)
+	{
+		write(1, str++, 1);
+		nchars++;
+	}
+	return (nchars);
+}

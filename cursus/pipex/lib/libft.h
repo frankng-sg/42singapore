@@ -6,7 +6,7 @@
 /*   By: vietnguy <vietnguy@student.42singapore.sg  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:54:16 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/11/29 16:05:33 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/10 10:44:27 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,13 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <string.h>
+# include <stdint.h>
+# include <stdarg.h>
 
 /* Mandatory */
 unsigned int	ft_umin(unsigned int a, unsigned int b);
 unsigned int	ft_umax(unsigned int a, unsigned int b);
+int				ft_putstr(char *s);
 int				ft_isalpha(int c);
 int				ft_isdigit(int c);
 int				ft_isalnum(int c);
@@ -58,11 +61,14 @@ char			*ft_strmapi(const char *s, char (*f)(unsigned int, char));
 void			ft_striteri(char *s, void (*f)(unsigned int, char *));
 void			ft_putchar_fd(char c, int fd);
 void			ft_putstr_fd(char *s, int fd);
-void			ft_putstr(char *s);
 int				ft_puterr(char *s);
 void			ft_putendl_fd(char *s, int fd);
+int				ft_putnbr(int n);
 void			ft_putnbr_fd(int n, int fd);
-void			ft_putchar(char c);
+int				ft_putchar(char c);
+int				ft_puthex(size_t num, int isupper);
+int				ft_putptr(uintptr_t ptr);
+int				ft_printf(const char *fmt, ...);
 
 /* BONUS */
 typedef struct s_list

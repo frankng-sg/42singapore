@@ -6,7 +6,7 @@
 #    By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/29 11:23:55 by vietnguy          #+#    #+#              #
-#    Updated: 2023/11/29 13:16:45 by vietnguy         ###   ########.fr        #
+#    Updated: 2023/12/10 11:01:08 by vietnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ SRCS:=${addprefix ${SRCDIR}, ${SRC}}
 OBJS:=${SRCS:.c=.o}
 LIB:=gnl.a libft.a
 CC:=cc
-CFLAGS:=-std=c99 -Wall -Wextra -Werror -I ${INCLUDE}
+CFLAGS:=-g -std=c99 -Wall -Wextra -Werror -I ${INCLUDE}
 AR:=ar crs
 RM:=rm -rf
 
