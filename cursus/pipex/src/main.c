@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 11:40:59 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/16 11:37:49 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/16 20:05:38 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,44 @@
 #include "../lib/libft.h"
 #include "../lib/pipex.h"
 
-char	*find_path_str(char **envp)
+char	*find_env_path(char **envp)
 {
 	while (envp && *envp)
 	{
 		if (strncmp(*envp, "PATH=", 5) == 0)
-			return (*envp);
+		{
+			return (ft_strdup(&(*envp)[5]));
+		}
 		envp++;
 	}
 	return (NULL);
+}
+
+void	free2(char **v)
+{
+	char	**p;
+
+	if (!v)
+		return ;
+	p = v;
+	while (*v)
+	{
+		free(*v);
+		v++;
+	}
+	free(p);
+}
+
+char	**find_cmd_paths(char **envp)
+{
+	char	**paths;
+	char	*path;
+
+	path = find_env_path(envp);
+	paths = ft_split(path, ':');
+	if (path)
+		free(path);
+	return (paths);
 }
 
 char	*locate_cmd(char **paths, char *cmd)
@@ -44,71 +73,53 @@ char	*locate_cmd(char **paths, char *cmd)
 	return (cmd_path);
 }
 
-int	run_cmd(t_global *g, int infd, int outfd, char *cmd, char **args)
+int	run_cmd(char *cmd, int infd, int outfd, char **envp, int pipefd[2])
 {
-	int		pid;
+	char	**cmd_args;
+	char	*cmd_name;
 	char	*cmd_path;
+	char	**paths;
 
-	pid = fork();
-	if (pid == 0)
-	{
-		dup2(infd, 0);
-		dup2(outfd, 1);
-		close(g->pipefd[1]);
-		cmd_path = locate_cmd(g->paths, cmd);
-		execve(cmd_path, args, g->envp);
-		exit(0);
-	}
-	return (pid);
-}
-
-int	ft_error(char *err)
-{
-	ft_puterr(err);
-	return (1);
-}
-
-int	init_g(t_global *g, int argc, char **argv, char **envp)
-{
-	if (argc != 5)
-		return (ft_error(INVALID_PARAMS));
-	g->fin = open(argv[1], O_RDONLY);
-	if (g->fin < 0)
-		return (ft_error(ERR_OPENING_FILE));
-	g->fout = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (g->fout < 0)
-		return (ft_error(ERR_OPENING_FILE));
-	if (pipe(g->pipefd) < 0)
-		return (ft_error("pipe"));		
-	g->envp = envp;
-	g->paths = ft_split(find_path_str(envp), ':');
-	g->cmd_args[0] = ft_split(argv[2], ' ');
-	g->cmd_args[1] = ft_split(argv[3], ' ');
-	g->cmd[0] = g->cmd_args[0][0];
-	g->cmd[1] = g->cmd_args[1][0];
+	dup2(infd, 0);
+	dup2(outfd, 1);
+	close(pipefd[1]);
+	paths = find_cmd_paths(envp);
+	cmd_args = ft_split(cmd, ' ');
+	cmd_name = cmd_args[0];
+	cmd_path = locate_cmd(paths, cmd_name);
+	execve(cmd_path, cmd_args, envp);
+	if (cmd_path)
+		free(cmd_path);
+	free2(paths);
+	free2(cmd_args);	
 	return (0);
-}
-
-void	free_g(t_global *g)
-{
-	close(g->fin);
-	close(g->fout);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	int		pid1;
-	int		pid2;
-	t_global	g;
+	int		pipefd[2];
+	pid_t	pid;
+	int		fin;
+	int		fout;
 
-	if (init_g(&g, argc, argv, envp))
-		return (1);
-	g.envp = envp;
-	pid1 = run_cmd(&g, g.fin, g.pipefd[1], g.cmd[0], g.cmd_args[0]);
-	pid2 = run_cmd(&g, g.pipefd[0], g.fout, g.cmd[1], g.cmd_args[1]);
-	close(g.pipefd[1]);
-	waitpid(pid2, NULL, 0);
-	waitpid(pid1, NULL, 0);
-	free_g(&g);	
+	if (argc != 5)
+		return (ft_puterr(ERR_INVALID_PARAMS), 1);
+	if (pipe(pipefd) < 0)
+		return (ft_puterr(ERR_PIPE), 1);
+	fin = open(argv[1], O_RDONLY);
+	if (fin < 0)
+		return (ft_puterr(ERR_INVALID_FILE));
+	fout = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fout < 0)
+		return (ft_puterr(ERR_INVALID_FILE));
+	pid = fork();
+	if (pid < 0)
+		return (ft_puterr(ERR_FORK), 1);
+	if (pid == 0)
+		run_cmd(argv[2], fin, pipefd[1], envp, pipefd);
+	else
+		run_cmd(argv[3], pipefd[0], fout, envp, pipefd);
+	close(fin);
+	close(fout);
 	return (0);
 }
