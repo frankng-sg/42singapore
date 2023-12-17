@@ -6,16 +6,16 @@
 #    By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/29 11:23:55 by vietnguy          #+#    #+#              #
-#    Updated: 2023/12/10 11:01:08 by vietnguy         ###   ########.fr        #
+#    Updated: 2023/12/17 07:44:19 by vietnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 INCLUDE:=./include
 TARGET:=pipex
 SRCDIR:=./src/
-SRC:=main.c
+SRC:=main utils
 SRCS:=${addprefix ${SRCDIR}, ${SRC}}
-OBJS:=${SRCS:.c=.o}
+OBJS:=${SRCS:=.o}
 LIB:=gnl.a libft.a
 CC:=cc
 CFLAGS:=-g -std=c99 -Wall -Wextra -Werror -I ${INCLUDE}
