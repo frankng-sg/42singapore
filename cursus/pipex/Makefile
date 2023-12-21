@@ -6,7 +6,7 @@
 #    By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/29 11:23:55 by vietnguy          #+#    #+#              #
-#    Updated: 2023/12/17 07:44:19 by vietnguy         ###   ########.fr        #
+#    Updated: 2023/12/19 22:03:04 by vietnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ RM:=rm -rf
 
 .PHONY: all clean fclean re
 
-all: ${TARGET} clean
+all: ${TARGET}
 ${TARGET}: ${OBJS} ${LIB}
 	@$(CC) $(CFLAGS) $(OBJS) $(LIB) -o ${TARGET}
 %.o: %.c
