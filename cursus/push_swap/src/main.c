@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 11:40:59 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/20 21:48:20 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/21 17:45:37 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,35 +15,52 @@
 #include <stdio.h>
 #include <limits.h>
 
+void	reindex(int *nums, int lnums)
+{
+	int	i;
+	int	loc;
+	int	visited[MAX_SIZE];
+
+	i = 0;
+	while (i < lnums)
+		visited[i++] = 0;
+	i = 0;
+	while (i < lnums)
+	{
+		loc = find_min(nums, lnums, visited);
+		visited[loc] = 1;
+		nums[loc] = i;
+		i++;
+	}
+}
+
 t_stack	*init_stack(int size, char **s)
 {
 	t_stack	*result;
-	int		val;
+	int		*nums;
+	int		lnums;
+	int		i;
 
-	result = NULL;
+	nums = (int *)malloc((size + 1) * sizeof(int));
+	lnums = 0;
 	while (--size >= 0)
 	{
-		if (!ft_atoi2(s[size], &val) || search(result, val))
+		if (!ft_atoi2(s[size], nums + lnums))
 		{
-			ft_free_stack(result);
+			free(nums);
 			return (NULL);
 		}
-		result = ft_push(result, val);
+		lnums++;
 	}
-	return (result);
-}
-
-int	verify_sorted(t_stack *head)
-{
-	if (head == NULL || head->next == NULL)
-		return (1);
-	while (head->next)
+	result = NULL;
+	if (!has_duplicate(nums, lnums))
 	{
-		if (head->val > head->next->val)
-			return (0);
-		head = head->next;
-	}	
-	return (1);
+		reindex(nums, lnums);
+		i = 0;
+		while (i < lnums)
+			result = ft_push(result, nums[i++]);
+	}
+	return (free(nums), result);
 }
 
 int	main(int argc, char **argv)
@@ -54,10 +71,8 @@ int	main(int argc, char **argv)
 		return (0);
 	a = init_stack(argc - 1, argv + 1);
 	if (a == NULL)
-		ft_printf(ERR_MSG);
-	a = ft_sort(a);
-	if (!verify_sorted(a))
-		ft_printf("ERROR: NOT SORTED\n");
+		return (ft_printf(ERR_MSG), 0);
+	a = ft_sort(a, argc - 1);
 	ft_free_stack(a);
 	return (0);
 }

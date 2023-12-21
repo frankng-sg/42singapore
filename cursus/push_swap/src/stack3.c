@@ -6,7 +6,7 @@
 /*   By: vietnguy <vietnguy@42mail.sutd.edu.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:17:32 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/20 20:29:22 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/21 14:01:02 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 t_stack	*ft_rrotate(t_stack *head)
 {
-	int val;
+	int	val;
 
 	if (head == NULL)
 		return (head);

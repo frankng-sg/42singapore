@@ -6,14 +6,14 @@
 #    By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/29 11:23:55 by vietnguy          #+#    #+#              #
-#    Updated: 2023/12/20 20:21:20 by vietnguy         ###   ########.fr        #
+#    Updated: 2023/12/21 16:59:25 by vietnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 INCLUDE:=./include
 TARGET:=push_swap
 SRCDIR:=./src/
-SRC:=main stack stack2 stack3 sort
+SRC:=main stack stack2 stack3 stack4 sort utils util2
 SRCS:=${addprefix ${SRCDIR}, ${SRC}}
 OBJS:=${SRCS:=.o}
 LIB:=libft.a
