@@ -6,7 +6,7 @@
 /*   By: vietnguy <vietnguy@student.42singapore.sg  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:54:16 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/10 10:44:27 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/22 23:17:03 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,9 @@ int				ft_putchar(char c);
 int				ft_puthex(size_t num, int isupper);
 int				ft_putptr(uintptr_t ptr);
 int				ft_printf(const char *fmt, ...);
+void			ft_replace(char *s, char src, char dst);
+int				ft_strchr_count(const char *s, int c);
+char			*ft_strdup_ignore(const char *s, char ignore);
 
 /* BONUS */
 typedef struct s_list

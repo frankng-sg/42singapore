@@ -6,7 +6,7 @@
 /*   By: vietnguy <vietnguy@student.42singapore.sg  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 19:11:29 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/09/24 15:23:31 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/22 23:18:58 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,29 @@ char	*ft_strdup(const char *s)
 	if (dup == NULL)
 		return (NULL);
 	ft_strlcpy(dup, s, slen + 1);
+	return (dup);
+}
+
+char	*ft_strdup_ignore(const char *s, char ignore)
+{
+	char	*dup;
+	size_t	slen;
+	size_t	i;
+
+	slen = ft_strlen(s);
+	i = ft_strchr_count(s, ignore);
+	dup = (char *)malloc((slen - i + 1) * sizeof(char));
+	if (dup == NULL)
+		return (NULL);
+	i = 0;
+	while (*s)
+	{
+		if (*s != ignore)
+		{
+			dup[i] = *s;
+			i++;
+		}
+		s++;
+	}
 	return (dup);
 }

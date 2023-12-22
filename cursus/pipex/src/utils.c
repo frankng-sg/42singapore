@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 11:40:59 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/22 13:37:54 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/22 22:45:28 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*locate_cmd(char **paths, char *cmd)
 	char	*_cmd;
 	char	*cmd_path;
 
-	if (ft_strchr(cmd, '/') && access(cmd, X_OK))
+	if (access(cmd, X_OK) >= 0)
 		return (ft_strdup(cmd));
 	_cmd = ft_strjoin("/", cmd);
 	cmd_path = NULL;

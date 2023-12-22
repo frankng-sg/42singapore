@@ -6,7 +6,7 @@
 #    By: vietnguy <vietnguy@student.42singapore.sg  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 14:29:25 by vietnguy          #+#    #+#              #
-#    Updated: 2023/12/10 10:46:43 by vietnguy         ###   ########.fr        #
+#    Updated: 2023/12/22 22:56:42 by vietnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ FILES:=ft_isalpha ft_isdigit ft_isalnum ft_isascii ft_isprint ft_toupper \
 	ft_substr ft_strjoin ft_strtrim ft_strndup ft_min ft_max ft_split \
 	ft_wordcount ft_itoa ft_strmapi ft_striteri ft_putchar_fd \
 	ft_putstr_fd ft_putendl_fd ft_putnbr_fd ft_lstadd_back ft_putchar \
-	ft_puterr ft_putnbr ft_puthex ft_putptr ft_printf ft_putstr
+	ft_puterr ft_putnbr ft_puthex ft_putptr ft_printf ft_putstr ft_replace
 BFILES:=ft_lstnew ft_lstadd_front ft_lstsize ft_lstdelone ft_lstclear \
 	ft_lstiter ft_lstmap ft_lstlast
 OBJ:=$(FILES:=.o)

@@ -1,20 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_puterr.c                                        :+:      :+:    :+:   */
+/*   ft_replace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vietnguy <vietnguy@student.42singapore.sg  +#+  +:+       +#+        */
+/*   By: vietnguy <vietnguy@42mail.sutd.edu.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/28 10:52:30 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/22 16:30:41 by vietnguy         ###   ########.fr       */
+/*   Created: 2023/12/22 22:56:57 by vietnguy          #+#    #+#             */
+/*   Updated: 2023/12/22 22:58:14 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 
-int	ft_puterr(char *s)
+void	ft_replace(char *s, char src, char dst)
 {
-	ft_putstr_fd(s, 2);
-	ft_putstr_fd("\n", 2);
-	return (1);
+	if (s == NULL)
+		return ;
+	while (*s)
+	{
+		if (*s == src)
+			*s = dst;
+		s++;
+	}
 }
