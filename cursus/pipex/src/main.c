@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 11:40:59 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/22 10:15:52 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/22 13:34:37 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	run_cmd(char *cmd, int infd, int outfd, char **envp)
 	char	*cmd_name;
 	char	*cmd_path;
 	char	**paths;
+	int		status;
 
 	dup2(infd, 0);
 	dup2(outfd, 1);
@@ -35,22 +36,24 @@ int	run_cmd(char *cmd, int infd, int outfd, char **envp)
 	cmd_args = ft_split(cmd, ' ');
 	cmd_name = cmd_args[0];
 	cmd_path = locate_cmd(paths, cmd_name);
+	free(paths);
+	status = 0;
 	if (cmd_path)
-	{
-		execve(cmd_path, cmd_args, envp);
-		free(cmd_path);
-	}
+		status = execve(cmd_path, cmd_args, envp);
 	else
 		ft_puterr(ERR_INVALID_CMD);
-	free2(paths);
+	if (cmd_path)
+		free(cmd_path);
 	free2(cmd_args);
-	return (0);
+	return (status);
 }
 
-void	pipex(t_params g)
+int	pipex(t_params g)
 {
 	pid_t	pid;
+	int		status;
 
+	status = 0;
 	pid = fork();
 	if (pid < 0)
 		ft_puterr(ERR_FORK);
@@ -59,10 +62,11 @@ void	pipex(t_params g)
 	else
 	{
 		close(g.pipefd[1]);
-		run_cmd(g.argv[3], g.pipefd[0], g.fout, g.envp);
+		status = run_cmd(g.argv[3], g.pipefd[0], g.fout, g.envp);
 	}
 	close(g.fin);
 	close(g.fout);
+	return (status);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -81,6 +85,10 @@ int	main(int argc, char **argv, char **envp)
 		return (ft_puterr(ERR_INVALID_FILE));
 	g.argv = argv;
 	g.envp = envp;
-	pipex(g);
+	if (pipex(g) < 0)
+	{
+		ft_puterr(ERR_SOMETHING_WENT_WRONG);
+		unlink(argv[4]);
+	}
 	return (0);
 }
