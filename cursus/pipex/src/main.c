@@ -6,13 +6,21 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 11:40:59 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/17 07:57:36 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/22 10:15:52 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../lib/gnl.h"
 #include "../lib/libft.h"
 #include "../lib/pipex.h"
+
+typedef struct s_params {
+	int		fin;
+	int		fout;
+	char	**argv;
+	char	**envp;
+	int		pipefd[2];
+}	t_params;
 
 int	run_cmd(char *cmd, int infd, int outfd, char **envp)
 {
@@ -39,40 +47,40 @@ int	run_cmd(char *cmd, int infd, int outfd, char **envp)
 	return (0);
 }
 
-void	pipex(int fin, int fout, int pipefd[2])
+void	pipex(t_params g)
 {
 	pid_t	pid;
 
 	pid = fork();
 	if (pid < 0)
-		return (ft_puterr(ERR_FORK), 1);
-	if (pid == 0)
-		run_cmd(argv[2], fin, pipefd[1], envp);
+		ft_puterr(ERR_FORK);
+	else if (pid == 0)
+		run_cmd(g.argv[2], g.fin, g.pipefd[1], g.envp);
 	else
 	{
-		close(pipefd[1]);
-		run_cmd(argv[3], pipefd[0], fout, envp);
+		close(g.pipefd[1]);
+		run_cmd(g.argv[3], g.pipefd[0], g.fout, g.envp);
 	}
-	close(fin);
-	close(fout);
+	close(g.fin);
+	close(g.fout);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	int		pipefd[2];
-	int		fin;
-	int		fout;
+	t_params	g;
 
 	if (argc != 5)
 		return (ft_puterr(ERR_INVALID_PARAMS), 1);
-	if (pipe(pipefd) < 0)
+	if (pipe(g.pipefd) < 0)
 		return (ft_puterr(ERR_PIPE), 1);
-	fin = open(argv[1], O_RDONLY);
-	if (fin < 0)
+	g.fin = open(argv[1], O_RDONLY);
+	if (g.fin < 0)
 		return (ft_puterr(ERR_INVALID_FILE));
-	fout = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fout < 0)
+	g.fout = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (g.fout < 0)
 		return (ft_puterr(ERR_INVALID_FILE));
-	pipex(fin, fout, pipefd);
+	g.argv = argv;
+	g.envp = envp;
+	pipex(g);
 	return (0);
 }
