@@ -3,11 +3,17 @@ package main
 import (
     "bytes"
     "fmt"
+    "github.com/fatih/color"
     "log"
     "os"
     "os/exec"
     "strconv"
     "strings"
+)
+
+var (
+    PASS = color.GreenString("[OK]")
+    FAIL = color.RedString("[FAIL]")
 )
 
 type Test struct {
@@ -131,25 +137,30 @@ func verifySolution(filepath string, solution []string) bool {
 }
 
 func runTests(tests []Test) {
+    cntPass, cntFail := 0, 0
     for i, t := range tests {
         fmt.Printf("\nTest %d: %s ", i+1, t.FilePath)
         command := fmt.Sprintf("cat tests/%s | xargs ./push_swap", t.FilePath)
         stdout, _, err := runCmd(command)
         if err != nil {
-            fmt.Printf("[FAIL: program crashed]")
-            return
+            fmt.Printf("%s program crashed", FAIL)
+            cntFail++
+            continue
         }
         if t.ExpectError {
             if strings.Contains(stdout, "Error") {
-                fmt.Printf("[PASS]")
+                cntPass++
+                fmt.Printf(PASS)
             } else {
-                fmt.Printf("[FAIL]")
+                cntFail++
+                fmt.Printf(FAIL)
             }
             continue
         }
         solution := extractSolution(stdout)
         if !verifySolution(t.FilePath, solution) {
-            fmt.Printf("[FAIL]...stack is not sorted")
+            fmt.Printf("%s...stack is not sorted", FAIL)
+            cntFail++
             continue
         }
         score := 0
@@ -159,13 +170,17 @@ func runTests(tests []Test) {
             }
         }
         if score == 0 {
-            fmt.Printf("[FAIL]...too many moves (Limit: %d, Actual: %d)", t.ExpectLimit[len(t.ExpectLimit)-1], len(solution))
+            fmt.Printf("%s...too many moves (Limit: %d, Actual: %d)", FAIL, t.ExpectLimit[len(t.ExpectLimit)-1], len(solution))
+            cntFail++
             continue
         }
-        fmt.Printf("[PASS]...Score: %d / %d (Limit: %d, Actual: %d)",
-            score, len(t.ExpectLimit), t.ExpectLimit[score-1], len(solution))
+        cntPass++
+        fmt.Printf("%s...Score: %d / %d (Limit: %d, Actual: %d)",
+            PASS, score, len(t.ExpectLimit), t.ExpectLimit[score-1], len(solution))
     }
     fmt.Println()
+    fmt.Println("-------------------------")
+    fmt.Printf("SUMMARY: %d %s, %d %s\n", cntPass, PASS, cntFail, FAIL)
 }
 
 func main() {
