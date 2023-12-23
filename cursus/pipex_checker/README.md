@@ -40,3 +40,7 @@ e.g `./pipex infile cat 'grep "hello world"' outfile`
 
 3. Run `./checker` inside pipe_checker folder
 
+## Preview
+
+![Pipe Checker Preview](assets/test-screenshot.png)
+
