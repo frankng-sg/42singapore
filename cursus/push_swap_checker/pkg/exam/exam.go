@@ -18,7 +18,7 @@ func NewTestSuite() []Test {
             "-1 0 1 2 3a", true, false, nil,
         },
         {
-            "Display Error if args contain decimal",
+            "Display Error if args contain decimals",
             "-1 0 1 2. 3", true, false, nil,
         },
         {
@@ -30,51 +30,51 @@ func NewTestSuite() []Test {
             "1 0 - 2 3", true, false, nil,
         },
         {
-            "Display Error if args contain duplicate number",
+            "Display Error if args contain duplicate numbers",
             "1 0 2 3 4 5 6 7 8 9 5", true, false, nil,
         },
         {
-            "Display Error if args contain number larger than MAX_INT",
+            "Display Error if args contain numbers larger than MAX_INT",
             "1 0 2 3 4 5 6 2147483648 8 9 5", true, false, nil,
         },
         {
-            "Display Error if args contain number smaller than MIN_INT",
+            "Display Error if args contain numbers smaller than MIN_INT",
             "1 0 2 3 4 5 6 -2147483649 8 9 5", true, false, nil,
         },
         {
-            "Display nothing if args contain only MIN_INT",
+            "Display nothing if only one number MIN_INT",
             "-2147483648", false, false, nil,
         },
         {
-            "Display nothing if no arguments",
+            "Display nothing if no number",
             "", false, false, nil,
         },
         {
-            "Display nothing if one argument",
+            "Display nothing if one number",
             "42", false, false, nil,
         },
         {
-            "Display nothing if two sorted arguments",
+            "Display nothing if two sorted numbers",
             "2 4", false, false, nil,
         },
         {
-            "Display nothing if three sorted arguments",
+            "Display nothing if three sorted numbers",
             "2 4 5", false, false, nil,
         },
         {
-            "Display nothing if four sorted arguments",
+            "Display nothing if four sorted numbers",
             "2 4 5 9", false, false, nil,
         },
         {
-            "Display nothing if five sorted arguments",
+            "Display nothing if five sorted numbers",
             "2 4 5 9 99", false, false, nil,
         },
         {
-            "Display nothing if six sorted arguments",
+            "Display nothing if six sorted numbers",
             "2 4 5 9 99 1001", false, false, nil,
         },
         {
-            "Display nothing if twelve sorted arguments",
+            "Display nothing if twelve sorted numbers",
             "1 2 3 4 5 6 7 8 9 10 11 12", false, false, nil,
         },
         {
