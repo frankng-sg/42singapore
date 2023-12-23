@@ -9,6 +9,7 @@ import (
     "os"
     "os/exec"
     "strings"
+    "time"
 )
 
 type Test struct {
@@ -119,22 +120,38 @@ func NewTestSuite() []Test {
     }
 }
 
-func runCmd(command string) (string, string, error) {
+func runCmd(command string, timeout time.Duration) (string, string, bool) {
     var stdout bytes.Buffer
     var stderr bytes.Buffer
 
     cmd := exec.Command("bash", "-c", command)
     cmd.Stdout = &stdout
     cmd.Stderr = &stderr
-    err := cmd.Run()
-    return stdout.String(), stderr.String(), err
+
+    goRunCmd := func() <-chan struct{} {
+        done := make(chan struct{})
+        go func() {
+            defer close(done)
+            cmd.Run()
+        }()
+        return done
+    }
+
+    select {
+    case <-goRunCmd():
+        return stdout.String(), stderr.String(), false
+    case <-time.After(timeout):
+        cmd.Process.Kill()
+        return "", "", true
+    }
 }
 
-func leakDetected(t Test) bool {
+func leakAndTimeoutDetected(t Test, timeout time.Duration) (isLeaked bool, isTimeout bool) {
+    var stderr string
     args := fmt.Sprintf("%s %q %q %s", t.InputFile, t.Cmd1, t.Cmd2, t.OutputFile)
-    _, stderr, _ := runCmd(fmt.Sprintf("valgrind --leak-check=full ./pipex %s", args))
-    isLeaked := strings.Contains(stderr, "SUMMARY") && !strings.Contains(stderr, "All heap blocks were freed")
-    return isLeaked
+    _, stderr, isTimeout = runCmd(fmt.Sprintf("valgrind --leak-check=full ./pipex %s", args), timeout)
+    isLeaked = strings.Contains(stderr, "SUMMARY") && !strings.Contains(stderr, "All heap blocks were freed")
+    return isLeaked, isTimeout
 }
 
 func showOK() {
@@ -160,12 +177,19 @@ func main() {
         showFail("pipex executable not found")
         return
     }
+    var timeout time.Duration = 5 * time.Second
+    var err error
     tests := NewTestSuite()
     cntPass, cntFail, cntLeak := 0, 0, 0
     for i, t := range tests {
         fmt.Printf("Test #%d: %s\n", i+1, t.Desc)
-
-        if leakDetected(t) {
+        isLeaked, isTimeout := leakAndTimeoutDetected(t, timeout)
+        if isTimeout {
+            showFail("timeout...probably infinite loop")
+            cntFail++
+            continue
+        }
+        if isLeaked {
             showLeak()
             cntLeak++
             continue
@@ -174,13 +198,13 @@ func main() {
             os.Remove(t.OutputFile)
         }
         args := fmt.Sprintf("%s %q %q %s", t.InputFile, t.Cmd1, t.Cmd2, t.OutputFile)
-        stdout, _, err := runCmd(fmt.Sprintf("./pipex %s", args))
+        stdout, stderr, _ := runCmd(fmt.Sprintf("./pipex %s", args), timeout)
         if stdout != "" {
             showFail("program should not print anything to stdout")
             cntFail++
             continue
         }
-        if t.ExpectError && err == nil {
+        if t.ExpectError && stderr == "" {
             showFail("program should return error message")
             cntFail++
             continue
@@ -196,7 +220,7 @@ func main() {
             cntFail++
             continue
         }
-        content, err := ioutil.ReadFile(t.OutputFile)
+        content, _ := ioutil.ReadFile(t.OutputFile)
         if t.ExpectFileCreated && string(content) != t.ExpectFileOutput {
             showFail(fmt.Sprintf("output mismatched\n\tExpected: %q\n\tActual: %q\n", t.ExpectFileOutput, string(content)))
             cntFail++
