@@ -79,7 +79,7 @@ func NewTestSuite() []Test {
         },
         {
             "Display max 3 ops for '42-picked' three numbers",
-            "2 1 0", false, true, []int{3},
+            "2 1 0", false, true, []int{3, 2},
         },
         {
             "Display max 12 ops for '42-picked' give numbers",
@@ -87,11 +87,11 @@ func NewTestSuite() []Test {
         },
         {
             "Display max 3 ops for my 3 numbers",
-            "-1 10 2", false, true, []int{3},
+            "-1 10 2", false, true, []int{3, 2},
         },
         {
             "Display max 12 ops for my 5 numbers",
-            "-2 8 1000 99 3", false, true, []int{12, 6},
+            "-2 8 1000 99 3", false, true, []int{12, 8, 6},
         },
         {
             "Display max 1500 ops for 100 random numbers",
