@@ -1,10 +1,28 @@
 import random
+import sys
 
-# Generate 200 random integers between 1 and 100
-random_integers = [random.randint(-1000000000, 1000000000) for _ in range(500)]
+N = 100
+MAXVAL = 1000000
+MINVAL = -1000000
 
-# Write the integers to a file named "input.txt"
-with open("random500.txt", "w") as f:
-   f.write(" ".join(str(i) for i in random_integers))
+if len(sys.argv) > 1:
+    N = int(sys.argv[1])
+if len(sys.argv) > 3:
+    MINVAL = int(sys.argv[2])
+    MAXVAL = int(sys.argv[3])
+
+Output = f"rand{N}.txt"
+
+nums = []
+seen = dict()
+
+while len(nums) < N:
+    num = random.randint(MINVAL, MAXVAL)
+    if num not in seen:
+        seen[num] = True
+        nums.append(num)
+
+with open(Output, "w") as f:
+   f.write(" ".join(str(i) for i in nums))
 
 print("OK")
