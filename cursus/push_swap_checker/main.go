@@ -88,7 +88,7 @@ func leakAndTimeoutDetected(command string, timeout time.Duration) (isLeaked boo
 
 func runTests(tests []exam.Test) {
     if _, err := os.Stat("push_swap"); errors.Is(err, os.ErrNotExist) {
-        showFail("pipex executable not found")
+        showFail("push_swap executable not found")
         return
     }
 
