@@ -6,7 +6,7 @@
 /*   By: vietnguy <vietnguy@student.42singapore.sg  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 19:11:29 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/22 23:18:58 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/23 09:55:08 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,6 @@ char	*ft_strdup_ignore(const char *s, char ignore)
 		}
 		s++;
 	}
+	dup[i] = 0;
 	return (dup);
 }

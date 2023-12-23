@@ -6,12 +6,12 @@
 #    By: vietnguy <vietnguy@student.42singapore.sg  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 14:29:25 by vietnguy          #+#    #+#              #
-#    Updated: 2023/12/22 22:56:42 by vietnguy         ###   ########.fr        #
+#    Updated: 2023/12/23 10:02:21 by vietnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC:=cc
-CFLAGS:=-std=c99 -Wall -Wextra -Werror
+CFLAGS:=-g -std=c99 -Wall -Wextra -Werror
 AR:=ar crs
 RM:=rm -rf
 FILES:=ft_isalpha ft_isdigit ft_isalnum ft_isascii ft_isprint ft_toupper \

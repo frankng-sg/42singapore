@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 11:40:59 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/22 23:18:22 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/23 10:24:06 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,24 @@ typedef struct s_params {
 
 char	**ft_split_cmd_args(char *s)
 {
+	int		size;
 	char	*p;
 	char	**cmd_args;
 
 	if (s == NULL || *s == 0)
 		return (NULL);
-	cmd_args = (char **)malloc(3 * sizeof(char *));
-	cmd_args[2] = 0;
 	p = s;
 	while (*p && *p != ' ')
 		p++;
+	if (*p == 0)
+		size = 2;
+	else
+		size = 3;
+	cmd_args = (char **)malloc(size * sizeof(char *));
+	cmd_args[size - 1] = 0;
 	cmd_args[0] = ft_strndup(s, p - s);
 	if (*p && p[1])
 		cmd_args[1] = ft_strdup_ignore(p + 1, '"');	
-	else
-		cmd_args[1] = NULL;
 	return (cmd_args);
 }
 
@@ -93,7 +96,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_params	g;
 
-	if (argc < 0)
+	if (argc != 5)
 		return (ft_puterr(ERR_INVALID_PARAMS));
 	if (pipe(g.pipefd) < 0)
 		return (ft_puterr(ERR_PIPE));
