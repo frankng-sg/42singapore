@@ -1,7 +1,7 @@
 # PIPEX CHECKER
 ![Pipe Key On Keyboard](assets/Pipe-key-on-keyboard.jpg)
 
-Following the Test Driver Design framework, tests are created before coding a new feature. The feature is deemed functional if it can pass all the tests. After passing all tests, take time to refactor code and improve its design without changing the behaviour. You may add new tests if new scenarios or edge cases are discovered during the development.
+Following the Test Driven Design framework, tests are created before coding a new feature. The feature is deemed functional if it can pass all the tests. After passing all tests, take time to refactor code and improve its design without changing the behaviour. You may add new tests if new scenarios or edge cases are discovered during the development.
 
 Therefore, PIPEX CHECKER is created as my acceptance test for the project PIPEX from 42 programme. It covers the following scenario
 
