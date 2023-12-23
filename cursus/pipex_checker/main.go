@@ -26,29 +26,29 @@ type Test struct {
 func NewTestSuite() []Test {
     return []Test{
         {
-            Desc:        "Program returns error message with 0 params",
+            Desc:        "Program should return error if there is 0 argument",
             ExpectError: true,
         },
         {
-            Desc:        "Program returns error message with 1 param",
+            Desc:        "Program should return error if there is 1 argument",
             InputFile:   "tests/input.txt",
             ExpectError: true,
         },
         {
-            Desc:        "Program returns error message with 2 param",
+            Desc:        "Program should return error if there is 2 argument",
             InputFile:   "tests/input.txt",
             Cmd1:        "cat",
             ExpectError: true,
         },
         {
-            Desc:        "Program returns error message with 3 param",
+            Desc:        "Program should return error if there is 3 argument",
             InputFile:   "tests/input.txt",
             Cmd1:        "cat",
             Cmd2:        "wc",
             ExpectError: true,
         },
         {
-            Desc:              "Program produces output file in normal case",
+            Desc:              "Program should create correct output file in normal flow\ne.g `./pipex infile cat \"wc -w\" outfile`",
             InputFile:         "tests/input.txt",
             OutputFile:        "output.txt",
             Cmd1:              "cat",
@@ -57,7 +57,7 @@ func NewTestSuite() []Test {
             ExpectFileOutput:  "423\n",
         },
         {
-            Desc:              "Program returns error message if input file not exist",
+            Desc:              "Program should return error if input file does not exist",
             InputFile:         "not_exist.txt",
             OutputFile:        "output.txt",
             Cmd1:              "cat",
@@ -66,7 +66,7 @@ func NewTestSuite() []Test {
             ExpectError:       true,
         },
         {
-            Desc:              "Program returns error message if output file cannot be created",
+            Desc:              "Program should return error if output file exists and cannot be overwritten",
             InputFile:         "not_exist.txt",
             OutputFile:        "no_permission.txt",
             Cmd1:              "cat",
@@ -76,7 +76,7 @@ func NewTestSuite() []Test {
             KeepOutputFile:    true,
         },
         {
-            Desc:              "Program produces output file with command in relative path (e.g. ./helloworld)",
+            Desc:              "Program should create correct output file if a user-created command is used\ne.g `./pipex infile ../mycmd1 \"wc -w\" outfile`",
             InputFile:         "tests/input.txt",
             OutputFile:        "output.txt",
             Cmd1:              "tests/helloworld",
@@ -85,7 +85,7 @@ func NewTestSuite() []Test {
             ExpectFileOutput:  "2\n",
         },
         {
-            Desc:              `Program produces output file with command like grep "hello world"`,
+            Desc:              "Program should create correct output file if command argument has double quotes\ne.g `./pipex infile cat 'grep \"hello world\"' outfile`",
             InputFile:         "tests/input.txt",
             OutputFile:        "output.txt",
             Cmd1:              `grep "Hello World"`,
@@ -94,7 +94,7 @@ func NewTestSuite() []Test {
             ExpectFileOutput:  "9\n",
         },
         {
-            Desc:              `Program produces output file with ' ./helloworld | grep "Hello, World" '`,
+            Desc:              `Program should create correct output file if command argument has double quotes and a user-created command is used`,
             InputFile:         "tests/input.txt",
             OutputFile:        "output.txt",
             Cmd1:              `tests/helloworld`,
@@ -128,7 +128,9 @@ var (
 )
 
 func main() {
-    fmt.Println("==== TESTING pipex ====")
+    color.Blue("+----------------------------------+")
+    color.Blue("|          PIPEX CHECKER           |")
+    color.Blue("+----------------------------------+")
     fmt.Println()
     tests := NewTestSuite()
     cntPass, cntFail := 0, 0
@@ -170,7 +172,10 @@ func main() {
         fmt.Println(PASS)
     }
     fmt.Println("-----------------------------------------")
-    fmt.Println("SUMMARY: ", cntPass, PASS, ",", cntFail, FAIL)
+    fmt.Println("SUMMARY: ",
+        color.GreenString(fmt.Sprintf("%d", cntPass)), PASS, ",",
+        color.RedString(fmt.Sprintf("%d", cntFail)), FAIL,
+    )
     for _, t := range tests {
         if !t.KeepOutputFile && t.OutputFile != "" {
             os.Remove(t.OutputFile)
