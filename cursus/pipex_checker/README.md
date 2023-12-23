@@ -38,7 +38,7 @@ e.g `./pipex infile cat 'grep "hello world"' outfile`
 
 2. Copy your pipex executable file to pipex_checker folder
 
-3. Run `./checker` inside pipe_checker folder
+3. Run `./checker` inside pipex_checker folder
 
 ## Preview
 
