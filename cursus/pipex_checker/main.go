@@ -102,6 +102,20 @@ func NewTestSuite() []Test {
             ExpectFileCreated: true,
             ExpectFileOutput:  "Hello, World!\n",
         },
+        {
+            Desc:        "Program should return error if first command is not found",
+            InputFile:   "tests/input.txt",
+            Cmd1:        "not_found",
+            Cmd2:        "wc",
+            ExpectError: true,
+        },
+        {
+            Desc:        "Program should return error if second command is not found",
+            InputFile:   "tests/input.txt",
+            Cmd1:        "cat",
+            Cmd2:        "not_found",
+            ExpectError: true,
+        },
     }
 }
 
@@ -145,7 +159,12 @@ func main() {
             os.Remove(t.OutputFile)
         }
         args := fmt.Sprintf("%s %q %q %s", t.InputFile, t.Cmd1, t.Cmd2, t.OutputFile)
-        _, _, err := runCmd(fmt.Sprintf("./pipex %s", args))
+        stdout, _, err := runCmd(fmt.Sprintf("./pipex %s", args))
+        if stdout != "" {
+            fmt.Println(FAIL, "program should not print anything to stdout")
+            cntFail++
+            continue
+        }
         if t.ExpectError && err == nil {
             fmt.Println(FAIL, "program should return error message")
             cntFail++

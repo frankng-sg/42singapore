@@ -28,6 +28,10 @@ e.g `./pipex infile cat 'grep "hello world"' outfile`
 
 10. Program should create correct output file if command argument has double quotes and a user-created command is used
 
+11. Program should return error if first command is not found
+
+12. Program should return error if second command is not found
+
 ## How to use
 
 1. Download pipex_checker folder to your computer
