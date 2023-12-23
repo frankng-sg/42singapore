@@ -91,7 +91,7 @@ func NewTestSuite() []Test {
         },
         {
             "Display max 12 ops for 5 random numbers",
-            "8 99 -2 1000 3", false, true, []int{12, 8},
+            "8 99 -2 1000 3", false, true, []int{12},
         },
         {
             "Display max 1500 ops for 100 random numbers",

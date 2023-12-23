@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 15:10:34 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/21 17:00:32 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/23 20:45:55 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PUSH_SWAP_H
@@ -43,5 +43,6 @@ int		verify_sorted(t_stack *head);
 int		read_bit(int val, int bit);
 int		find_max_bit(t_stack *a);
 int		minabc(int a, int b, int c);
+void		find_above_median(t_stack *a, int *size, int *nums);
 
 #endif

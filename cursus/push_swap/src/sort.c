@@ -6,7 +6,7 @@
 /*   By: vietnguy <vietnguy@42mail.sutd.edu.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 17:49:00 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/22 12:33:38 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/23 20:50:49 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,7 @@ t_stack	*radix_sort(t_stack *a, int size)
 t_stack	*ft_sort3(t_stack *a)
 {
 	int		min_v;
-	t_stack	*b;
 
-	b = NULL;
 	min_v = minabc(a->val, a->next->val, a->next->next->val);
 	if (a->next->val == min_v)
 		(ft_printf("rra\n"), a = ft_rrotate(a));
@@ -58,30 +56,28 @@ t_stack	*ft_sort3(t_stack *a)
 	return (a);
 }
 
+
 t_stack	*ft_sort5(t_stack *a)
 {
 	t_stack	*b;
+	int		med[MAX_SIZE];
+	int		lmed;
+	int		i;
 
-	b = NULL;
-	(ft_printf("pb\n"), ft_push2(&a, &b));
-	(ft_printf("pb\n"), ft_push2(&a, &b));
-	a = ft_sort3(a);
-	while (b)
+	find_above_median(a, &lmed, med);
+	i = 0;
+	while (i < lmed)
 	{
-		if (b->val > ft_last(a))
-		{
-			(ft_printf("pa\n"), ft_push2(&b, &a));
-			(ft_printf("ra\n"), a = ft_rotate(a));
-		}
+		if (a->val == med[i])
+			(ft_printf("pb\n"), ft_push2(&a, &b), i++);
 		else
-		{
-			while (b->val > a->val)
-				(ft_printf("ra\n"), a = ft_rotate(a));
-			(ft_printf("pa\n"), ft_push2(&b, &a));
-			while (!verify_sorted(a))
-				(ft_printf("rra\n"), a = ft_rrotate(a));
-		}
+			(ft_printf("ra\n"), a = ft_rotate(a));
 	}
+	if (b->val < b->next->val)
+		(ft_printf("sb\n"), b = ft_swap(b));
+	a = ft_sort3(a);
+	(ft_printf("pa\npa\n"), ft_push2(&b, &a), ft_push2(&b, &a));
+	(ft_printf("ra\nra\n"), a = ft_rotate(a), a = ft_rotate(a));
 	return (a);
 }
 
