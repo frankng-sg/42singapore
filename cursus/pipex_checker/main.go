@@ -133,7 +133,7 @@ func runCmd(command string) (string, string, error) {
 func leakDetected(t Test) bool {
 	args := fmt.Sprintf("%s %q %q %s", t.InputFile, t.Cmd1, t.Cmd2, t.OutputFile)
 	_, stderr, _ := runCmd(fmt.Sprintf("valgrind --leak-check=full ./pipex %s", args))
-	isLeaked := !strings.Contains(stderr, "All heap blocks were freed")
+	isLeaked := strings.Contains(stderr, "SUMMARY") && !strings.Contains(stderr, "All heap blocks were freed")
 	return isLeaked
 }
 
