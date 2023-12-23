@@ -150,20 +150,21 @@ func showLeak() {
 }
 
 func main() {
-    color.Blue("+----------------------------------+")
-    color.Blue("|          PIPEX CHECKER           |")
-    color.Blue("+----------------------------------+")
+    color.Blue(` +----------------------------------+`)
+    color.Blue(`/ \          PIPEX CHECKER           \`)
+    color.Blue(`|  |                                  |`)
+    color.Blue(`|  |//////////////////////////////////|`)
+    color.Blue(` \////////////////////////////////////`)
     fmt.Println()
+    if _, err := os.Stat("pipex"); errors.Is(err, os.ErrNotExist) {
+        showFail("pipex executable not found")
+        return
+    }
     tests := NewTestSuite()
     cntPass, cntFail, cntLeak := 0, 0, 0
     for i, t := range tests {
         fmt.Printf("Test #%d: %s\n", i+1, t.Desc)
-        _, err := os.Stat("pipex")
-        if errors.Is(err, os.ErrNotExist) {
-            showFail("pipex executable not found")
-            cntFail++
-            continue
-        }
+
         if leakDetected(t) {
             showLeak()
             cntLeak++
