@@ -1,11 +1,11 @@
 package asciiart
 
 import (
-	"github.com/fatih/color"
+    "fmt"
 )
 
 func DisplayPushSwapLogo() {
-	text := `
+    text := `
  _________       _________
 /         \     /         \
 |  PUSH    |    |   SWAP   |
@@ -20,5 +20,5 @@ ______|_______________|___________ CHECKER
 
 
 `
-	color.Blue(text)
+    fmt.Println(text)
 }
