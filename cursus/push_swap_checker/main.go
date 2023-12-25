@@ -178,10 +178,6 @@ func runTests(tests []exam.Test) {
         cntPass++
         return true
     }
-    specialTest(3, 2, genAllSeq(3))
-    specialTest(4, 7, genAllSeq(4))
-    specialTest(5, 12, genAllSeq(5))
-    specialTest(100, 1500, genUniqSeqs(100, 100))
     for i, t := range tests {
         fmt.Printf("Test %d: %s\n", i+1, t.Desc)
         if len(t.Args) < 70 {
@@ -244,6 +240,10 @@ func runTests(tests []exam.Test) {
             showOK(fmt.Sprintf("Score: %d / %d\nLimit: %d, Actual: %d", score, len(t.Limits), t.Limits[score-1], len(solution)))
         }
     }
+    specialTest(3, 2, genAllSeq(3))
+    specialTest(4, 7, genAllSeq(4))
+    specialTest(5, 12, genAllSeq(5))
+    specialTest(100, 1500, genUniqSeqs(100, 100))
     fmt.Println()
     fmt.Println("-------------------------")
     fmt.Printf("SUMMARY: %s %s %s\n",
