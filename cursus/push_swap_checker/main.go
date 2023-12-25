@@ -113,6 +113,8 @@ func testAllSeq5() bool {
 
     fmt.Printf("Special Test: Test all sequences of 5 numbers\n")
     allSeq := genAllSeq5()
+    maxOps := 0
+    var nOps int
     for _, seq := range allSeq {
         command := fmt.Sprintf("./push_swap %s", seq)
         stdout, _, _ := runCmd(command, TimeOut)
@@ -121,14 +123,18 @@ func testAllSeq5() bool {
             showFail("stack is not sorted, input: " + seq)
             return false
         }
-        if len(solution) > 12 {
+        nOps = len(solution)
+        if nOps > 12 {
             showFail(
-                fmt.Sprintf("too many moves...(expect: 12, actual: %d)\ninput: %s", len(solution), seq),
+                fmt.Sprintf("too many moves...(expect: 12, actual: %d)\ninput: %s", nOps, seq),
             )
             return false
         }
+        if nOps > maxOps {
+            maxOps = nOps
+        }
     }
-    showOK("")
+    showOK("Max moves: " + strconv.Itoa(maxOps))
     return true
 }
 
