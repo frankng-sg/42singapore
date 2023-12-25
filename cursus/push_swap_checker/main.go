@@ -86,16 +86,16 @@ func leakAndTimeoutDetected(command string, timeout time.Duration) (isLeaked boo
     return
 }
 
-func genAllSeq5() []string {
-    chanSeq := make([]string, 0, 120)
+func genAllSeq(N int) []string {
+    var chanSeq []string
     used := make([]bool, 5)
     var try func(int, string)
     try = func(n int, seq string) {
-        if n == 5 {
+        if n == N {
             chanSeq = append(chanSeq, seq)
             return
         }
-        for i := 0; i < 5; i++ {
+        for i := 0; i < N; i++ {
             if used[i] {
                 continue
             }
@@ -108,11 +108,10 @@ func genAllSeq5() []string {
     return chanSeq
 }
 
-func testAllSeq5() bool {
+func testAllSeq(allSeq []string, N, LIMIT int) bool {
     var TimeOut = 5 * time.Second
 
-    fmt.Printf("Special Test: Test all sequences of 5 numbers\n")
-    allSeq := genAllSeq5()
+    fmt.Printf("Special Test: Test all sequences of %d numbers (LIMIT: %d moves)\n", N, LIMIT)
     maxOps := 0
     var nOps int
     for _, seq := range allSeq {
@@ -124,9 +123,9 @@ func testAllSeq5() bool {
             return false
         }
         nOps = len(solution)
-        if nOps > 12 {
+        if nOps > LIMIT {
             showFail(
-                fmt.Sprintf("too many moves...(expect: 12, actual: %d)\ninput: %s", nOps, seq),
+                fmt.Sprintf("too many moves...(expect: %d, actual: %d)\ninput: %s", LIMIT, nOps, seq),
             )
             return false
         }
@@ -146,8 +145,15 @@ func runTests(tests []exam.Test) {
 
     var TimeOut = 5 * time.Second
     cntPass, cntFail, cntLeak := 0, 0, 0
-    if !testAllSeq5() {
+    if !testAllSeq(genAllSeq(3), 3, 2) {
         cntFail++
+    } else {
+        cntPass++
+    }
+    if !testAllSeq(genAllSeq(5), 5, 12) {
+        cntFail++
+    } else {
+        cntPass++
     }
     for i, t := range tests {
         fmt.Printf("Test %d: %s\n", i+1, t.Desc)
