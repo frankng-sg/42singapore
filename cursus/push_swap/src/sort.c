@@ -6,7 +6,7 @@
 /*   By: vietnguy <vietnguy@42mail.sutd.edu.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 17:49:00 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/25 19:44:56 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/25 22:05:13 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,23 @@ t_stack	*ft_sort3(t_stack *a)
 	return (a);
 }
 
+t_stack	*ft_sort4(t_stack *a, t_stack *b)
+{
+	int	loc;
+
+	loc = find_loc(a, 3);
+	if (loc == 1)
+		(ft_printf("sa\n"), a = ft_swap(a));
+	else if (loc == 2)
+		(ft_printf("ra\nra\n"), a = ft_rotate(a), a = ft_rotate(a));
+	else if (loc == 3)
+		(ft_printf("rra\n"), a = ft_rrotate(a));
+	(ft_printf("pb\n"), ft_push2(&a, &b));
+	a = ft_sort3(a);
+	(ft_printf("pa\nra\n"), ft_push2(&b, &a), a = ft_rotate(a));
+	return (a);
+}
+
 t_stack	*ft_sort5(t_stack *a, t_stack *b)
 {
 	int	i;
@@ -96,6 +113,8 @@ t_stack	*ft_sort(t_stack *a, int size)
 		return (a);
 	if (size == 3)
 		return (ft_sort3(a));
+	if (size == 4)
+		return (ft_sort4(a, b));
 	if (size == 5)
 		return (ft_sort5(a, b));
 	return (radix_sort(a, size));
