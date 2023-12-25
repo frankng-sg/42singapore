@@ -111,7 +111,7 @@ func genAllSeq(N int) []string {
 func testAllSeq(allSeq []string, N, LIMIT int) bool {
     var TimeOut = 5 * time.Second
 
-    fmt.Printf("Special Test: Test all sequences of %d numbers (LIMIT: %d moves)\n", N, LIMIT)
+    fmt.Printf("Test ALL%d: Test all sequences of %d numbers (LIMIT: %d moves)\n", N, N, LIMIT)
     maxOps := 0
     var nOps int
     for _, seq := range allSeq {
@@ -145,16 +145,17 @@ func runTests(tests []exam.Test) {
 
     var TimeOut = 5 * time.Second
     cntPass, cntFail, cntLeak := 0, 0, 0
-    if !testAllSeq(genAllSeq(3), 3, 2) {
-        cntFail++
-    } else {
+    specialTest := func(N, LIMIT int) bool {
+        if !testAllSeq(genAllSeq(N), N, LIMIT) {
+            cntFail++
+            return false
+        }
         cntPass++
+        return true
     }
-    if !testAllSeq(genAllSeq(5), 5, 12) {
-        cntFail++
-    } else {
-        cntPass++
-    }
+    specialTest(3, 2)
+    specialTest(4, 7)
+    specialTest(5, 12)
     for i, t := range tests {
         fmt.Printf("Test %d: %s\n", i+1, t.Desc)
         if len(t.Args) < 70 {
