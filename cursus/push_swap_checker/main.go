@@ -6,6 +6,7 @@ import (
     "fmt"
     "github.com/fatih/color"
     "log"
+    "math/rand"
     "os"
     "os/exec"
     "push_swap_checker/pkg/asciiart"
@@ -108,6 +109,30 @@ func genAllSeq(N int) []string {
     return chanSeq
 }
 
+func genUniqSeqs(nSeq, maxV int) []string {
+    var seqs []string
+    var val int
+    for k := 0; k < nSeq; k++ {
+        used := make([]bool, maxV)
+        var seq strings.Builder
+        for i := 0; i < maxV; i++ {
+            pos := rand.Intn(maxV - i)
+            for j := 0; j < maxV; j++ {
+                if !used[j] {
+                    if pos--; pos <= 0 {
+                        val = j
+                        break
+                    }
+                }
+            }
+            seq.WriteString(fmt.Sprintf(" %d", val))
+            used[val] = true
+        }
+        seqs = append(seqs, seq.String())
+    }
+    return seqs
+}
+
 func testAllSeq(allSeq []string, N, LIMIT int) bool {
     var TimeOut = 5 * time.Second
 
@@ -145,17 +170,18 @@ func runTests(tests []exam.Test) {
 
     var TimeOut = 5 * time.Second
     cntPass, cntFail, cntLeak := 0, 0, 0
-    specialTest := func(N, LIMIT int) bool {
-        if !testAllSeq(genAllSeq(N), N, LIMIT) {
+    specialTest := func(N, LIMIT int, seqs []string) bool {
+        if !testAllSeq(seqs, N, LIMIT) {
             cntFail++
             return false
         }
         cntPass++
         return true
     }
-    specialTest(3, 2)
-    specialTest(4, 7)
-    specialTest(5, 12)
+    specialTest(3, 2, genAllSeq(3))
+    specialTest(4, 7, genAllSeq(4))
+    specialTest(5, 12, genAllSeq(5))
+    specialTest(100, 1500, genUniqSeqs(100, 100))
     for i, t := range tests {
         fmt.Printf("Test %d: %s\n", i+1, t.Desc)
         if len(t.Args) < 70 {
