@@ -6,7 +6,7 @@
 /*   By: vietnguy <vietnguy@42mail.sutd.edu.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 17:49:00 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/23 20:50:49 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/25 19:44:56 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,38 +43,38 @@ t_stack	*radix_sort(t_stack *a, int size)
 
 t_stack	*ft_sort3(t_stack *a)
 {
-	int		min_v;
-
-	min_v = minabc(a->val, a->next->val, a->next->next->val);
-	if (a->next->val == min_v)
-		(ft_printf("rra\n"), a = ft_rrotate(a));
-	else if (a->val == min_v)
+	if (a->val == 0 && a->next->val == 2)
+		(ft_printf("sa\n"), a = ft_swap(a));
+	if (a->val == 2 && a->next->val == 0)
 		(ft_printf("ra\n"), a = ft_rotate(a));
 	if (a->val > a->next->val)
 		(ft_printf("sa\n"), a = ft_swap(a));
-	(ft_printf("rra\n"), a = ft_rrotate(a));
+	if (a->next->val == 0)
+		(ft_printf("ra\n"), a = ft_rotate(a));
+	if (a->next->next->val == 0)
+		(ft_printf("rra\n"), a = ft_rrotate(a));
 	return (a);
 }
 
-
-t_stack	*ft_sort5(t_stack *a)
+t_stack	*ft_sort5(t_stack *a, t_stack *b)
 {
-	t_stack	*b;
-	int		med[MAX_SIZE];
-	int		lmed;
-	int		i;
+	int	i;
+	int	loc;
 
-	find_above_median(a, &lmed, med);
 	i = 0;
-	while (i < lmed)
+	while (i < 2)
 	{
-		if (a->val == med[i])
-			(ft_printf("pb\n"), ft_push2(&a, &b), i++);
-		else
-			(ft_printf("ra\n"), a = ft_rotate(a));
+		loc = find_loc(a, 3 + i);
+		if (loc == 1)
+			(ft_printf("sa\n"), a = ft_swap(a));
+		else if (loc == 2)
+			(ft_printf("ra\nra\n"), a = ft_rotate(a), a = ft_rotate(a));
+		else if (loc + i == 3)
+			(ft_printf("rra\nrra\n"), a = ft_rrotate(a), a = ft_rrotate(a));
+		else if (loc + i == 4)
+			(ft_printf("rra\n"), a = ft_rrotate(a));
+		(ft_printf("pb\n"), ft_push2(&a, &b), i++);
 	}
-	if (b->val < b->next->val)
-		(ft_printf("sb\n"), b = ft_swap(b));
 	a = ft_sort3(a);
 	(ft_printf("pa\npa\n"), ft_push2(&b, &a), ft_push2(&b, &a));
 	(ft_printf("ra\nra\n"), a = ft_rotate(a), a = ft_rotate(a));
@@ -83,6 +83,9 @@ t_stack	*ft_sort5(t_stack *a)
 
 t_stack	*ft_sort(t_stack *a, int size)
 {
+	t_stack	*b;
+
+	b = NULL;
 	if (size <= 1)
 		return (a);
 	if (size == 2 && a->val < a->next->val)
@@ -94,6 +97,6 @@ t_stack	*ft_sort(t_stack *a, int size)
 	if (size == 3)
 		return (ft_sort3(a));
 	if (size == 5)
-		return (ft_sort5(a));
+		return (ft_sort5(a, b));
 	return (radix_sort(a, size));
 }

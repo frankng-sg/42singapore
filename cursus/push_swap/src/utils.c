@@ -6,13 +6,28 @@
 /*   By: vietnguy <vietnguy@42mail.sutd.edu.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 14:38:12 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/21 16:14:00 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/25 18:56:03 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../lib/libft.h"
 #include "../lib/push_swap.h"
 #include <limits.h>
+
+int	find_loc(t_stack *a, int key)
+{
+	int	i;
+
+	i = 0;
+	while (a)
+	{
+		if (a->val == key)
+			return (i);
+		i++;
+		a = a->next;
+	}
+	return (-1);
+}
 
 int	find_min(int *nums, int size, int *visited)
 {

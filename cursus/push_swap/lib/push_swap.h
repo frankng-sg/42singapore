@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 15:10:34 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/23 20:45:55 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/25 19:35:23 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PUSH_SWAP_H
@@ -38,11 +38,11 @@ int		ft_rm_bottom(t_stack *head);
 int		ft_last(t_stack *head);
 int		ft_length(t_stack *head);
 int		find_min(int *nums, int size, int *visited);
+int		find_loc(t_stack *a, int key);
 int		has_duplicate(int *nums, int size);
 int		verify_sorted(t_stack *head);
 int		read_bit(int val, int bit);
 int		find_max_bit(t_stack *a);
-int		minabc(int a, int b, int c);
-void		find_above_median(t_stack *a, int *size, int *nums);
+int		find_loc(t_stack *a, int key);
 
 #endif
