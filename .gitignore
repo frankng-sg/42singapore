@@ -3,3 +3,5 @@
 *.a
 *.inp
 *.swp
+.idea
+.idea/*
