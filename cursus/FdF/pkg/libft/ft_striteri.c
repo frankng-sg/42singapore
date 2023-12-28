@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vietnguy <vietnguy@42mail.sutd.edu.sg>     +#+  +:+       +#+        */
+/*   By: vietnguy <vietnguy@student.42singapore.sg  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/24 13:51:52 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/28 13:05:35 by vietnguy         ###   ########.fr       */
+/*   Created: 2023/09/28 10:33:38 by vietnguy          #+#    #+#             */
+/*   Updated: 2023/09/28 10:44:41 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../pkg/libft/libft.h"
-#include "../pkg/gnl/gnl.h"
-#include "../pkg/mlx_linux/mlx.h"
-#include <stdio.h>
+#include "libft.h"
 
-int	main()
+void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 {
-	printf("Hello World\n");
+	int	i;
+
+	if (s == NULL)
+		return ;
+	i = 0;
+	while (s[i])
+	{
+		f(i, &s[i]);
+		i++;
+	}
 }

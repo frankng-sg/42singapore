@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vietnguy <vietnguy@42mail.sutd.edu.sg>     +#+  +:+       +#+        */
+/*   By: vietnguy <vietnguy@student.42singapore.sg  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/24 13:51:52 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/28 13:05:35 by vietnguy         ###   ########.fr       */
+/*   Created: 2023/08/20 18:21:14 by vietnguy          #+#    #+#             */
+/*   Updated: 2023/08/20 18:36:56 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../pkg/libft/libft.h"
-#include "../pkg/gnl/gnl.h"
-#include "../pkg/mlx_linux/mlx.h"
-#include <stdio.h>
+#include "libft.h"
 
-int	main()
+void	ft_bzero(void *s, size_t n)
 {
-	printf("Hello World\n");
+	ft_memset(s, 0, n);
 }

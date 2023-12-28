@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_replace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vietnguy <vietnguy@42mail.sutd.edu.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/24 13:51:52 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/28 13:05:35 by vietnguy         ###   ########.fr       */
+/*   Created: 2023/12/22 22:56:57 by vietnguy          #+#    #+#             */
+/*   Updated: 2023/12/22 22:58:14 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../pkg/libft/libft.h"
-#include "../pkg/gnl/gnl.h"
-#include "../pkg/mlx_linux/mlx.h"
-#include <stdio.h>
+#include "libft.h"
 
-int	main()
+void	ft_replace(char *s, char src, char dst)
 {
-	printf("Hello World\n");
+	if (s == NULL)
+		return ;
+	while (*s)
+	{
+		if (*s == src)
+			*s = dst;
+		s++;
+	}
 }

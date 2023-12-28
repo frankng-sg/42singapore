@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_max.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vietnguy <vietnguy@42mail.sutd.edu.sg>     +#+  +:+       +#+        */
+/*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/24 13:51:52 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/28 13:05:35 by vietnguy         ###   ########.fr       */
+/*   Created: 2023/09/22 21:55:50 by vietnguy          #+#    #+#             */
+/*   Updated: 2023/09/24 13:36:53 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../pkg/libft/libft.h"
-#include "../pkg/gnl/gnl.h"
-#include "../pkg/mlx_linux/mlx.h"
-#include <stdio.h>
+#include "libft.h"
 
-int	main()
+unsigned int	ft_umax(unsigned int a, unsigned int b)
 {
-	printf("Hello World\n");
+	if (a > b)
+		return (a);
+	return (b);
 }

@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vietnguy <vietnguy@42mail.sutd.edu.sg>     +#+  +:+       +#+        */
+/*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/24 13:51:52 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/28 13:05:35 by vietnguy         ###   ########.fr       */
+/*   Created: 2023/10/01 11:35:01 by vietnguy          #+#    #+#             */
+/*   Updated: 2023/12/09 22:28:27 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../pkg/libft/libft.h"
-#include "../pkg/gnl/gnl.h"
-#include "../pkg/mlx_linux/mlx.h"
-#include <stdio.h>
+#include "libft.h"
 
-int	main()
+int	ft_putchar(char c)
 {
-	printf("Hello World\n");
+	return (write(1, &c, 1));
 }

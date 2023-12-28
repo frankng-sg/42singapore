@@ -6,7 +6,7 @@
 #    By: vietnguy <vietnguy@student.42singapore.sg  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 14:29:25 by vietnguy          #+#    #+#              #
-#    Updated: 2023/12/24 13:40:18 by vietnguy         ###   ########.fr        #
+#    Updated: 2023/12/28 13:00:58 by vietnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,8 +22,9 @@ FILES:=ft_isalpha ft_isdigit ft_isalnum ft_isascii ft_isprint ft_toupper \
 	ft_wordcount ft_itoa ft_strmapi ft_striteri ft_putchar_fd \
 	ft_putstr_fd ft_putendl_fd ft_putnbr_fd ft_putchar \
 	ft_puterr ft_putnbr ft_puthex ft_putptr ft_printf ft_putstr ft_replace
-SRCDIR:=./src/
-SRCS:=${addprefix ${SRCDIR}, ${FILES}}
+# SRCDIR:=./src/
+# SRCS:=${addprefix ${SRCDIR}, ${FILES}}
+SRCS:=${FILES}
 OBJ:=$(SRCS:=.o)
 NAME:=libft.a
 
