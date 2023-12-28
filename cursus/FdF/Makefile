@@ -6,7 +6,7 @@
 #    By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/29 11:23:55 by vietnguy          #+#    #+#              #
-#    Updated: 2023/12/28 13:08:25 by vietnguy         ###   ########.fr        #
+#    Updated: 2023/12/28 13:13:45 by vietnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,9 +30,9 @@ RESET:=\033[0m
 all: ${TARGET}
 	@echo "$(GREEN)OK$(RESET)"
 ${TARGET}: ${OBJS} ${LIB}
-	@$(CC) $(CFLAGS) $(OBJS) $(LIB) -o ${TARGET}
+	@$(CC) $(CFLAGS) $(OBJS) $(LIB) -L/usr/lib -Ipkg/mlx_linux -lXext -lX11 -lm -lz -o ${TARGET}
 %.o: %.c
-	@$(CC) $(CFLAGS) -o $@ -c $<
+	@$(CC) $(CFLAGS) -I/usr/include -o $@ -c $<
 gnl.a:
 	@make -C ./pkg/gnl
 	@cp ./pkg/gnl/gnl.a .
