@@ -183,7 +183,7 @@ func runTests(tests []exam.Test) {
         if len(t.Args) < 70 {
             fmt.Printf("Args: %s\n", t.Args)
         }
-        command := fmt.Sprintf("./push_swap %s", t.Args)
+        command := fmt.Sprintf("%s %s", t.Cmd, t.Args)
         isLeaked, isTimeout := leakAndTimeoutDetected(command, TimeOut)
         if isLeaked {
             cntLeak++
