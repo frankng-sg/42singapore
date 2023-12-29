@@ -6,9 +6,11 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 15:18:35 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/29 16:30:22 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/29 22:15:05 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "fractol.h"
 
 static int	get_iter(t_complex c)
 {
@@ -29,6 +31,7 @@ void	render_mandelbrot(t_fractol *g)
 {
 	int		x;
 	int		y;
+	int		color;
 	t_complex	c;
 
 	x = -1;
@@ -39,9 +42,8 @@ void	render_mandelbrot(t_fractol *g)
 		{
 			c = c_new(RE_START + x * (RE_END - RE_START) / WIDTH,
 				IM_START + y * (IM_END - IM_START) / HEIGHT);
-			iter = get_iter(c);
-			color = (int)255 - (int)255 * iter / MAX_ITER;
-			ft_put_pixel(g->img, x, y, color);	
+			color = (int)255 - (int)255 * get_iter(c) / MAX_ITER;
+			ft_put_pixel(&g->img, x, y, color);	
 		}
 	}
 }

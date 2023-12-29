@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vietnguy <vietnguy@student.42singapore.sg  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/29 10:49:21 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/29 22:04:32 by vietnguy         ###   ########.fr       */
+/*   Created: 2023/12/29 22:09:17 by vietnguy          #+#    #+#             */
+/*   Updated: 2023/12/29 22:17:14 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "fractol.h"
 
-void	free_fractol(t_fractol *g)
+void	ft_put_pixel(t_image *img, int x, int y, int color)
 {
-	if (g == NULL)
-		return ;
-	free(g->mlx);
-	free(g->win);
-	free(g);
-}
+	char	*dst;
 
-void	free_image(t_image *img)
-{
-	free(img->img);
+	dst = img->addr + (y * img->line_len + x * (img->bits_per_pixel >> 3));
+	*(unsigned int *)dst = color;
 }

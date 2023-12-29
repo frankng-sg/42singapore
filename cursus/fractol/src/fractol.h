@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 14:52:02 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/29 16:10:23 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/29 22:13:57 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 typedef struct s_image
 {
 	void	*img;
-	char	*buf;
+	char	*addr;
 	int		bits_per_pixel;
 	int		line_len;
 	int		endian;
@@ -43,7 +43,7 @@ typedef struct s_fractol
 }	t_fractol;
 
 // Initialization
-void	init_fractol(t_fractor *g);
+void	init_fractol(t_fractol *g);
 
 // Free Memory
 
@@ -53,9 +53,13 @@ typedef struct s_complex
 	double	re;
 	double	im;
 }	t_complex;
+t_complex	c_new(double re, double im);
+t_complex	c_mult(t_complex a, t_complex b);
+t_complex	c_add(t_complex a, t_complex b);
+double		c_abssq(t_complex a);	
 
-t_complex	multiply(t_complex a, t_complex b);
-t_complex	add(t_complex a, t_complex b);
-double		abs_sq(t_complex a);	
+// Render Image
+void	render_mandelbrot(t_fractol *g);
+void	ft_put_pixel(t_image *img, int x, int y, int color);
 
 #endif

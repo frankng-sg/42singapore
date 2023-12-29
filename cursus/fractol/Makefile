@@ -6,14 +6,14 @@
 #    By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/29 11:23:55 by vietnguy          #+#    #+#              #
-#    Updated: 2023/12/29 14:02:02 by vietnguy         ###   ########.fr        #
+#    Updated: 2023/12/29 22:16:51 by vietnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 INCLUDE:=./include
 TARGET:=fractol
 SRCDIR:=./src/
-SRC:=main free init read_map
+SRC:=main complex free init render render_mandelbrot
 SRCS:=${addprefix ${SRCDIR}, ${SRC}}
 OBJS:=${SRCS:=.o}
 LIB:=libmlx.a libmlx_Linux.a libft.a gnl.a
@@ -30,7 +30,7 @@ RESET:=\033[0m
 all: ${TARGET}
 	@echo "$(GREEN)OK$(RESET)"
 ${TARGET}: ${OBJS} ${LIB}
-	@$(CC) $(CFLAGS) $(OBJS) $(LIB) -L/usr/lib -Ipkg/mlx_linux -lXext -lX11 -lm -lz -lbsd -o ${TARGET}
+	@$(CC) $(CFLAGS) $(OBJS) $(LIB) -L/usr/lib -Ipkg/mlx -lXext -lX11 -lm -lz -lbsd -o ${TARGET}
 %.o: %.c
 	@$(CC) $(CFLAGS) -I/usr/include -o $@ -c $<
 gnl.a:
@@ -40,14 +40,14 @@ libft.a:
 	@make -C ./pkg/libft
 	@cp ./pkg/libft/libft.a .
 libmlx_Linux.a libmlx.a:
-	@make -C ./pkg/mlx_linux
-	@cp ./pkg/mlx_linux/libmlx_Linux.a .
-	@cp ./pkg/mlx_linux/libmlx.a .
+	@make -C ./pkg/mlx
+	@cp ./pkg/mlx/libmlx_Linux.a .
+	@cp ./pkg/mlx/libmlx.a .
 clean:
 	@$(RM) $(OBJS) $(LIB)
 	@make fclean -C ./pkg/gnl
 	@make fclean -C ./pkg/libft
-	@make clean -C ./pkg/mlx_linux
+	@make clean -C ./pkg/mlx
 fclean: clean
 	@$(RM) $(TARGET)
 re: fclean all

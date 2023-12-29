@@ -6,13 +6,13 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 16:11:24 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/29 16:18:54 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/29 22:03:53 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-t_complex	c_new(doulbe re, double im)
+t_complex	c_new(double re, double im)
 {
 	t_complex	result;
 
@@ -25,7 +25,7 @@ t_complex	c_mult(t_complex a, t_complex b)
 {
 	t_complex	result;
 
-	result.re = a.re * b.re - a.im * b.img;
+	result.re = a.re * b.re - a.im * b.im;
 	result.im = a.re * b.im + a.im * b.re;
 	return (result);
 }
