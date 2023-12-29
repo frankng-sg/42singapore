@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 16:11:24 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/29 22:03:53 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/29 23:39:30 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,8 @@ t_complex	c_add(t_complex a, t_complex b)
 
 double	c_abssq(t_complex a)
 {
-	return (a.re * a.re + a.im * a.im);
+	int	result;
+
+	result = a.re * a.re + a.im * a.im;
+	return (result);
 }

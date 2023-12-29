@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 14:52:02 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/29 22:13:57 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/30 09:47:23 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
 // Configuration
 # define WIDTH 600
 # define HEIGHT 400
-# define RE_START -2
-# define RE_END 1
-# define IM_START -1
-# define IM_END 1
+# define RE_START -3.0
+# define RE_END 3.0 
+# define IM_START -3.0
+# define IM_END 3.0
 # define MAX_ITER 150
 
 // Fractol Data Structure
@@ -40,10 +40,21 @@ typedef struct s_fractol
 	void	*mlx;
 	void	*win;
 	t_image	img;
+	int	color_scale;
+	double	re_scale;
+	double	im_scale;
 }	t_fractol;
+
+typedef struct s_mandelbrot
+{
+	int	color_scale;
+	double	re_scale;
+	double	im_scale;
+}	t_mandelbrot;
 
 // Initialization
 void	init_fractol(t_fractol *g);
+void	init_image(void *mlx, t_image *img);
 
 // Free Memory
 
