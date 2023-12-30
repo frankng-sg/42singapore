@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 14:52:02 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/30 20:06:29 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/30 21:42:22 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define RE_END 3.0 
 # define IM_START -3.0
 # define IM_END 3.0
-# define MAX_ITER 10
+# define MAX_ITER 150
 
 # if __linux
 #  define ESC 65307
@@ -49,6 +49,8 @@ typedef struct s_image
 	int		endian;
 }	t_image;
 
+typedef char*	t_img_map[WIDTH][HEIGHT];
+
 typedef struct s_fractol
 {
 	int	type;
@@ -57,6 +59,7 @@ typedef struct s_fractol
 	t_image	img;
 	double	zoom;
 	int	color_scale;
+	t_img_map	img_map;
 	double	re_scale;
 	double	im_scale;
 	double	re_start;
@@ -67,6 +70,7 @@ typedef struct s_fractol
 void	init_fractol(t_fractol *g, int type);
 void	init_image(t_fractol *g, t_image *img);
 void	init_mandelbrot(t_fractol *g);
+void	init_image_map(t_fractol *g, t_img_map *img_map);
 
 // Free Memory
 void	free_fractol(t_fractol *g);
@@ -89,6 +93,5 @@ int	esc_window(t_fractol *g);
 // Render Image
 void	zoom_mandelbrot(int mousecode, t_fractol *g);
 void	render_mandelbrot(t_fractol *g, t_image *img);
-void	ft_put_pixel(t_image *img, int x, int y, int color);
 
 #endif

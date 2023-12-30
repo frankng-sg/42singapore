@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 15:29:51 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/30 20:06:54 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/30 21:34:29 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,25 @@ void	init_fractol(t_fractol *g, int type)
 	if (g->win == NULL)
 		(free_fractol(g), ft_error(ERR_INIT_WIN));
 	init_image(g, &g->img);
+	init_image_map(g, &g->img_map);
 }
+
+void	init_image_map(t_fractol *g, t_img_map *img_map)
+{
+	int	x;
+	int	y;
+
+	y = -1;
+	while (++y < HEIGHT)
+	{
+		x = -1;
+		while (++x < WIDTH)
+		{
+			(*img_map)[x][y] = g->img.addr + (y * g->img.line_len
+				+ x * (g->img.bits_per_pixel >> 3));
+		}
+	}
+} 
 
 void	init_image(t_fractol *g, t_image *img)
 {

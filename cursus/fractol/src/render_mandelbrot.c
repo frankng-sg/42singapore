@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 15:18:35 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/30 20:05:59 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/30 21:34:54 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,8 @@ void	render_mandelbrot(t_fractol *g, t_image *img)
 	int		color;
 	int		iter;
 	t_complex	c;
-	int		count;
 
 	y = -1;
-	count = 0;
 	while (++y < HEIGHT)
 	{
 		c.im = g->im_start + (double)y * g->im_scale;
@@ -64,11 +62,9 @@ void	render_mandelbrot(t_fractol *g, t_image *img)
 		{
 			c.re = g->re_start + (double)x * g->re_scale;
 			iter = get_iter(c);
-			count += iter;
 			color = iter * g->color_scale; 
-			ft_put_pixel(img, x, y, color);	
+			*(unsigned int *)(g->img_map[x][y]) = color;
 		}
 	}
-	printf("Count Iter: %d\n", count);
 	mlx_put_image_to_window(g->mlx, g->win, img->img, 0, 0);
 }
