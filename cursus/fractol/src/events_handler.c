@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   events_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vietnguy <vietnguy@student.42singapore.sg  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/29 10:49:21 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/30 18:15:08 by vietnguy         ###   ########.fr       */
+/*   Created: 2023/12/30 10:38:41 by vietnguy          #+#    #+#             */
+/*   Updated: 2023/12/30 17:26:33 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-#include "../pkg/mlx/mlx.h"
 #include <stdlib.h>
 
-void	free_fractol(t_fractol *g)
+int	esc_window(t_fractol *g)
 {
-	mlx_destroy_window(g->mlx, g->win);
-	mlx_destroy_image(g->mlx, g->img.img);
-	mlx_destroy_display(g->mlx);
-	free(g->mlx);
+	free_fractol(g);
+	exit(0);
 }

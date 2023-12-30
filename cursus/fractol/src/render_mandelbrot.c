@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 15:18:35 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/30 10:04:00 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/30 17:44:28 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,38 +26,34 @@ static int	get_iter(t_complex c)
 	return (iter);
 }
 
-static t_mandelbrot	init_mandelbrot()
+void	init_mandelbrot(t_fractol *g, t_mandelbrot *mdb)
 {
-	t_mandelbrot	mdb;
-
-	mdb.re_scale = (double)(RE_END - RE_START) / (double)WIDTH;
-	mdb.im_scale = (double)(IM_END - IM_START) / (double)HEIGHT;
-	mdb.color_scale = (1 << 24) / MAX_ITER;
-	return (mdb);
+	g->win = mlx_new_window(g->mlx, WIDTH, HEIGHT, "Mandelbrot");
+	mdb->re_scale = (double)(RE_END - RE_START) / (double)WIDTH;
+	mdb->im_scale = (double)(IM_END - IM_START) / (double)HEIGHT;
+	mdb->color_scale = (1 << 24) / MAX_ITER;
 }
 
-void	render_mandelbrot(t_fractol *g)
+void	render_mandelbrot(t_fractol *g, t_mandelbrot *mdb)
 {
 	int		x;
 	int		y;
 	int		color;
 	int		iter;
 	t_complex	c;
-	t_mandelbrot	mdb;
 
 	y = -1;
-	mdb = init_mandelbrot();
 	while (++y < HEIGHT)
 	{
-		c.im = (double)IM_START + (double)y * mdb.im_scale;
+		c.im = (double)IM_START + (double)y * mdb->im_scale;
 		x = -1;
 		while (++x < WIDTH)
 		{
-			c.re = (double)RE_START + (double)x * mdb.re_scale;
+			c.re = (double)RE_START + (double)x * mdb->re_scale;
 			iter = get_iter(c);
-			color = iter * mdb.color_scale; 
+			color = iter * mdb->color_scale; 
 			ft_put_pixel(&g->img, x, y, color);	
-}
+		}
 	}
 	mlx_put_image_to_window(g->mlx, g->win, g->img.img, 0, 0);
 }
