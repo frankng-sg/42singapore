@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 15:29:51 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/30 21:34:29 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/30 23:38:58 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	init_fractol(t_fractol *g, int type)
 		ft_error(ERR_INIT_MLX);
 	if (type == 1)
 		g->win = mlx_new_window(g->mlx, WIDTH, HEIGHT, "Mandelbrot");
+	else if (type == 2)
+		g->win = mlx_new_window(g->mlx, WIDTH, HEIGHT, "Julia");
 	if (g->win == NULL)
 		(free_fractol(g), ft_error(ERR_INIT_WIN));
 	init_image(g, &g->img);

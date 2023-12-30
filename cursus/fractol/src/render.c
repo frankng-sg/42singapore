@@ -6,25 +6,13 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 15:18:35 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/30 22:15:25 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/30 23:48:18 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 #include "../pkg/mlx/mlx.h"
 #include <stdio.h>
-
-int	get_iter_mandelbrot(t_complex c)
-{
-	t_complex	t;
-	int		iter;
-
-	t = c;
-	iter = -1;
-	while (++iter < MAX_ITER && c_abssq(t) <= 4)
-		t = c_add(c_mult(t, t), c);
-	return (iter);
-}
 
 void	render_init(t_fractol *g)
 {
@@ -42,7 +30,18 @@ void	render_zoom(int mousecode, t_fractol *g)
 	else if (mousecode == SCROLL_UP)
 		g->zoom *= 1.1;
 	render_init(g);
-	render(g, &g->img, &get_iter_mandelbrot);
+	if (g->type == 1)
+		render(g, &g->img, &get_iter_mandelbrot);
+	else if (g->type == 2)
+		render(g, &g->img, &get_iter_julia);
+}
+
+void	render_fractol(t_fractol *g)
+{
+	if (g->type == 1)
+		render(g, &g->img, &get_iter_mandelbrot);
+	else if(g->type == 2)
+		render(g, &g->img, &get_iter_julia);
 }
 
 void	render(t_fractol *g, t_image *img, int (*get_iter)())

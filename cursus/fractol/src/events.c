@@ -6,7 +6,7 @@
 /*   By: vietnguy <vietnguy@student.42singapore.sg  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 10:27:32 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/30 22:16:25 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/30 23:50:42 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ static int	mouse_hook(int mousecode, int x, int y, t_fractol *g)
 {
 	(void)x;
 	(void)y;
-	if (g->type == 1)
-		render_zoom(mousecode, g);
+	render_zoom(mousecode, g);
 	return (0);
 }
 

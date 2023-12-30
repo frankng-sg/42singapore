@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 14:52:02 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/30 22:13:10 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/30 23:58:19 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,15 @@
 # define FRACTOL_H
 
 // Configuration
-# define WIDTH 400
-# define HEIGHT 400
+# define WIDTH 200
+# define HEIGHT 200
 # define RE_START -3.0
 # define RE_END 3.0 
 # define IM_START -3.0
 # define IM_END 3.0
-# define MAX_ITER 25 
+# define MAX_ITER 250
+# define JULIA_CX -0.7
+# define JULIA_CY 0.27015
 
 # if __linux
 #  define ESC 65307
@@ -90,8 +92,10 @@ void	register_events(t_fractol *g);
 
 // Render Image
 int	get_iter_mandelbrot(t_complex c);
+int	get_iter_julia(t_complex c);
 void	render_init(t_fractol *g);
 void	render_zoom(int mousecode, t_fractol *g);
 void	render(t_fractol *g, t_image *img, int (*get_iter)());
+void	render_fractol(t_fractol *g);
 
 #endif
