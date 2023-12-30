@@ -6,7 +6,7 @@
 /*   By: vietnguy <vietnguy@42mail.sutd.edu.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 13:51:52 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/30 17:35:41 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/30 19:52:47 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,12 @@ void	ft_error(char *msg)
 int	main(int argc, char **argv)
 {
 	t_fractol	g;
-	t_mandelbrot	mdb;
 
 	if (argc <= 1 || argv == NULL)
 		ft_error(ERR_INVALID_ARGS);
-	init_fractol(&g);
-	init_mandelbrot(&g, &mdb);
-	render_mandelbrot(&g, &mdb);
+	init_fractol(&g, 1);
+	init_mandelbrot(&g);
+	render_mandelbrot(&g, &g.img);
 	register_events(&g);
 	mlx_loop(g.mlx);
 	free_fractol(&g);

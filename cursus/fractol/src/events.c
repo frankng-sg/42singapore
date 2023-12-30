@@ -6,7 +6,7 @@
 /*   By: vietnguy <vietnguy@student.42singapore.sg  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 10:27:32 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/30 10:47:42 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/30 18:50:58 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@ static int	key_hook(int keycode, t_fractol *g)
 
 static int	mouse_hook(int mousecode, int x, int y, t_fractol *g)
 {
-	if (g == NULL)
-		return (mousecode + x + y);
+	(void)x;
+	(void)y;
+	if (g->type == 1)
+		zoom_mandelbrot(mousecode, g);
 	return (0);
 }
 

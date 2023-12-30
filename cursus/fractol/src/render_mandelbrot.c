@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 15:18:35 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/30 17:44:28 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/30 20:05:59 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,34 +26,49 @@ static int	get_iter(t_complex c)
 	return (iter);
 }
 
-void	init_mandelbrot(t_fractol *g, t_mandelbrot *mdb)
+void	init_mandelbrot(t_fractol *g)
 {
-	g->win = mlx_new_window(g->mlx, WIDTH, HEIGHT, "Mandelbrot");
-	mdb->re_scale = (double)(RE_END - RE_START) / (double)WIDTH;
-	mdb->im_scale = (double)(IM_END - IM_START) / (double)HEIGHT;
-	mdb->color_scale = (1 << 24) / MAX_ITER;
+	g->re_start = g->zoom * RE_START;
+	g->im_start = g->zoom * IM_START;
+	g->re_scale = g->zoom * (double)(RE_END - RE_START) / (double)WIDTH;
+	g->im_scale = g->zoom * (double)(IM_END - IM_START) / (double)HEIGHT;
+	g->color_scale = (1 << 24) / MAX_ITER;
 }
 
-void	render_mandelbrot(t_fractol *g, t_mandelbrot *mdb)
+void	zoom_mandelbrot(int mousecode, t_fractol *g)
+{
+	if (mousecode == SCROLL_DOWN)
+		g->zoom *= 0.9;
+	else if (mousecode == SCROLL_UP)
+		g->zoom *= 1.1;
+	init_mandelbrot(g);
+	render_mandelbrot(g, &g->img);
+}
+
+void	render_mandelbrot(t_fractol *g, t_image *img)
 {
 	int		x;
 	int		y;
 	int		color;
 	int		iter;
 	t_complex	c;
+	int		count;
 
 	y = -1;
+	count = 0;
 	while (++y < HEIGHT)
 	{
-		c.im = (double)IM_START + (double)y * mdb->im_scale;
+		c.im = g->im_start + (double)y * g->im_scale;
 		x = -1;
 		while (++x < WIDTH)
 		{
-			c.re = (double)RE_START + (double)x * mdb->re_scale;
+			c.re = g->re_start + (double)x * g->re_scale;
 			iter = get_iter(c);
-			color = iter * mdb->color_scale; 
-			ft_put_pixel(&g->img, x, y, color);	
+			count += iter;
+			color = iter * g->color_scale; 
+			ft_put_pixel(img, x, y, color);	
 		}
 	}
-	mlx_put_image_to_window(g->mlx, g->win, g->img.img, 0, 0);
+	printf("Count Iter: %d\n", count);
+	mlx_put_image_to_window(g->mlx, g->win, img->img, 0, 0);
 }

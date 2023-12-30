@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 14:52:02 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/30 17:47:00 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/30 20:06:29 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 # define FRACTOL_H
 
 // Configuration
-# define WIDTH 600
+# define WIDTH 400
 # define HEIGHT 400
 # define RE_START -3.0
 # define RE_END 3.0 
 # define IM_START -3.0
 # define IM_END 3.0
-# define MAX_ITER 150
+# define MAX_ITER 10
 
 # if __linux
 #  define ESC 65307
@@ -35,6 +35,7 @@
 // Error Management
 # define ERR_INVALID_ARGS "invalid arguments"
 # define ERR_INIT_MLX "fail to initialize mlx"
+# define ERR_INIT_WIN "fail to initialize window"
 # define ERR_INIT_IMG "fail to initialize image"
 void	ft_error(char *msg);
 
@@ -50,25 +51,22 @@ typedef struct s_image
 
 typedef struct s_fractol
 {
+	int	type;
 	void	*mlx;
 	void	*win;
 	t_image	img;
+	double	zoom;
 	int	color_scale;
 	double	re_scale;
 	double	im_scale;
+	double	re_start;
+	double	im_start;
 }	t_fractol;
 
-typedef struct s_mandelbrot
-{
-	int	color_scale;
-	double	re_scale;
-	double	im_scale;
-}	t_mandelbrot;
-
 // Initialization
-void	init_fractol(t_fractol *g);
+void	init_fractol(t_fractol *g, int type);
 void	init_image(t_fractol *g, t_image *img);
-void	init_mandelbrot(t_fractol *g, t_mandelbrot *mdb);
+void	init_mandelbrot(t_fractol *g);
 
 // Free Memory
 void	free_fractol(t_fractol *g);
@@ -89,7 +87,8 @@ void	register_events(t_fractol *g);
 int	esc_window(t_fractol *g);
 
 // Render Image
-void	render_mandelbrot(t_fractol *g, t_mandelbrot *mdb);
+void	zoom_mandelbrot(int mousecode, t_fractol *g);
+void	render_mandelbrot(t_fractol *g, t_image *img);
 void	ft_put_pixel(t_image *img, int x, int y, int color);
 
 #endif
