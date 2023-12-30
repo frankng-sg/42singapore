@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 14:52:02 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/30 21:42:22 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/30 21:57:48 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define RE_END 3.0 
 # define IM_START -3.0
 # define IM_END 3.0
-# define MAX_ITER 150
+# define MAX_ITER 25 
 
 # if __linux
 #  define ESC 65307
