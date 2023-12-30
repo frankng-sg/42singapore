@@ -6,13 +6,19 @@
 /*   By: vietnguy <vietnguy@student.42singapore.sg  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 10:27:32 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/30 18:50:58 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/30 22:16:25 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 #include "../pkg/mlx/mlx.h"
 #include <stdlib.h>
+
+static int	esc_window(t_fractol *g)
+{
+	free_fractol(g);
+	exit(0);
+}
 
 static int	key_hook(int keycode, t_fractol *g)
 {
@@ -26,7 +32,7 @@ static int	mouse_hook(int mousecode, int x, int y, t_fractol *g)
 	(void)x;
 	(void)y;
 	if (g->type == 1)
-		zoom_mandelbrot(mousecode, g);
+		render_zoom(mousecode, g);
 	return (0);
 }
 

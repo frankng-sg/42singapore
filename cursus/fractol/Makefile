@@ -6,14 +6,14 @@
 #    By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/29 11:23:55 by vietnguy          #+#    #+#              #
-#    Updated: 2023/12/30 20:56:30 by vietnguy         ###   ########.fr        #
+#    Updated: 2023/12/30 22:13:53 by vietnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 INCLUDE:=./include
 TARGET:=fractol
 SRCDIR:=./src/
-SRC:=main complex free init render_mandelbrot events events_handler
+SRC:=main complex free init render events
 SRCS:=${addprefix ${SRCDIR}, ${SRC}}
 OBJS:=${SRCS:=.o}
 LIB:=libmlx.a libmlx_Linux.a libft.a gnl.a

@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 14:52:02 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/30 21:57:48 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/30 22:13:10 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ typedef struct s_fractol
 // Initialization
 void	init_fractol(t_fractol *g, int type);
 void	init_image(t_fractol *g, t_image *img);
-void	init_mandelbrot(t_fractol *g);
 void	init_image_map(t_fractol *g, t_img_map *img_map);
 
 // Free Memory
@@ -88,10 +87,11 @@ double		c_abssq(t_complex a);
 
 // Handle Events: Keyboard & Mouse
 void	register_events(t_fractol *g);
-int	esc_window(t_fractol *g);
 
 // Render Image
-void	zoom_mandelbrot(int mousecode, t_fractol *g);
-void	render_mandelbrot(t_fractol *g, t_image *img);
+int	get_iter_mandelbrot(t_complex c);
+void	render_init(t_fractol *g);
+void	render_zoom(int mousecode, t_fractol *g);
+void	render(t_fractol *g, t_image *img, int (*get_iter)());
 
 #endif

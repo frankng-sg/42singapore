@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render_mandelbrot.c                                :+:      :+:    :+:   */
+/*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 15:18:35 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/30 21:57:25 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/30 22:15:25 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../pkg/mlx/mlx.h"
 #include <stdio.h>
 
-static int	get_iter(t_complex c)
+int	get_iter_mandelbrot(t_complex c)
 {
 	t_complex	t;
 	int		iter;
@@ -26,7 +26,7 @@ static int	get_iter(t_complex c)
 	return (iter);
 }
 
-void	init_mandelbrot(t_fractol *g)
+void	render_init(t_fractol *g)
 {
 	g->re_start = g->zoom * RE_START;
 	g->im_start = g->zoom * IM_START;
@@ -35,17 +35,17 @@ void	init_mandelbrot(t_fractol *g)
 	g->color_scale = (1 << 24) / MAX_ITER;
 }
 
-void	zoom_mandelbrot(int mousecode, t_fractol *g)
+void	render_zoom(int mousecode, t_fractol *g)
 {
 	if (mousecode == SCROLL_DOWN)
 		g->zoom *= 0.9;
 	else if (mousecode == SCROLL_UP)
 		g->zoom *= 1.1;
-	init_mandelbrot(g);
-	render_mandelbrot(g, &g->img);
+	render_init(g);
+	render(g, &g->img, &get_iter_mandelbrot);
 }
 
-void	render_mandelbrot(t_fractol *g, t_image *img)
+void	render(t_fractol *g, t_image *img, int (*get_iter)())
 {
 	int		x;
 	int		y;
