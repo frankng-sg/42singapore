@@ -6,7 +6,7 @@
 /*   By: vietnguy <vietnguy@42mail.sutd.edu.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 13:51:52 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/31 10:50:23 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/31 21:30:03 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_error(char *msg)
 	exit(EXIT_FAILURE);
 }
 
-void	ft_menu()
+void	ft_menu(void)
 {
 	ft_printf("USAGE:\n");
 	ft_printf("./fractol [type] [options]\n");
@@ -59,7 +59,6 @@ static int	ft_isnumber(char *s)
 
 int	validate(int argc, char **argv)
 {
-	
 	if (argc <= 1 || argc > 4 || argc == 3 || argv == NULL)
 		return (0);
 	if (ft_strcmp(argv[1], "1") != 0 && ft_strcmp(argv[1], "2") != 0)
@@ -74,7 +73,7 @@ int	validate(int argc, char **argv)
 int	main(int argc, char **argv)
 {
 	t_fractol	g;
-	int		type;
+	int			type;
 
 	if (validate(argc, argv) == 0)
 		(ft_menu(), ft_error(ERR_INVALID_ARGS));
@@ -92,4 +91,3 @@ int	main(int argc, char **argv)
 	free_fractol(&g);
 	return (0);
 }
-

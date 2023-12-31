@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 15:29:51 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/31 18:41:39 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/31 21:37:41 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ void	init_fractol(t_fractol *g, int type)
 		g->win = mlx_new_window(g->mlx, WIDTH, HEIGHT, "Julia");
 	if (g->win == NULL)
 		(free_fractol(g), ft_error(ERR_INIT_WIN));
-	init_image(g, &g->img);
-	init_image_map(g, &g->img_map);
+	init_image(g);
+	init_image_map(g);
 }
 
-void	init_image_map(t_fractol *g, t_img_map *img_map)
+void	init_image_map(t_fractol *g)
 {
 	int	x;
 	int	y;
@@ -67,19 +67,19 @@ void	init_image_map(t_fractol *g, t_img_map *img_map)
 		x = -1;
 		while (++x < WIDTH)
 		{
-			(*img_map)[x][y] = g->img.addr + (y * g->img.line_len
-				+ x * (g->img.bits_per_pixel >> 3));
+			g->img_map[x][y] = (uintptr_t)(g->img.addr + (y * g->img.line_len
+						+ x * (g->img.bits_per_pixel >> 3)));
 		}
 	}
-} 
+}
 
-void	init_image(t_fractol *g, t_image *img)
+void	init_image(t_fractol *g)
 {
-	img->img = mlx_new_image(g->mlx, WIDTH, HEIGHT);
-	if (img->img == NULL)
+	g->img.img = mlx_new_image(g->mlx, WIDTH, HEIGHT);
+	if (g->img.img == NULL)
 		(free_fractol(g), ft_error(ERR_INIT_IMG));
-	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
-			&img->line_len, &img->endian);
-	if (img->addr == NULL)
+	g->img.addr = mlx_get_data_addr(g->img.img, &g->img.bits_per_pixel,
+			&g->img.line_len, &g->img.endian);
+	if (g->img.addr == NULL)
 		(free_fractol(g), ft_error(ERR_INIT_IMG));
 }

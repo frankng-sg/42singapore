@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 15:18:35 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/31 19:32:30 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/31 21:17:42 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,16 @@ void	render_fractol(t_fractol *g)
 {
 	if (g->type == 1)
 		render(g, &g->img, &get_iter_mandelbrot);
-	else if(g->type == 2)
+	else if (g->type == 2)
 		render(g, &g->img, &get_iter_julia);
 }
 
 void	render(t_fractol *g, t_image *img, int (*get_iter)())
 {
-	int		x;
-	int		y;
-	int		color;
-	int		iter;
+	int			x;
+	int			y;
+	int			color;
+	int			iter;
 	t_complex	c;
 
 	y = -1;
@@ -55,7 +55,7 @@ void	render(t_fractol *g, t_image *img, int (*get_iter)())
 		while (++x < WIDTH)
 		{
 			iter = get_iter(g, c);
-			color = g->color[iter]; 
+			color = g->color[iter];
 			*(unsigned int *)(g->img_map[x][y]) = color;
 			c.re += g->re_scale;
 		}

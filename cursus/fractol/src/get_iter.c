@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 15:18:35 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/31 18:21:24 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/31 21:28:49 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 int	get_iter_mandelbrot(t_fractol *g, t_complex c)
 {
 	t_complex	t;
-	int		iter;
+	int			iter;
 	double		cy2;
 	double		q;
 
@@ -40,7 +40,6 @@ int	get_iter_julia(t_fractol *g, t_complex c)
 
 	iter = -1;
 	while (++iter < MAX_ITER && c_abssq(c) <= 4)
-		c = c_add(c_mult(c, c), g->julia); 
-		
+		c = c_add(c_mult(c, c), g->julia);
 	return (iter);
 }
