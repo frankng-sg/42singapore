@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 14:52:02 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/30 23:58:19 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/31 10:32:49 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define RE_END 3.0 
 # define IM_START -3.0
 # define IM_END 3.0
-# define MAX_ITER 250
+# define MAX_ITER 100
 # define JULIA_CX -0.7
 # define JULIA_CY 0.27015
 
@@ -40,6 +40,17 @@
 # define ERR_INIT_WIN "fail to initialize window"
 # define ERR_INIT_IMG "fail to initialize image"
 void	ft_error(char *msg);
+
+// Handle Complex Number
+typedef struct s_complex
+{
+	double	re;
+	double	im;
+}	t_complex;
+t_complex	c_new(double re, double im);
+t_complex	c_mult(t_complex a, t_complex b);
+t_complex	c_add(t_complex a, t_complex b);
+double		c_abssq(t_complex a);	
 
 // Fractol Data Structure
 typedef struct s_image
@@ -66,6 +77,7 @@ typedef struct s_fractol
 	double	im_scale;
 	double	re_start;
 	double	im_start;
+	t_complex	julia;
 }	t_fractol;
 
 // Initialization
@@ -76,23 +88,12 @@ void	init_image_map(t_fractol *g, t_img_map *img_map);
 // Free Memory
 void	free_fractol(t_fractol *g);
 
-// Handle Complex Number
-typedef struct s_complex
-{
-	double	re;
-	double	im;
-}	t_complex;
-t_complex	c_new(double re, double im);
-t_complex	c_mult(t_complex a, t_complex b);
-t_complex	c_add(t_complex a, t_complex b);
-double		c_abssq(t_complex a);	
-
 // Handle Events: Keyboard & Mouse
 void	register_events(t_fractol *g);
 
 // Render Image
-int	get_iter_mandelbrot(t_complex c);
-int	get_iter_julia(t_complex c);
+int	get_iter_mandelbrot(t_fractol *g, t_complex c);
+int	get_iter_julia(t_fractol *g, t_complex c);
 void	render_init(t_fractol *g);
 void	render_zoom(int mousecode, t_fractol *g);
 void	render(t_fractol *g, t_image *img, int (*get_iter)());

@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 15:29:51 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/30 23:38:58 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/31 00:43:02 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	init_fractol(t_fractol *g, int type)
 	g->zoom = 1.0;
 	g->re_start = RE_START;
 	g->im_start = IM_START;
+	g->julia = c_new(JULIA_CX, JULIA_CY);
 	if (g->mlx == NULL)
 		ft_error(ERR_INIT_MLX);
 	if (type == 1)

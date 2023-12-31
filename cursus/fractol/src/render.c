@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 15:18:35 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/30 23:48:18 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/31 10:33:13 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	render(t_fractol *g, t_image *img, int (*get_iter)())
 		while (++x < WIDTH)
 		{
 			c.re = g->re_start + (double)x * g->re_scale;
-			iter = get_iter(c);
+			iter = get_iter(g, c);
 			color = iter * g->color_scale; 
 			*(unsigned int *)(g->img_map[x][y]) = color;
 		}

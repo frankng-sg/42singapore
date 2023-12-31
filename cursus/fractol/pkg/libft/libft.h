@@ -6,7 +6,7 @@
 /*   By: vietnguy <vietnguy@student.42singapore.sg  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:54:16 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/24 13:39:45 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/31 00:25:20 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,6 @@ int				ft_printf(const char *fmt, ...);
 void			ft_replace(char *s, char src, char dst);
 int				ft_strchr_count(const char *s, int c);
 char			*ft_strdup_ignore(const char *s, char ignore);
+double			ft_atod(char *str);
 
 #endif
