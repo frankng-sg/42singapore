@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 15:29:51 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/31 17:15:50 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/31 18:41:39 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ static	void	init(t_fractol *g)
 	g->zoom = 1.0;
 	g->re_start = RE_START;
 	g->im_start = IM_START;
+	g->shift_re = 0;
+	g->shift_im = 0;
 	color_scale = (1 << 24) / MAX_ITER;
 	i = 1;
 	g->color[0] = 0;

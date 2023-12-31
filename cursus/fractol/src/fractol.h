@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 14:52:02 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/31 17:16:13 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/31 18:41:50 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@
 #  define ESC 65307
 #  define SCROLL_UP 5
 #  define SCROLL_DOWN 4
+#  define ARR_UP 65364
+#  define ARR_DOWN 65362
+#  define ARR_RIGHT 65363
+#  define ARR_LEFT 65361
+#  define SPACE 32
 # else
 #  define ESC 53
 #  define SCROLL_UP 5
@@ -76,6 +81,8 @@ typedef struct s_fractol
 	double	im_scale;
 	double	re_start;
 	double	im_start;
+	int		shift_re;
+	int		shift_im;
 	t_complex	julia;
 	int	color[MAX_ITER + 1];
 }	t_fractol;
@@ -95,7 +102,7 @@ void	register_events(t_fractol *g);
 int	get_iter_mandelbrot(t_fractol *g, t_complex c);
 int	get_iter_julia(t_fractol *g, t_complex c);
 void	render_init(t_fractol *g);
-void	render_zoom(int mousecode, t_fractol *g);
+void	render_update(t_fractol *g);
 void	render(t_fractol *g, t_image *img, int (*get_iter)());
 void	render_fractol(t_fractol *g);
 

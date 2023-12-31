@@ -6,7 +6,7 @@
 /*   By: vietnguy <vietnguy@student.42singapore.sg  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 10:27:32 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/30 23:50:42 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/31 18:45:21 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,21 @@ static int	key_hook(int keycode, t_fractol *g)
 {
 	if (keycode == ESC)
 		esc_window(g);
+	if (keycode == ARR_UP)
+		g->shift_im += 1;
+	else if (keycode == ARR_DOWN)
+		g->shift_im -= 1;
+	else if (keycode == ARR_LEFT)
+		g->shift_re -= 1;
+	else if (keycode == ARR_RIGHT)
+		g->shift_re += 1;
+	else if (keycode == SPACE)
+	{
+		g->shift_re = 0;
+		g->shift_im = 0;
+		g->zoom = 1;
+	}
+	render_update(g);
 	return (0);
 }
 
@@ -31,7 +46,11 @@ static int	mouse_hook(int mousecode, int x, int y, t_fractol *g)
 {
 	(void)x;
 	(void)y;
-	render_zoom(mousecode, g);
+	if (mousecode == SCROLL_DOWN)
+		g->zoom *= 0.9;
+	else if (mousecode == SCROLL_UP)
+		g->zoom *= 1.1;
+	render_update(g);
 	return (0);
 }
 

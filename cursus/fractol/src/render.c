@@ -6,13 +6,12 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 15:18:35 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/31 17:18:09 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/31 18:55:21 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 #include "../pkg/mlx/mlx.h"
-#include <stdio.h>
 
 void	render_init(t_fractol *g)
 {
@@ -20,14 +19,12 @@ void	render_init(t_fractol *g)
 	g->im_start = g->zoom * IM_START;
 	g->re_scale = g->zoom * (double)(RE_END - RE_START) / (double)WIDTH;
 	g->im_scale = g->zoom * (double)(IM_END - IM_START) / (double)HEIGHT;
+	g->re_start += 9 * g->shift_re * g->re_scale;
+	g->im_start += 9 * g->shift_im * g->im_scale;
 }
 
-void	render_zoom(int mousecode, t_fractol *g)
+void	render_update(t_fractol *g)
 {
-	if (mousecode == SCROLL_DOWN)
-		g->zoom *= 0.9;
-	else if (mousecode == SCROLL_UP)
-		g->zoom *= 1.1;
 	render_init(g);
 	if (g->type == 1)
 		render(g, &g->img, &get_iter_mandelbrot);
