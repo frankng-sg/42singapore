@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 15:18:35 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/31 10:33:13 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/31 17:18:09 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	render_init(t_fractol *g)
 	g->im_start = g->zoom * IM_START;
 	g->re_scale = g->zoom * (double)(RE_END - RE_START) / (double)WIDTH;
 	g->im_scale = g->zoom * (double)(IM_END - IM_START) / (double)HEIGHT;
-	g->color_scale = (1 << 24) / MAX_ITER;
 }
 
 void	render_zoom(int mousecode, t_fractol *g)
@@ -53,17 +52,19 @@ void	render(t_fractol *g, t_image *img, int (*get_iter)())
 	t_complex	c;
 
 	y = -1;
+	c.im = g->im_start;
 	while (++y < HEIGHT)
 	{
-		c.im = g->im_start + (double)y * g->im_scale;
 		x = -1;
+		c.re = g->re_start;
 		while (++x < WIDTH)
 		{
-			c.re = g->re_start + (double)x * g->re_scale;
 			iter = get_iter(g, c);
-			color = iter * g->color_scale; 
+			color = g->color[iter]; 
 			*(unsigned int *)(g->img_map[x][y]) = color;
+			c.re += g->re_scale;
 		}
+		c.im += g->im_scale;
 	}
 	mlx_put_image_to_window(g->mlx, g->win, img->img, 0, 0);
 }

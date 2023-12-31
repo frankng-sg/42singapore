@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 15:29:51 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/31 00:43:02 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/31 17:15:50 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,33 @@
 #include "../pkg/mlx/mlx.h"
 #include <stdlib.h>
 
-void	init_fractol(t_fractol *g, int type)
+static	void	init(t_fractol *g)
 {
+	int	i;
+	int	color_scale;
+
 	g->mlx = NULL;
 	g->win = NULL;
 	g->img.img = NULL;
 	g->img.addr = NULL;
-	g->mlx = mlx_init();
-	g->type = type;
 	g->zoom = 1.0;
 	g->re_start = RE_START;
 	g->im_start = IM_START;
+	color_scale = (1 << 24) / MAX_ITER;
+	i = 1;
+	g->color[0] = 0;
+	while (i <= MAX_ITER)
+	{
+		g->color[i] = g->color[i - 1] + color_scale;
+		i++;
+	}
+}
+
+void	init_fractol(t_fractol *g, int type)
+{
+	init(g);
+	g->mlx = mlx_init();
+	g->type = type;
 	g->julia = c_new(JULIA_CX, JULIA_CY);
 	if (g->mlx == NULL)
 		ft_error(ERR_INIT_MLX);

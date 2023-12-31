@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 14:52:02 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/31 10:32:49 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/31 17:16:13 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,13 @@ typedef struct s_fractol
 	void	*win;
 	t_image	img;
 	double	zoom;
-	int	color_scale;
 	t_img_map	img_map;
 	double	re_scale;
 	double	im_scale;
 	double	re_start;
 	double	im_start;
 	t_complex	julia;
+	int	color[MAX_ITER + 1];
 }	t_fractol;
 
 // Initialization
