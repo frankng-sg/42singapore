@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 15:18:35 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/31 18:55:21 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/31 19:32:30 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,10 @@
 
 void	render_init(t_fractol *g)
 {
-	g->re_start = g->zoom * RE_START;
-	g->im_start = g->zoom * IM_START;
 	g->re_scale = g->zoom * (double)(RE_END - RE_START) / (double)WIDTH;
 	g->im_scale = g->zoom * (double)(IM_END - IM_START) / (double)HEIGHT;
-	g->re_start += 9 * g->shift_re * g->re_scale;
-	g->im_start += 9 * g->shift_im * g->im_scale;
+	g->re_start = g->zoom * RE_START + g->shift_re;
+	g->im_start = g->zoom * IM_START + g->shift_im;
 }
 
 void	render_update(t_fractol *g)

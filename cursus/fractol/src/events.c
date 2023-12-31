@@ -6,7 +6,7 @@
 /*   By: vietnguy <vietnguy@student.42singapore.sg  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 10:27:32 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/31 18:45:21 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/31 20:07:09 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ static int	key_hook(int keycode, t_fractol *g)
 	if (keycode == ESC)
 		esc_window(g);
 	if (keycode == ARR_UP)
-		g->shift_im += 1;
+		g->shift_im += SHIFT_STEP * g->im_scale;
 	else if (keycode == ARR_DOWN)
-		g->shift_im -= 1;
+		g->shift_im -= SHIFT_STEP * g->im_scale;
 	else if (keycode == ARR_LEFT)
-		g->shift_re -= 1;
+		g->shift_re -= SHIFT_STEP * g->re_scale;
 	else if (keycode == ARR_RIGHT)
-		g->shift_re += 1;
+		g->shift_re += SHIFT_STEP * g->re_scale;
 	else if (keycode == SPACE)
 	{
 		g->shift_re = 0;

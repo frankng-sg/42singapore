@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 14:52:02 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/31 18:41:50 by vietnguy         ###   ########.fr       */
+/*   Updated: 2023/12/31 20:07:21 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define MAX_ITER 100
 # define JULIA_CX -0.7
 # define JULIA_CY 0.27015
+# define SHIFT_STEP 10
 
 # if __linux
 #  define ESC 65307
@@ -81,8 +82,8 @@ typedef struct s_fractol
 	double	im_scale;
 	double	re_start;
 	double	im_start;
-	int		shift_re;
-	int		shift_im;
+	double	shift_re;
+	double	shift_im;
 	t_complex	julia;
 	int	color[MAX_ITER + 1];
 }	t_fractol;
