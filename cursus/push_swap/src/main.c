@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 11:40:59 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/28 23:02:16 by vietnguy         ###   ########.fr       */
+/*   Updated: 2024/01/01 13:07:01 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	ft_len(char **nums)
 int	main(int argc, char **argv)
 {
 	t_stack	*a;
-	char		**nums;
+	char	**nums;
 
 	if (argc <= 1 || !argv)
 		return (0);
