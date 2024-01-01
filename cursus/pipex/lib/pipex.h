@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 15:10:34 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/22 13:13:19 by vietnguy         ###   ########.fr       */
+/*   Updated: 2024/01/01 13:19:11 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PIPEX_H
@@ -24,6 +24,15 @@
 # define ERR_SOMETHING_WENT_WRONG "pipex: something went wrong"
 # define ERR_PIPE "pipex: pipe error"
 # define ERR_FORK "pipex: fork error"
+
+typedef struct s_params
+{
+	int		fin;
+	int		fout;
+	char	**argv;
+	char	**envp;
+	int		pipefd[2];
+}	t_params;
 
 char	*find_env_path(char **envp);
 char	**find_cmd_paths(char **envp);

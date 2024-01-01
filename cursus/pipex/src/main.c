@@ -6,21 +6,13 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 11:40:59 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/23 10:24:06 by vietnguy         ###   ########.fr       */
+/*   Updated: 2024/01/01 13:15:09 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../lib/gnl.h"
 #include "../lib/libft.h"
 #include "../lib/pipex.h"
-
-typedef struct s_params {
-	int		fin;
-	int		fout;
-	char	**argv;
-	char	**envp;
-	int		pipefd[2];
-}	t_params;
 
 char	**ft_split_cmd_args(char *s)
 {
@@ -41,7 +33,7 @@ char	**ft_split_cmd_args(char *s)
 	cmd_args[size - 1] = 0;
 	cmd_args[0] = ft_strndup(s, p - s);
 	if (*p && p[1])
-		cmd_args[1] = ft_strdup_ignore(p + 1, '"');	
+		cmd_args[1] = ft_strdup_ignore(p + 1, '"');
 	return (cmd_args);
 }
 
@@ -56,7 +48,7 @@ int	run_cmd(char *cmd, int infd, int outfd, char **envp)
 	dup2(infd, 0);
 	dup2(outfd, 1);
 	paths = find_cmd_paths(envp);
-	cmd_args = ft_split_cmd_args(cmd); 
+	cmd_args = ft_split_cmd_args(cmd);
 	cmd_name = cmd_args[0];
 	cmd_path = locate_cmd(paths, cmd_name);
 	free(paths);
