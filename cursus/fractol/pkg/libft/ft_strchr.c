@@ -6,7 +6,7 @@
 /*   By: vietnguy <vietnguy@student.42singapore.sg  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:16:12 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/22 23:13:18 by vietnguy         ###   ########.fr       */
+/*   Updated: 2024/01/01 13:20:45 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,4 @@ int	ft_strchr_count(const char *s, int c)
 		s++;
 	}
 	return (count);
-
 }

@@ -6,12 +6,11 @@
 /*   By: vietnguy <vietnguy@42mail.sutd.edu.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 13:51:52 by vietnguy          #+#    #+#             */
-/*   Updated: 2023/12/31 21:30:03 by vietnguy         ###   ########.fr       */
+/*   Updated: 2024/01/01 13:21:54 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pkg/libft/libft.h"
-#include "../pkg/gnl/gnl.h"
 #include "../pkg/mlx/mlx.h"
 #include "fractol.h"
 #include <stdlib.h>
