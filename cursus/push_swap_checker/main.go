@@ -217,7 +217,13 @@ func runTests(tests []exam.Test) {
             continue
         }
         solution := extractSolution(stdout)
-        if !judge.VerifySolution(toInts(t.Args), solution) {
+        var inputs []int
+        if strings.Contains(t.Args, "$ARG") {
+            inputs = toInts(os.Getenv("ARG"))
+        } else {
+            inputs = toInts(t.Args)
+        }
+        if !judge.VerifySolution(inputs, solution) {
             showFail("stack is not sorted")
             cntFail++
             continue

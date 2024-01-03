@@ -80,8 +80,8 @@ func NewTestSuite() []Test {
             "1 2 3 4 5 6 7 8 9 10 11 12", false, false, nil,
         },
         {
-            `Work with: ARG="1 0 2"; ./push_swap $ARG`, `ARG="1 0 2"; ./push_swap`,
-            "1 0 2", false, true, []int{1},
+            `Work with: ARG="1 0 2"; ./push_swap $ARG`, `export ARG="1 0 2" && ./push_swap`,
+            "$ARG", false, true, []int{1},
         },
         {
             "Display max 3 ops for '42-picked' three numbers", defaultCmd,
