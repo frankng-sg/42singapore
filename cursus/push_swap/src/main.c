@@ -6,7 +6,7 @@
 /*   By: vietnguy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 11:40:59 by vietnguy          #+#    #+#             */
-/*   Updated: 2024/01/01 13:07:01 by vietnguy         ###   ########.fr       */
+/*   Updated: 2024/01/04 14:00:16 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int	main(int argc, char **argv)
 		a = init_stack(argc, argv + 1);
 	}
 	if (a == NULL)
-		return (ft_printf(ERR_MSG), 0);
+		return (ft_free2(nums), ft_printf(ERR_MSG), 0);
 	a = ft_sort(a, argc);
 	ft_free_stack(a);
 	ft_free2(nums);
