@@ -12,8 +12,8 @@
 
 #include "../lib/libft.h"
 #include "../lib/push_swap.h"
-#include <stdio.h>
 #include <limits.h>
+#include <stdio.h>
 
 void	reindex(int *nums, int lnums)
 {

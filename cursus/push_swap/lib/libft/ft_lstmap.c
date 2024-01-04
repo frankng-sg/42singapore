@@ -12,7 +12,7 @@
 
 #include "../libft.h"
 
-static t_list	*do_lstmap( \
+static t_list	*do_lstmap(
 	t_list *root, t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
 	t_list	*node;

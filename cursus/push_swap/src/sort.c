@@ -18,7 +18,7 @@ t_stack	*radix_sort(t_stack *a, int size)
 {
 	t_stack	*b;
 	int		i;
-	int		cnt;	
+	int		cnt;
 	int		max_bit;
 
 	i = 0;

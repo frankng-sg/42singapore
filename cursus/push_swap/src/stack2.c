@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../lib/push_swap.h"
 #include "../lib/libft.h"
+#include "../lib/push_swap.h"
 #include <stdlib.h>
 
 t_stack	*search(t_stack *head, int key)

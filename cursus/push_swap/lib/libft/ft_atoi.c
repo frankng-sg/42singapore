@@ -15,8 +15,8 @@
 
 static int	ft_isspace(char c)
 {
-	return (c == ' ' || c == '\n' || c == '\t' \
-		|| c == '\v' || c == '\r' || c == '\f');
+	return (c == ' ' || c == '\n' || c == '\t' || c == '\v' || c == '\r'
+		|| c == '\f');
 }
 
 int	ft_atoi(const char *str)

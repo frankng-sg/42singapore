@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../lib/push_swap.h"
 #include "../lib/libft.h"
+#include "../lib/push_swap.h"
 
 void	ft_push2(t_stack **src, t_stack **dst)
 {
