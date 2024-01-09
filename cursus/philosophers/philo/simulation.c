@@ -12,29 +12,42 @@
 
 #include "philo.h"
 
-static int	start_simulation(t_global *g)
+static int	generate_philo(t_global *g)
 {
 	int	i;
 
-	g->sim.start_time = current_time_ms();
-	g->sim.completed = 0;
 	i = -1;
 	while (++i < g->n_philos)
 	{
-		g->philos[i].last_meal = g->sim.start_time;
-		g->philos[i].id = i + 1;
-		g->philos[i].n_meals = 0;
-		g->philos[i].g = (void *)g;
 		if (pthread_create(&g->philos[i].thread, NULL, &philo_routine,
 				&g->philos[i]) != 0)
 			return (with_error(ERR_INIT_THREAD));
 	}
-	if (pthread_create(&g->doctor, NULL, &health_monitor, g) != 0)
-	{
-		g->sim.completed = 1;
-		return (with_error(ERR_INIT_THREAD));
-	}
 	return (0);
+}
+
+static int	start_simulation(t_global *g)
+{
+	int		i;
+	time_t	now;
+
+	now = current_time_ms();
+	g->sim.start_time = now;
+	g->sim.completed = 0;
+	i = -1;
+	while (++i < g->n_philos)
+	{
+		g->philos[i].id = i + 1;
+		g->philos[i].t_end_meal = 0;
+		g->philos[i].n_meals = 0;
+		if (i % 2 == 0)
+			g->philos[i].status = READY_TO_EAT;
+		else
+			g->philos[i].status = READY_TO_THINK;
+		g->philos[i].g = (void *)g;
+	}
+	g->philos[g->n_philos - 1].status = READY_TO_THINK;
+	return (generate_philo(g));
 }
 
 int	run_simulation(t_global *g)
@@ -46,6 +59,5 @@ int	run_simulation(t_global *g)
 	i = -1;
 	while (++i < g->n_philos)
 		pthread_join(g->philos[i].thread, NULL);
-	pthread_join(g->doctor, NULL);
 	return (0);
 }

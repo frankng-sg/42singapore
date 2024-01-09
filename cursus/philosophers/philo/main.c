@@ -34,7 +34,7 @@ static void	initialize(t_global *g, int argc, char **argv)
 	(void)argc;
 	(void)argv;
 	g->n_philos = 3;
-	g->n_meals = 10;
+	g->n_meals = 3;
 	g->t2live = 600;
 	g->t2eat = 100;
 	g->t2sleep = 100;

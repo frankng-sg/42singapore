@@ -37,12 +37,28 @@ typedef struct s_simulation
 	int				completed;
 }					t_simulation;
 
+typedef enum e_status
+{
+	READY_TO_THINK,
+	THINKING,
+	READY_TO_EAT,
+	EATING,
+	READY_TO_SLEEP,
+	SLEEPING,
+	GOT_LEFT_FORK,
+	GOT_RIGHT_FORK,
+	DEAD
+}					t_status;
+
 typedef struct s_philo
 {
 	int				id;
 	int				n_meals;
-	time_t			last_meal;
+	time_t			t_end_meal;
+	time_t			t_end_sleep;
+	time_t			t_end_think;
 	pthread_t		thread;
+	t_status		status;
 	void			*g;
 }					t_philo;
 
@@ -53,21 +69,10 @@ typedef struct s_global
 	int				t2live;
 	int				t2eat;
 	int				t2sleep;
-	pthread_t		doctor;
 	t_simulation	sim;
 	t_philo			philos[MAX_PHILOS];
 	pthread_mutex_t	forks[MAX_PHILOS];
 }					t_global;
-
-typedef enum e_status
-{
-	THINKING,
-	EATING,
-	SLEEPING,
-	DEAD,
-	TAKING_LEFT_FORK,
-	TAKING_RIGHT_FORK,
-}					t_status;
 
 /******************************************************************************
 * ERRORS                                                                      *
@@ -91,5 +96,13 @@ int					with_error(char *msg);
 // routine.c
 void				*philo_routine(void *arg);
 void				*health_monitor(void *arg);
+
+// util.c
+char				*ft_str_status(t_status status);
+int					ft_is_dead(t_global *g, t_philo *p);
+
+// fork.c
+void				ft_get_fork(t_global *g, int id);
+void				ft_return_fork(t_global *g, int id);
 
 #endif
