@@ -9,8 +9,11 @@ RM:=rm -rf
 .PHONY: all clean fclean re
 
 all: ${TARGET}
-${TARGET}: ${OBJS} ${LIB}
+${TARGET}: ${OBJS}
 	@$(CC) $(CFLAGS) $(OBJS) -o ${TARGET}
+
+${OBJS}:
+
 %.o: %.c
 	@$(CC) $(CFLAGS) -o $@ -c $<
 clean:
