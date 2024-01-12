@@ -6,7 +6,7 @@
 /*   By: vietnguy <vietnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 19:45:44 by vietnguy          #+#    #+#             */
-/*   Updated: 2024/01/04 20:27:55 by vietnguy         ###   ########.fr       */
+/*   Updated: 2024/01/12 21:38:28 by vietnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void *philo_routine(void *arg) {
 
   p = (t_philo *)arg;
   g = (t_global *)p->g;
-  if (g == NULL || g->n_meals <= 0 || g->t2live <= 0)
+  if (g == NULL || g->t2live <= 0)
     return (NULL);
   while (!g->sim.completed && p->status != DEAD) {
     if (g->n_meals >= 0 && p->n_meals >= g->n_meals)
