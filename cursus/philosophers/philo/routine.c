@@ -15,7 +15,7 @@
 static void philo_eat(t_global *g, t_philo *p) {
   if (p->status == READY_TO_EAT)
     (ft_get_fork(g, p->id - 1), p->status = GOT_LEFT_FORK);
-  else if (p->status == GOT_LEFT_FORK)
+  else if (p->status == GOT_LEFT_FORK && g->n_philos > 1)
     (ft_get_fork(g, p->id + 1), p->status = GOT_RIGHT_FORK);
   else if (p->status == GOT_RIGHT_FORK) {
     p->t_end_meal = current_time_ms() - g->sim.start_time + g->t2eat;
@@ -61,13 +61,13 @@ static void philo_think(t_global *g, t_philo *p) {
 static void philo_die(t_global *g, t_philo *p) {
   int i;
   time_t now;
-
-  now = current_time_ms() - g->sim.start_time;
+  
   i = -1;
   while (++i < g->n_philos)
     pthread_mutex_unlock(&g->forks[i]);
   p->status = DEAD;
   g->sim.completed = 1;
+  now = current_time_ms() - g->sim.start_time;
   printf("%ld %d %s\n", now, p->id, ft_str_status(DEAD));
 }
 
