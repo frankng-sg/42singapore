@@ -128,7 +128,7 @@ func (b *BookKeeper) Add(philoId int, e PhiloEvent) error {
 }
 
 func (b *BookKeeper) Finalize() error {
-	cntDeath := 0
+	var deathTime int64
 	for i := 1; i <= b.NPhilos; i++ {
 		p := b.Philos[i]
 		if p.NMeals > 0 {
@@ -140,14 +140,14 @@ func (b *BookKeeper) Finalize() error {
 				if i != len(p.Events)-1 {
 					return errors.New("philosopher is still active after death")
 				}
-				cntDeath += 1
+				if deathTime == 0 {
+					deathTime = p.Events[i].Timestamp
+				} else if p.Events[i].Timestamp != deathTime {
+					return errors.New("simulation does not stop right after a philosopher dies")
+				}
 			}
 		}
 	}
-	if cntDeath > 1 {
-		return errors.New("simulation does not stop right after a philosopher dies")
-	} else if cntDeath == 1 {
-		b.DeathHappened = true
-	}
+	b.DeathHappened = deathTime != 0
 	return nil
 }
