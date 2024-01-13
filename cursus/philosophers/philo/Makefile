@@ -1,5 +1,5 @@
 TARGET:=philo
-SRC:=error fork main routine simulation time util
+SRC:=error fork main philo_routine doctor_routine simulation time util
 OBJS:=${SRC:=.o}
 CC:=cc
 CFLAGS:=-g -std=c99 -Wall -Wextra -Werror

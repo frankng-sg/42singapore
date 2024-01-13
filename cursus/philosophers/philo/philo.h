@@ -66,6 +66,7 @@ typedef struct s_global {
   int t2eat;
   int t2sleep;
   t_simulation sim;
+  pthread_t doctor;
   t_philo philos[MAX_PHILOS];
   pthread_mutex_t forks[MAX_PHILOS];
 } t_global;
@@ -89,14 +90,18 @@ time_t current_time_ms(void);
 // error.c
 int with_error(char *msg);
 
-// routine.c
+// philo_routine.c
 void *philo_routine(void *arg);
+
+// doctor_routine.c
+void *doctor_routine(void *arg);
 
 // util.c
 char *ft_str_status(t_status status);
 int ft_is_dead(t_global *g, t_philo *p);
 int ft_positive_integer(const char *s);
 int ft_atoi(const char *s);
+void ft_write_status(time_t now, int id, const char *status);
 
 // fork.c
 void ft_get_fork(t_global *g, int id);

@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-static int generate_philo(t_global *g) {
+static int create_threads(t_global *g) {
   int i;
 
   i = -1;
@@ -21,6 +21,8 @@ static int generate_philo(t_global *g) {
                        &g->philos[i]) != 0)
       return (with_error(ERR_INIT_THREAD));
   }
+  if (pthread_create(&g->doctor, NULL, &doctor_routine, g) != 0)
+    return (with_error(ERR_INIT_THREAD));
   return (0);
 }
 
@@ -42,7 +44,7 @@ static int start_simulation(t_global *g) {
   }
   g->philos[g->n_philos - 1].status = READY_TO_THINK;
   g->sim.start_time = current_time_ms();
-  return (generate_philo(g));
+  return (create_threads(g));
 }
 
 int run_simulation(t_global *g) {

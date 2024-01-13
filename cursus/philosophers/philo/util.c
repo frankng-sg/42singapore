@@ -1,5 +1,9 @@
 #include "philo.h"
 
+void ft_write_status(time_t now, int id, const char *status) {
+  printf("%ld %d %s\n", now, id, status);
+}
+
 char *ft_str_status(t_status status) {
   if (status == EATING)
     return ("is eating");
