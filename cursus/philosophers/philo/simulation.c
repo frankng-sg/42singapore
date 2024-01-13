@@ -26,10 +26,7 @@ static int generate_philo(t_global *g) {
 
 static int start_simulation(t_global *g) {
   int i;
-  time_t now;
 
-  now = current_time_ms();
-  g->sim.start_time = now;
   g->sim.completed = 0;
   i = -1;
   while (++i < g->n_philos) {
@@ -44,6 +41,7 @@ static int start_simulation(t_global *g) {
     g->philos[i].g = (void *)g;
   }
   g->philos[g->n_philos - 1].status = READY_TO_THINK;
+  g->sim.start_time = current_time_ms();
   return (generate_philo(g));
 }
 

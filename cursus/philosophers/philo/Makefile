@@ -10,14 +10,14 @@ RM:=rm -rf
 
 all: ${TARGET}
 ${TARGET}: ${OBJS}
-	@$(CC) $(CFLAGS) $(OBJS) -o ${TARGET}
+	$(CC) $(CFLAGS) $(OBJS) -o ${TARGET}
 
 ${OBJS}:
 
 %.o: %.c
-	@$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC) $(CFLAGS) -o $@ -c $<
 clean:
-	@$(RM) $(OBJS) $(LIB)
+	$(RM) $(OBJS) $(LIB)
 fclean: clean
-	@$(RM) $(TARGET)
+	$(RM) $(TARGET)
 re: fclean all
