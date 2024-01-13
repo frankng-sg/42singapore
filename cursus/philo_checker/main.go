@@ -81,7 +81,7 @@ func runTest(testNo int, t exam.TestData, timeout time.Duration) error {
 }
 
 func runTests(tests []exam.TestData) {
-	timeout := 10 * time.Second
+	timeout := 20 * time.Second
 	fmt.Println(logo.Logo())
 	cntOK := 0
 	cntKO := 0
@@ -89,20 +89,13 @@ func runTests(tests []exam.TestData) {
 	for i, t := range tests {
 		err := runTest(i, t, timeout)
 		if err != nil {
-			if err.Error() != "timeout" {
-				color.Red("[KO] ...%s\n", err.Error())
-				cntKO++
-			} else if t.ExpectDeath {
-				color.Red("[KO] ...philosopher should die\n")
-				cntKO++
-			} else {
-				color.Green("[OK]\n")
-				cntOK++
-			}
+			color.Red("[KO] ...%s\n", err.Error())
+			cntKO++
 		} else {
 			color.Green("[OK]\n")
 			cntOK++
 		}
+
 	}
 	fmt.Println()
 	fmt.Println("TOTAL:",

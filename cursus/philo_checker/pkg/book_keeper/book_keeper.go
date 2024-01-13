@@ -1,6 +1,8 @@
 package book_keeper
 
-import "errors"
+import (
+	"errors"
+)
 
 const DeathNoticeLatency = 10 // in milliseconds
 
@@ -69,7 +71,7 @@ func validateEvent(b *BookKeeper, philoId int, e PhiloEvent) error {
 		return errors.New("invalid philosopher ID")
 	}
 	if e.Type != Dead && e.Timestamp > int64(b.T2Live)+b.Philos[philoId].LastMeal {
-		return errors.New("philosopher is dead")
+		return errors.New("philosopher is still active after death")
 	}
 	events := &b.Philos[philoId].Events
 	nEvents := len(*events)
@@ -81,9 +83,6 @@ func validateEvent(b *BookKeeper, philoId int, e PhiloEvent) error {
 		if nEvents < 2 || (*events)[nEvents-1].Type != HoldingFork ||
 			(*events)[nEvents-2].Type != HoldingFork {
 			return errors.New("philosopher does not hold two forks before eating")
-		}
-		if b.Philos[philoId].NMeals < 0 {
-			return errors.New("philosopher has exceeded number of allowed meals")
 		}
 	case HoldingFork:
 		holdingForkEvents := 0
@@ -105,7 +104,7 @@ func validateEvent(b *BookKeeper, philoId int, e PhiloEvent) error {
 	case Sleeping:
 		releaseFork(philoId, b.Forks)
 		if nEvents < 1 || (*events)[nEvents-1].Type != Eating {
-			return errors.New("philosopher does not before sleeping")
+			return errors.New("philosopher does not eat before sleeping")
 		}
 	case Dead:
 		if e.Timestamp > int64(b.T2Live)+b.Philos[philoId].LastMeal+int64(b.DeathNoticeLatency) {
@@ -134,9 +133,6 @@ func (b *BookKeeper) Finalize() error {
 		p := b.Philos[i]
 		if p.NMeals > 0 {
 			return errors.New("philosopher has not eaten enough meals")
-		}
-		if len(p.Events) > 0 && p.Events[len(p.Events)-1].Type != Eating && p.Events[len(p.Events)-1].Type != Dead {
-			return errors.New("philosopher is not eating or dying at the end")
 		}
 
 		for i := len(p.Events) - 1; i >= 0; i-- {
