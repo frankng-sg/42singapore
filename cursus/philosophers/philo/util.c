@@ -19,7 +19,7 @@ int ft_is_dead(t_global *g, t_philo *p) {
   time_t now;
 
   now = current_time_ms() - g->sim.start_time;
-  return (p->status == DEAD || now > p->t_end_meal + g->t2live);
+  return (p->status == DEAD || now >= p->t_last_meal + g->t2live);
 }
 
 int ft_positive_integer(const char *s) {

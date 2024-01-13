@@ -51,7 +51,7 @@ typedef enum e_status {
 typedef struct s_philo {
   int id;
   int n_meals;
-  time_t t_end_meal;
+  time_t t_last_meal;
   time_t t_end_sleep;
   time_t t_end_think;
   pthread_t thread;

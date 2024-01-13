@@ -34,7 +34,7 @@ static int start_simulation(t_global *g) {
   i = -1;
   while (++i < g->n_philos) {
     g->philos[i].id = i + 1;
-    g->philos[i].t_end_meal = 0;
+    g->philos[i].t_last_meal = 0;
     g->philos[i].n_meals = g->n_meals;
     if (i % 2 == 0)
       g->philos[i].status = READY_TO_EAT;
