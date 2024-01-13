@@ -47,12 +47,16 @@ static void philo_sleep(t_global *g, t_philo *p) {
 
 static void philo_think(t_global *g, t_philo *p) {
   time_t now;
+  time_t t_think;
 
   now = current_time_ms() - g->sim.start_time;
   if (p->status == READY_TO_THINK) {
     printf("%ld %d %s\n", now, p->id, ft_str_status(THINKING));
     p->status = THINKING;
-    p->t_end_think = (g->t2live + p->t_last_meal - now - g->t2eat) / 2 + now;
+    t_think = (g->t2live - (now - p->t_last_meal) - g->t2eat) / 2;
+    if (t_think < 10)
+      t_think = 10;
+    p->t_end_think = now + t_think;
   } else if (p->status == THINKING && now >= p->t_end_think) {
     p->status = READY_TO_EAT;
   }
