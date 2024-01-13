@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"github.com/fatih/color"
 	"philo_checker/pkg/book_keeper"
@@ -12,76 +13,87 @@ import (
 	"time"
 )
 
-func runTests(tests []exam.TestData) {
+func runCmd(t exam.TestData, keeper *book_keeper.BookKeeper, handler *cmd.CommandHandler) error {
+	if err := handler.Run(); err != nil {
+		return errors.New("something went wrong")
+	}
+	for !handler.EOF() {
+		event := handler.Read()
+		parts := strings.Split(event, " ")
+		timestamp, err := strconv.ParseInt(parts[0], 10, 64)
+		if err != nil {
+			return errors.New("incorrect timestamp")
+		}
+		philoId, err := strconv.Atoi(parts[1])
+		if err != nil {
+			return errors.New("incorrect philosopher id")
+		}
+		eventDesc := strings.Join(parts[2:], " ")
+		err = keeper.Add(philoId, book_keeper.PhiloEvent{
+			Timestamp: timestamp,
+			Type:      book_keeper.GetPhiloEventType(eventDesc),
+		})
+		if err != nil {
+			return err
+		}
+	}
+	err := keeper.Finalize()
+	if err != nil {
+		return err
+	} else if t.ExpectDeath && !keeper.DeathHappened {
+		return errors.New("philosopher should die")
+	} else if !t.ExpectDeath && keeper.DeathHappened {
+		return errors.New("philosopher should not die")
+	}
+	return nil
+}
+
+func runTest(testNo int, t exam.TestData, timeout time.Duration) error {
 	var cmdStr string
-	timeout := time.Minute
+
+	if t.NMeals == -1 {
+		cmdStr = fmt.Sprintf("./philo %d %d %d %d", t.NPhilos, t.T2Live, t.T2Eat, t.T2Sleep)
+	} else {
+		cmdStr = fmt.Sprintf("./philo %d %d %d %d %d", t.NPhilos, t.T2Live, t.T2Eat, t.T2Sleep, t.NMeals)
+	}
+	fmt.Printf("TEST %d: %s ", testNo, cmdStr)
+	chErr := make(chan error)
+	handler := cmd.NewCommandHandler(cmdStr)
+	defer handler.Kill()
+	keeper := book_keeper.NewBookKeeper(t.NPhilos, t.T2Live, t.T2Eat, t.T2Sleep, t.NMeals)
+	go func() {
+		chErr <- runCmd(t, keeper, handler)
+	}()
+	select {
+	case err := <-chErr:
+		return err
+	case <-time.After(timeout):
+		if err := keeper.Finalize(); err != nil {
+			return err
+		}
+		return errors.New("timeout")
+	}
+}
+
+func runTests(tests []exam.TestData) {
+	timeout := 10 * time.Second
 	fmt.Println(logo.Logo())
 	cntOK := 0
 	cntKO := 0
 
 	for i, t := range tests {
-		if t.NMeals == -1 {
-			cmdStr = fmt.Sprintf("./philo %d %d %d %d", t.NPhilos, t.T2Live, t.T2Eat, t.T2Sleep)
-		} else {
-			cmdStr = fmt.Sprintf("./philo %d %d %d %d %d", t.NPhilos, t.T2Live, t.T2Eat, t.T2Sleep, t.NMeals)
-		}
-		fmt.Printf("TEST %d: %s ", i, cmdStr)
-		stdout, stderr := cmd.Run(cmdStr, timeout)
-		if stderr != "" {
-			color.Red("[KO] ...should not throw error message\n")
-			cntKO++
-			continue
-		}
-		if stdout == "" {
-			color.Red("[KO] ...should not print nothing\n")
-			cntKO++
-			continue
-		}
-		keeper := book_keeper.NewBookKeeper(1, 800, 200, 200, -1)
-		events := strings.Split(stdout, "\n")
-		events = events[:len(events)-1]
-		failed := false
-		for _, event := range events {
-			parts := strings.Split(event, " ")
-			timestamp, err := strconv.ParseInt(parts[0], 10, 64)
-			if err != nil {
-				color.Red("[KO] ...incorrect timestamp\n")
-				cntKO++
-				failed = true
-				break
-			}
-			philoId, err := strconv.Atoi(parts[1])
-			if err != nil {
-				color.Red("[KO] ...incorrect philosopher id\n")
-				cntKO++
-				failed = true
-				break
-			}
-			eventDesc := strings.Join(parts[2:], " ")
-			err = keeper.Add(philoId, book_keeper.PhiloEvent{
-				Timestamp: timestamp,
-				Type:      book_keeper.GetPhiloEventType(eventDesc),
-			})
-			if err != nil {
-				color.Red(fmt.Sprintf("[KO] ...%s\n", err.Error()))
-				cntKO++
-				failed = true
-				break
-			}
-		}
-		if failed {
-			continue
-		}
-		err := keeper.Finalize()
+		err := runTest(i, t, timeout)
 		if err != nil {
-			color.Red(fmt.Sprintf("[KO] ...%s\n", err.Error()))
-			cntKO++
-		} else if t.ExpectDeath && !keeper.DeathHappened {
-			color.Red("[KO] ...philosopher should die\n")
-			cntKO++
-		} else if !t.ExpectDeath && keeper.DeathHappened {
-			color.Red("[KO] ...philosopher should not die\n")
-			cntKO++
+			if err.Error() != "timeout" {
+				color.Red("[KO] ...%s\n", err.Error())
+				cntKO++
+			} else if t.ExpectDeath {
+				color.Red("[KO] ...philosopher should die\n")
+				cntKO++
+			} else {
+				color.Green("[OK]\n")
+				cntOK++
+			}
 		} else {
 			color.Green("[OK]\n")
 			cntOK++

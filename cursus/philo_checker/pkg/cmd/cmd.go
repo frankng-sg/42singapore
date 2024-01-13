@@ -1,33 +1,38 @@
 package cmd
 
 import (
-	"bytes"
+	"bufio"
 	"os/exec"
-	"time"
 )
 
-func Run(command string, timeout time.Duration) (string, string) {
-	var stdout bytes.Buffer
-	var stderr bytes.Buffer
+type CommandHandler struct {
+	Cmd     string
+	handler *exec.Cmd
+	stdout  *bufio.Scanner
+}
 
-	cmd := exec.Command("bash", "-c", command)
-	cmd.Stdout = &stdout
-	cmd.Stderr = &stderr
+func NewCommandHandler(command string) *CommandHandler {
+	return &CommandHandler{Cmd: command}
+}
 
-	goRunCmd := func() <-chan struct{} {
-		done := make(chan struct{})
-		go func() {
-			defer close(done)
-			cmd.Run()
-		}()
-		return done
+func (c *CommandHandler) Run() error {
+	c.handler = exec.Command("bash", "-c", c.Cmd)
+	stdout, err := c.handler.StdoutPipe()
+	if err != nil {
+		return err
 	}
+	c.stdout = bufio.NewScanner(stdout)
+	return c.handler.Start()
+}
 
-	select {
-	case <-goRunCmd():
-		return stdout.String(), stderr.String()
-	case <-time.After(timeout):
-		cmd.Process.Kill()
-		return "", ""
-	}
+func (c *CommandHandler) EOF() bool {
+	return !c.stdout.Scan()
+}
+
+func (c *CommandHandler) Read() string {
+	return c.stdout.Text()
+}
+
+func (c *CommandHandler) Kill() error {
+	return c.handler.Process.Kill()
 }

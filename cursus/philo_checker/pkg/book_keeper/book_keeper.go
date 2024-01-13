@@ -95,7 +95,7 @@ func validateEvent(b *BookKeeper, philoId int, e PhiloEvent) error {
 		if holdingForkEvents > 1 {
 			return errors.New("philosopher is holding more than two forks")
 		}
-		if (*events)[nEvents-1].Type != HoldingFork && holdingForkEvents > 0 {
+		if nEvents >= 1 && (*events)[nEvents-1].Type != HoldingFork && holdingForkEvents > 0 {
 			return errors.New("philosopher is doing something else while picking up forks to eat")
 		}
 		if err := validateFork(philoId, b.Forks); err != nil {
