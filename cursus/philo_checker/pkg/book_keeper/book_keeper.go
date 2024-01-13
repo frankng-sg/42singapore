@@ -30,6 +30,9 @@ func NewBookKeeper(NPhilos, T2Live, T2Eat, T2Sleep, NMeals int) *BookKeeper {
 		NMeals:             NMeals,
 	}
 	keeper.Forks[0] = Taken
+	for i := range keeper.Philos {
+		keeper.Philos[i].NMeals = NMeals
+	}
 	return keeper
 }
 
@@ -43,21 +46,16 @@ func getForkId(philoId, nForks int) (int, int) {
 	return leftForkId, rightForkId
 }
 
-func validateFork(philoId int, forks []ForkStatus) error {
-	leftForkId, rightForkId := getForkId(philoId, len(forks)-1)
-	if forks[leftForkId] != Available && forks[rightForkId] != Available {
-		return errors.New("philo should not duplicate forks")
-	}
-	return nil
-}
-
-func grabFork(philoId int, forks []ForkStatus) {
+func grabFork(philoId int, forks []ForkStatus) error {
 	leftForkId, rightForkId := getForkId(philoId, len(forks)-1)
 	if forks[leftForkId] == Available {
 		forks[leftForkId] = Taken
 	} else if forks[rightForkId] == Available {
 		forks[rightForkId] = Taken
+	} else {
+		return errors.New("philo should not duplicate forks")
 	}
+	return nil
 }
 
 func releaseFork(philoId int, forks []ForkStatus) {
@@ -67,7 +65,7 @@ func releaseFork(philoId int, forks []ForkStatus) {
 }
 
 func validateEvent(b *BookKeeper, philoId int, e PhiloEvent) error {
-	if (philoId <= 0) || (philoId > b.NPhilos) {
+	if (philoId < 1) || (philoId > b.NPhilos) {
 		return errors.New("invalid philosopher ID")
 	}
 	if e.Type != Dead && e.Timestamp > int64(b.T2Live)+b.Philos[philoId].LastMeal {
@@ -97,10 +95,9 @@ func validateEvent(b *BookKeeper, philoId int, e PhiloEvent) error {
 		if nEvents >= 1 && (*events)[nEvents-1].Type != HoldingFork && holdingForkEvents > 0 {
 			return errors.New("philosopher is doing something else while picking up forks to eat")
 		}
-		if err := validateFork(philoId, b.Forks); err != nil {
+		if err := grabFork(philoId, b.Forks); err != nil {
 			return err
 		}
-		grabFork(philoId, b.Forks)
 	case Sleeping:
 		releaseFork(philoId, b.Forks)
 		if nEvents < 1 || (*events)[nEvents-1].Type != Eating {
@@ -131,10 +128,6 @@ func (b *BookKeeper) Finalize() error {
 	var deathTime int64
 	for i := 1; i <= b.NPhilos; i++ {
 		p := b.Philos[i]
-		if p.NMeals > 0 {
-			return errors.New("philosopher has not eaten enough meals")
-		}
-
 		for i := len(p.Events) - 1; i >= 0; i-- {
 			if p.Events[i].Type == Dead {
 				if i != len(p.Events)-1 {
@@ -149,5 +142,12 @@ func (b *BookKeeper) Finalize() error {
 		}
 	}
 	b.DeathHappened = deathTime != 0
+	if !b.DeathHappened {
+		for i := 1; i <= b.NPhilos; i++ {
+			if b.Philos[i].NMeals > 0 {
+				return errors.New("philosopher has not eaten enough meals")
+			}
+		}
+	}
 	return nil
 }

@@ -13,13 +13,17 @@ import (
 	"time"
 )
 
-func runCmd(t exam.TestData, keeper *book_keeper.BookKeeper, handler *cmd.CommandHandler) error {
-	if err := handler.Run(); err != nil {
-		return errors.New("something went wrong")
+func runCmd(t exam.TestData, keeper *book_keeper.BookKeeper, command string, timeout time.Duration) error {
+	out, err := cmd.Run(command, timeout)
+	if err != nil {
+		return err
 	}
-	for !handler.EOF() {
-		event := handler.Read()
-		parts := strings.Split(event, " ")
+	events := strings.Split(out, "\n")
+	for i := 0; i < len(events); i++ {
+		if events[i] == "" {
+			break
+		}
+		parts := strings.Split(events[i], " ")
 		timestamp, err := strconv.ParseInt(parts[0], 10, 64)
 		if err != nil {
 			return errors.New("incorrect timestamp")
@@ -37,8 +41,8 @@ func runCmd(t exam.TestData, keeper *book_keeper.BookKeeper, handler *cmd.Comman
 			return err
 		}
 	}
-	err := keeper.Finalize()
-	if err != nil {
+
+	if err = keeper.Finalize(); err != nil {
 		return err
 	} else if t.ExpectDeath && !keeper.DeathHappened {
 		return errors.New("philosopher should die")
@@ -50,38 +54,17 @@ func runCmd(t exam.TestData, keeper *book_keeper.BookKeeper, handler *cmd.Comman
 
 func runTest(testNo int, t exam.TestData, timeout time.Duration) error {
 	var cmdStr string
-
 	if t.NMeals == -1 {
-		cmdStr = fmt.Sprintf("./philo %d %d %d %d 20", t.NPhilos, t.T2Live, t.T2Eat, t.T2Sleep)
-	} else {
-		cmdStr = fmt.Sprintf("./philo %d %d %d %d %d", t.NPhilos, t.T2Live, t.T2Eat, t.T2Sleep, t.NMeals)
+		t.NMeals = 5
 	}
+	cmdStr = fmt.Sprintf("./philo %d %d %d %d %d", t.NPhilos, t.T2Live, t.T2Eat, t.T2Sleep, t.NMeals)
 	fmt.Printf("TEST %d: %s ", testNo, cmdStr)
-
-	handler := cmd.NewCommandHandler(cmdStr)
-	defer handler.Kill()
-
 	keeper := book_keeper.NewBookKeeper(t.NPhilos, t.T2Live, t.T2Eat, t.T2Sleep, t.NMeals)
-
-	chErr := make(chan error)
-	go func() {
-		defer close(chErr)
-		chErr <- runCmd(t, keeper, handler)
-	}()
-
-	select {
-	case err := <-chErr:
-		return err
-	case <-time.After(timeout):
-		if err := keeper.Finalize(); err != nil {
-			return err
-		}
-		return errors.New("timeout")
-	}
+	return runCmd(t, keeper, cmdStr, timeout)
 }
 
 func runTests(tests []exam.TestData) {
-	timeout := 20 * time.Second
+	timeout := 10 * time.Second
 	fmt.Println(logo.Logo())
 	cntOK := 0
 	cntKO := 0
