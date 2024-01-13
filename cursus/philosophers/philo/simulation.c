@@ -36,6 +36,7 @@ static int start_simulation(t_global *g) {
     g->philos[i].id = i + 1;
     g->philos[i].t_last_meal = 0;
     g->philos[i].n_meals = g->n_meals;
+    pthread_mutex_init(&g->forks[i], NULL);
     if (i % 2 == 0)
       g->philos[i].status = READY_TO_EAT;
     else

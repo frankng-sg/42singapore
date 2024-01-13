@@ -1,19 +1,19 @@
 #include "philo.h"
 
-void	ft_get_fork(t_global *g, int id)
-{
-	if (id <= 0)
-		id = g->n_philos;
-	else if (id > g->n_philos)
-		id = 1;
-	pthread_mutex_lock(&g->forks[id]);
+static int ft_conv_fork_id(int n, int id) {
+  if (id <= 0)
+    return (n - 1);
+  if (id > n)
+    return (0);
+  return (id - 1);
 }
 
-void	ft_return_fork(t_global *g, int id)
-{
-	if (id <= 0)
-		id = g->n_philos;
-	else if (id > g->n_philos)
-		id = 1;
-	pthread_mutex_unlock(&g->forks[id]);
+void ft_get_fork(t_global *g, int id) {
+  id = ft_conv_fork_id(g->n_philos, id);
+  pthread_mutex_lock(&g->forks[id]);
+}
+
+void ft_return_fork(t_global *g, int id) {
+  id = ft_conv_fork_id(g->n_philos, id);
+  pthread_mutex_unlock(&g->forks[id]);
 }
