@@ -31,16 +31,18 @@ func NewBookKeeper(NPhilos, T2Live, T2Eat, T2Sleep, NMeals int) *BookKeeper {
 	return keeper
 }
 
-func validateFork(philoId int, forks []ForkStatus) error {
+func getForkId(philoId, nForks int) (int, int) {
 	var leftForkId, rightForkId int
 
-	leftForkId, rightForkId = philoId-1, philoId+1
-	if philoId <= 0 {
-		leftForkId = len(forks) - 1
-	} else if philoId >= len(forks)-1 {
+	leftForkId, rightForkId = philoId, philoId+1
+	if rightForkId > nForks {
 		rightForkId = 1
 	}
+	return leftForkId, rightForkId
+}
 
+func validateFork(philoId int, forks []ForkStatus) error {
+	leftForkId, rightForkId := getForkId(philoId, len(forks)-1)
 	if forks[leftForkId] != Available && forks[rightForkId] != Available {
 		return errors.New("fork is not available")
 	}
@@ -48,20 +50,18 @@ func validateFork(philoId int, forks []ForkStatus) error {
 }
 
 func grabFork(philoId int, forks []ForkStatus) {
-	var leftForkId, rightForkId int
-
-	leftForkId, rightForkId = philoId-1, philoId+1
-	if philoId <= 0 {
-		leftForkId = len(forks) - 1
-	} else if philoId >= len(forks)-1 {
-		rightForkId = 1
-	}
-
+	leftForkId, rightForkId := getForkId(philoId, len(forks)-1)
 	if forks[leftForkId] == Available {
 		forks[leftForkId] = Taken
 	} else if forks[rightForkId] == Available {
 		forks[rightForkId] = Taken
 	}
+}
+
+func releaseFork(philoId int, forks []ForkStatus) {
+	leftForkId, rightForkId := getForkId(philoId, len(forks)-1)
+	forks[leftForkId] = Available
+	forks[rightForkId] = Available
 }
 
 func validateEvent(b *BookKeeper, philoId int, e PhiloEvent) error {
@@ -103,6 +103,7 @@ func validateEvent(b *BookKeeper, philoId int, e PhiloEvent) error {
 		}
 		grabFork(philoId, b.Forks)
 	case Sleeping:
+		releaseFork(philoId, b.Forks)
 		if nEvents < 1 || (*events)[nEvents-1].Type != Eating {
 			return errors.New("philosopher does not before sleeping")
 		}
