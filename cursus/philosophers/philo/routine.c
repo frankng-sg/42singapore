@@ -14,7 +14,7 @@
 
 static void philo_eat(t_global *g, t_philo *p) {
   if (p->status == READY_TO_EAT)
-    (ft_get_fork(g, p->id - 1), p->status = GOT_LEFT_FORK);
+    (ft_get_fork(g, p->id), p->status = GOT_LEFT_FORK);
   else if (p->status == GOT_LEFT_FORK && g->n_philos > 1)
     (ft_get_fork(g, p->id + 1), p->status = GOT_RIGHT_FORK);
   else if (p->status == GOT_RIGHT_FORK) {
@@ -22,7 +22,7 @@ static void philo_eat(t_global *g, t_philo *p) {
     p->status = EATING;
   } else if (p->status == EATING && current_time_ms() - g->sim.start_time >=
                                         p->t_last_meal + g->t2eat) {
-    (ft_return_fork(g, p->id - 1), ft_return_fork(g, p->id + 1));
+    (ft_return_fork(g, p->id), ft_return_fork(g, p->id + 1));
     p->status = READY_TO_SLEEP;
     p->n_meals--;
     return;
@@ -54,8 +54,8 @@ static void philo_think(t_global *g, t_philo *p) {
     printf("%ld %d %s\n", now, p->id, ft_str_status(THINKING));
     p->status = THINKING;
     t_think = (g->t2live - (now - p->t_last_meal) - g->t2eat) / 2;
-    if (t_think < 10)
-      t_think = 10;
+    if (t_think < 0)
+      t_think = 1;
     p->t_end_think = now + t_think;
   } else if (p->status == THINKING && now >= p->t_end_think) {
     p->status = READY_TO_EAT;
@@ -96,6 +96,6 @@ void *philo_routine(void *arg) {
     else if (p->status == READY_TO_THINK || p->status == THINKING)
       philo_think(g, p);
   }
-  (ft_return_fork(g, p->id - 1), ft_return_fork(g, p->id + 1));
+  (ft_return_fork(g, p->id - 1), ft_return_fork(g, p->id));
   return (NULL);
 }

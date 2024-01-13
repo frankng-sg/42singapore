@@ -52,18 +52,23 @@ func runTest(testNo int, t exam.TestData, timeout time.Duration) error {
 	var cmdStr string
 
 	if t.NMeals == -1 {
-		cmdStr = fmt.Sprintf("./philo %d %d %d %d", t.NPhilos, t.T2Live, t.T2Eat, t.T2Sleep)
+		cmdStr = fmt.Sprintf("./philo %d %d %d %d 20", t.NPhilos, t.T2Live, t.T2Eat, t.T2Sleep)
 	} else {
 		cmdStr = fmt.Sprintf("./philo %d %d %d %d %d", t.NPhilos, t.T2Live, t.T2Eat, t.T2Sleep, t.NMeals)
 	}
 	fmt.Printf("TEST %d: %s ", testNo, cmdStr)
-	chErr := make(chan error)
+
 	handler := cmd.NewCommandHandler(cmdStr)
 	defer handler.Kill()
+
 	keeper := book_keeper.NewBookKeeper(t.NPhilos, t.T2Live, t.T2Eat, t.T2Sleep, t.NMeals)
+
+	chErr := make(chan error)
 	go func() {
+		defer close(chErr)
 		chErr <- runCmd(t, keeper, handler)
 	}()
+
 	select {
 	case err := <-chErr:
 		return err

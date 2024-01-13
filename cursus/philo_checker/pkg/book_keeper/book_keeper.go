@@ -44,7 +44,7 @@ func getForkId(philoId, nForks int) (int, int) {
 func validateFork(philoId int, forks []ForkStatus) error {
 	leftForkId, rightForkId := getForkId(philoId, len(forks)-1)
 	if forks[leftForkId] != Available && forks[rightForkId] != Available {
-		return errors.New("fork is not available")
+		return errors.New("philo should not duplicate forks")
 	}
 	return nil
 }
