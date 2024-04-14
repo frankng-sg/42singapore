@@ -1,23 +1,28 @@
 NAME:=philo
-SRC:=error fork main philo_routine doctor_routine simulation time util
-OBJS:=${SRC:=.o}
+SRC:=time time_test util util_test
+MAIN:=$(SRC) main
+UTEST:=$(SRC) main_test
+MAIN_OBJS:=${MAIN:=.o}
+UTEST_OBJS:=${UTEST:=.o}
 CC:=cc
 CFLAGS:=-g -Wall -Wextra -Werror
 AR:=ar crs
 RM:=rm -rf
 
-.PHONY: all clean fclean re $(NAME)
+.PHONY: all clean fclean re test $(NAME)
 
 all: $(NAME)
-$(NAME): ${OBJS}
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -I philo.h
+$(NAME): $(MAIN_OBJS)
+	$(CC) $(CFLAGS) $(MAIN_OBJS) -o $(NAME) -I philo.h
 
-${OBJS}:
-
+test: fclean $(UTEST_OBJS)
+	$(CC) $(CFLAGS) $(UTEST_OBJS) -o $(NAME) -I philo.h
+	./$(NAME)
+	make fclean
 %.o: %.c
 	$(CC) $(CFLAGS) -o $@ -c $<
 clean:
-	$(RM) $(OBJS) $(LIB)
+	$(RM) *.o
 fclean: clean
 	$(RM) $(NAME)
 re: fclean all

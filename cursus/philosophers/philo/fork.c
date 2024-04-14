@@ -1,19 +1,49 @@
 #include "philo.h"
 
-static int ft_conv_fork_id(int n, int id) {
-  if (id <= 0)
-    return (n - 1);
-  if (id > n)
-    return (0);
-  return (id - 1);
+static void fork_lookup(t_fork *fork, int philo_id, int *left, int *right) {
+  *left = philo_id;
+  *right = philo_id + 1;
+  if (*right >= fork->total)
+    *right = 0;
 }
 
-void ft_get_fork(t_global *g, int id) {
-  id = ft_conv_fork_id(g->n_philos, id);
-  pthread_mutex_lock(&g->forks[id]);
+// fork_avail return 1 if both left and right forks are available, 0 otherwise
+int fork_avail(t_fork *fork, int philo_id) {
+  int left;
+  int right;
+  int avail;
+
+  pthread_mutex_lock(&fork->lock);
+  fork_lookup(fork, philo_id, &left, &right);
+  if ((fork->avail[left] != 0 && fork->avail[left] != philo_id + 1) ||
+      (fork->avail[right] != 0 && fork->avail[right] != philo_id + 1))
+    avail = 0;
+  else
+    avail =1;
+  pthread_mutex_unlock(&fork->lock);
+  return (avail);
 }
 
-void ft_return_fork(t_global *g, int id) {
-  id = ft_conv_fork_id(g->n_philos, id);
-  pthread_mutex_unlock(&g->forks[id]);
+// fork_take takes both left and right forks
+void fork_take(t_fork *fork, int philo_id) {
+  int left;
+  int right;
+
+  pthread_mutex_lock(&fork->lock);
+  fork_lookup(fork, philo_id, &left, &right);
+  fork->avail[left] = philo_id + 1;
+  fork->avail[right] = philo_id + 1;
+  pthread_mutex_unlock(&fork->lock);
+}
+
+// fork_drop drops both left and right forks
+void fork_drop(t_fork *fork, int philo_id) {
+  int left;
+  int right;
+
+  pthread_mutex_lock(&fork->lock);
+  fork_lookup(fork, philo_id, &left, &right);
+  fork->avail[left] = 0;
+  fork->avail[right] = 0;
+  pthread_mutex_unlock(&fork->lock);
 }

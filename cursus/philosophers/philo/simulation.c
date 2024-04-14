@@ -12,53 +12,62 @@
 
 #include "philo.h"
 
-static int	create_threads(t_global *g)
-{
-	int	i;
+static void run_philos(int n, t_philo *philos) {
+  int i;
 
-	i = -1;
-	while (++i < g->n_philos)
-	{
-		if (pthread_create(&g->philos[i].thread, NULL, &philo_routine,
-				&g->philos[i]) != 0)
-			return (with_error(ERR_INIT_THREAD));
-	}
-	if (pthread_create(&g->doctor, NULL, &doctor_routine, g) != 0)
-		return (with_error(ERR_INIT_THREAD));
-	return (0);
+  i = -1;
+  while (++i < n) {
+    if (pthread_create(&philos[i].thread, NULL, &philo_routine, &philos[i]) !=
+        0)
+      return ((void)printf("philo: failed to create thread\n"));
+  }
 }
 
-static int	start_simulation(t_global *g)
-{
-	int	i;
+static t_philo *init_philos(t_shared *shared) {
+  t_philo *philos;
 
-	g->sim.completed = 0;
-	i = -1;
-	while (++i < g->n_philos)
-	{
-		g->philos[i].id = i + 1;
-		g->philos[i].t_last_meal = 0;
-		g->philos[i].n_meals = g->n_meals;
-		pthread_mutex_init(&g->forks[i], NULL);
-		if (i % 2 == 0)
-			g->philos[i].status = READY_TO_EAT;
-		else
-			g->philos[i].status = READY_TO_THINK;
-		g->philos[i].g = (void *)g;
-	}
-	g->philos[g->n_philos - 1].status = READY_TO_THINK;
-	g->sim.start_time = current_time_ms();
-	return (create_threads(g));
+  philos = ft_malloc(sizeof(t_philo) * params->n_philos);
+  if (philos == NULL)
+    return (NULL);
+  i = -1;
+  while (++i < params->n_philos) {
+    philos[i].id = i;
+    philos[i].shared = shared;
+    philos[i].state = READY_EAT;
+  }
+  return (philos);
 }
 
-int	run_simulation(t_global *g)
-{
-	int	i;
+static t_scheduler *init_scheduler(t_params *params) {
+  t_scheduler *scheduler;
 
-	if (start_simulation(g) != 0)
-		return (1);
-	i = -1;
-	while (++i < g->n_philos)
-		pthread_join(g->philos[i].thread, NULL);
-	return (0);
+  scheduler = ft_malloc(sizeof(t_scheduler));
+  if (scheduler == NULL)
+    return (NULL);
+  scheduler->params = params;
+  return (scheduler);
+}
+
+static void run_scheduler(t_scheduler *scheduler) {
+  if (pthread_create(&scheduler->thread, NULL, &scheduler_routine, scheduler) != 0)
+    return ((void)printf("philo: failed to create scheduler thread\n"));
+}
+
+void sim_run(t_shared *shared) {
+  t_philo *philos;
+  t_scheduler *scheduler;
+
+  philos = init_philos(shared);
+  scheduler = init_scheduler(shared);
+  if (philos == NULL || scheduler == NULL)
+    return;
+  run_philos(shared->params->philos, philos);
+  run_scheduler(scheduler);
+  params->started_at = now_ms();
+  params_set_ready(shared->params);
+  while (++i < params->philos)
+    pthread_join(philos[i].thread, NULL);
+  pthread_join(scheduler.thread, NULL);
+  free(philos);
+  free(scheduler);
 }

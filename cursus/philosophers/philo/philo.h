@@ -13,98 +13,99 @@
 #ifndef PHILO_H
 #define PHILO_H
 
+#include <limits.h>
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/time.h>
-#include <time.h>
 #include <unistd.h>
 
-/******************************************************************************
- * CONFIGURATION                                                               *
- ******************************************************************************/
+#define EATING "is eating"
+#define SLEEPING "is sleeping"
+#define THINKING "is thinking"
+#define DIED "died"
+#define FORK "has taken a fork"
+#define MAX_PHILO 200
 
-#define MAX_PHILOS 200
-#define MIN_ACT_TIME 60
+enum e_state {
+  ALLOWED_EAT,
+  READY_EAT,
+  READY_SLEEP,
+  READY_THINK,
+} t_state;
 
-/******************************************************************************
- * DATA STRUCTURE                                                              *
- ******************************************************************************/
+typedef struct s_fork {
+  pthread_mutex_t lock;
+  int total;
+  int avail[MAX_PHILO];
+} t_fork;
 
-typedef struct s_simulation {
-  time_t start_time;
-  int completed;
-} t_simulation;
-
-typedef enum e_status {
-  READY_TO_THINK,
-  THINKING,
-  READY_TO_EAT,
-  EATING,
-  READY_TO_SLEEP,
-  SLEEPING,
-  GOT_LEFT_FORK,
-  GOT_RIGHT_FORK,
-  DEAD
-} t_status;
-
-typedef struct s_philo {
-  int id;
-  int n_meals;
-  time_t t_last_meal;
-  time_t t_end_sleep;
-  time_t t_end_think;
-  pthread_t thread;
-  t_status status;
-  void *g;
-} t_philo;
-
-typedef struct s_global {
-  int n_philos;
-  int n_meals;
+typedef struct s_params {
+  int ready;
+  int ended;
+  int meals;
+  int philos;
   int t2live;
   int t2eat;
   int t2sleep;
-  t_simulation sim;
-  pthread_t doctor;
-  t_philo philos[MAX_PHILOS];
-  pthread_mutex_t forks[MAX_PHILOS];
-} t_global;
+  time_t started_at;
+  pthread_mutex_t lock;
+} t_params;
 
-/******************************************************************************
- * ERRORS                                                                      *
- ******************************************************************************/
+typedef struct s_shared {
+  t_params params;
+  t_fork forks;
+  pthread_mutex_t print_lock;
+} t_shared;
 
-#define ERR_INIT_THREAD "philo: error: failed to initialize thread"
+typedef struct s_philo {
+  int id;
+  int meals;
+  time_t last_meal;
+  t_shared *shared;
+  t_state state;
+  pthread_mutex_t lock;
+  pthread_t thread;
+} t_philo;
 
-/******************************************************************************
- * APIs                                                                        *
- ******************************************************************************/
-
-// simulation.c
-int run_simulation(t_global *g);
-
-// time.c
-time_t current_time_ms(void);
-
-// error.c
-int with_error(char *msg);
-
-// philo_routine.c
-void *philo_routine(void *arg);
-
-// doctor_routine.c
-void *doctor_routine(void *arg);
-
-// util.c
-char *ft_str_status(t_status status);
-int ft_is_dead(t_global *g, t_philo *p);
-int ft_positive_integer(const char *s);
-int ft_atoi(const char *s);
-void ft_write_status(time_t now, int id, const char *status);
+typedef struct s_scheduler {
+  t_params *params;
+  pthread_t thread;
+} t_scheduler;
 
 // fork.c
-void ft_get_fork(t_global *g, int id);
-void ft_return_fork(t_global *g, int id);
+int fork_avail(t_fork *fork, int philo_id);
+int fork_take(t_fork *fork, int philo_id);
+int fork_drop(t_fork *fork, int philo_id);
+
+// params.c
+void params_set_ready(t_params *params);
+void params_get_ready(t_params *params);
+void params_set_ended(t_params *params);
+void params_get_ended(t_params *params);
+
+// time.c
+time_t now_ms(void);
+time_t sim_time(t_philo *p);
+void ft_msleep(t_philo *p, time_t time);
+
+// time_test.c
+void test_ft_msleep_01(void);
+void test_ft_msleep_02(void);
+
+// util.c
+void *ft_malloc(size_t size);
+int ft_isnumeric(const char *s);
+int ft_atoi(const char *s);
+void *ft_memset(void *s, int c, size_t n);
+int ft_putstr(char *str);
+
+// util_test.c
+void test_ft_isnumeric(void);
+void test_ft_atoi(void);
+
+// simulation.c
+void sim_run(t_params *params);
 
 #endif
