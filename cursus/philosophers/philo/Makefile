@@ -1,4 +1,4 @@
-TARGET:=philo
+NAME:=philo
 SRC:=error fork main philo_routine doctor_routine simulation time util
 OBJS:=${SRC:=.o}
 CC:=cc
@@ -6,11 +6,11 @@ CFLAGS:=-g -Wall -Wextra -Werror
 AR:=ar crs
 RM:=rm -rf
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re $(NAME)
 
-all: ${TARGET}
-${TARGET}: ${OBJS}
-	$(CC) $(CFLAGS) $(OBJS) -o ${TARGET} -I philo.h
+all: $(NAME)
+$(NAME): ${OBJS}
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -I philo.h
 
 ${OBJS}:
 
@@ -19,5 +19,5 @@ ${OBJS}:
 clean:
 	$(RM) $(OBJS) $(LIB)
 fclean: clean
-	$(RM) $(TARGET)
+	$(RM) $(NAME)
 re: fclean all
