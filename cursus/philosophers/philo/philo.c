@@ -10,8 +10,9 @@ static void philo_eat(t_philo *philo) {
   philo_say(philo, FORK);
   philo_say(philo, FORK);
   philo_say(philo, EATING);
-  philo->last_meal = sim_time(philo);
   philo->meals++;
+  philo->last_meal = sim_time(philo);
+  philo->dead_at = philo->last_meal + philo->shared->params.t2live;
   if (philo->shared->params.meals > 0 && philo->meals >= philo->shared->params.meals)
     params_set_wellfed(&philo->shared->params);
   ft_msleep(philo, philo->shared->params.t2eat);
