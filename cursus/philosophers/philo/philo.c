@@ -13,7 +13,8 @@ static void philo_eat(t_philo *philo) {
   philo->meals++;
   philo->last_meal = sim_time(philo);
   philo->dead_at = philo->last_meal + philo->shared->params.t2live;
-  if (philo->shared->params.meals > 0 && philo->meals >= philo->shared->params.meals)
+  if (philo->shared->params.meals > 0 &&
+      philo->meals >= philo->shared->params.meals)
     params_set_wellfed(&philo->shared->params);
   ft_msleep(philo, philo->shared->params.t2eat);
   philo->state = READY_SLEEP;
@@ -38,7 +39,7 @@ void *philo_routine(void *philo) {
 
   p = (t_philo *)philo;
   while (!params_get_ready(&p->shared->params))
-    usleep(50);
+    ;
   while (!params_get_ended(&p->shared->params)) {
     if (sim_time(p) > p->dead_at)
       break;
@@ -50,8 +51,8 @@ void *philo_routine(void *philo) {
       philo_think(p);
   }
   if (!params_get_ended(&p->shared->params)) {
-    philo_say(p, DIED);
     params_set_ended(&p->shared->params);
+    philo_say(p, DIED);
   }
   return (NULL);
 }
