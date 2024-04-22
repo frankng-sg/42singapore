@@ -49,6 +49,7 @@ typedef struct s_params {
   int t2live;
   int t2eat;
   int t2sleep;
+  int wellfed;
   time_t started_at;
   pthread_mutex_t lock;
 } t_params;
@@ -63,6 +64,7 @@ typedef struct s_philo {
   int id;
   int meals;
   time_t last_meal;
+  time_t dead_at;
   t_shared *shared;
   enum e_state state;
   pthread_mutex_t lock;
@@ -97,6 +99,8 @@ void sim_run(t_shared *shared);
 
 // schedule.c
 void schedule(t_shared *g, t_philo *philos);
+int params_get_wellfed(t_params *params);
+void params_set_wellfed(t_params *params);
 
 // philo.c
 void *philo_routine(void *philo);

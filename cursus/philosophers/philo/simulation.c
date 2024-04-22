@@ -34,7 +34,9 @@ static t_philo *init_philos(t_shared *shared) {
   while (++i < shared->params.philos) {
     philos[i].id = i;
     philos[i].shared = shared;
-    philos[i].state = READY_EAT;
+    philos[i].state = READY_THINK;
+    philos[i].last_meal = 0;
+    philos[i].dead_at = shared->params.t2live;
   }
   return (philos);
 }

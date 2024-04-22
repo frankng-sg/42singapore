@@ -32,6 +32,7 @@ static void initialize(t_shared *shared, int argc, char **argv) {
   shared->params.t2eat = ft_atoi(argv[3]);
   shared->params.t2sleep = ft_atoi(argv[4]);
   shared->forks.total = shared->params.philos;
+  shared->params.wellfed = 0;
   if (argc == 6)
     shared->params.meals = ft_atoi(argv[5]);
 }
