@@ -15,8 +15,7 @@ int fork_avail(t_fork *fork, int philo_id) {
 
   pthread_mutex_lock(&fork->lock);
   fork_lookup(fork, philo_id, &left, &right);
-  if ((fork->avail[left] != 0 && fork->avail[left] != philo_id + 1) ||
-      (fork->avail[right] != 0 && fork->avail[right] != philo_id + 1))
+  if (fork->taken[left] || fork->taken[right])
     avail = 0;
   else
     avail =1;
@@ -31,8 +30,8 @@ void fork_take(t_fork *fork, int philo_id) {
 
   pthread_mutex_lock(&fork->lock);
   fork_lookup(fork, philo_id, &left, &right);
-  fork->avail[left] = philo_id + 1;
-  fork->avail[right] = philo_id + 1;
+  fork->taken[left] = 1;
+  fork->taken[right] = 1;
   pthread_mutex_unlock(&fork->lock);
 }
 
@@ -43,7 +42,7 @@ void fork_drop(t_fork *fork, int philo_id) {
 
   pthread_mutex_lock(&fork->lock);
   fork_lookup(fork, philo_id, &left, &right);
-  fork->avail[left] = 0;
-  fork->avail[right] = 0;
+  fork->taken[left] = 0;
+  fork->taken[right] = 0;
   pthread_mutex_unlock(&fork->lock);
 }

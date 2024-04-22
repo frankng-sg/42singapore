@@ -27,13 +27,13 @@ static int valid_input(int argc, char **argv) {
 
 static void initialize(t_shared *shared, int argc, char **argv) {
   ft_memset(shared, 0, sizeof(t_shared));
-  shared->params->philos = ft_atoi(argv[1]);
-  shared->params->t2live = ft_atoi(argv[2]);
-  shared->params->t2eat = ft_atoi(argv[3]);
-  shared->params->t2sleep = ft_atoi(argv[4]);
-  shared->params->forks->total = shared->params->philos;
+  shared->params.philos = ft_atoi(argv[1]);
+  shared->params.t2live = ft_atoi(argv[2]);
+  shared->params.t2eat = ft_atoi(argv[3]);
+  shared->params.t2sleep = ft_atoi(argv[4]);
+  shared->forks.total = shared->params.philos;
   if (argc == 6)
-    params->meals = ft_atoi(argv[5]);
+    shared->params.meals = ft_atoi(argv[5]);
 }
 
 int main(int argc, char **argv) {
@@ -41,6 +41,6 @@ int main(int argc, char **argv) {
 
   if (!valid_input(argc, argv))
     return (show_menu(), 1);
-  initialize(&shared.params, argc, argv);
+  initialize(&shared, argc, argv);
   sim_run(&shared);
 }

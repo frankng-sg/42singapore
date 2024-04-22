@@ -1,24 +1,16 @@
 NAME:=philo
-SRC:=time time_test util util_test
-MAIN:=$(SRC) main
-UTEST:=$(SRC) main_test
-MAIN_OBJS:=${MAIN:=.o}
-UTEST_OBJS:=${UTEST:=.o}
+SRC:=time util fork params philo scheduler simulation main
+OBJS:=${SRC:=.o}
 CC:=cc
 CFLAGS:=-g -Wall -Wextra -Werror
 AR:=ar crs
 RM:=rm -rf
 
-.PHONY: all clean fclean re test $(NAME)
+.PHONY: all clean fclean re
 
 all: $(NAME)
-$(NAME): $(MAIN_OBJS)
-	$(CC) $(CFLAGS) $(MAIN_OBJS) -o $(NAME) -I philo.h
-
-test: fclean $(UTEST_OBJS)
-	$(CC) $(CFLAGS) $(UTEST_OBJS) -o $(NAME) -I philo.h
-	./$(NAME)
-	make fclean
+$(NAME): $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -I philo.h
 %.o: %.c
 	$(CC) $(CFLAGS) -o $@ -c $<
 clean:

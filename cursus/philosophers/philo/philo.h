@@ -33,12 +33,12 @@ enum e_state {
   READY_EAT,
   READY_SLEEP,
   READY_THINK,
-} t_state;
+};
 
 typedef struct s_fork {
   pthread_mutex_t lock;
   int total;
-  int avail[MAX_PHILO];
+  int taken[MAX_PHILO];
 } t_fork;
 
 typedef struct s_params {
@@ -64,35 +64,26 @@ typedef struct s_philo {
   int meals;
   time_t last_meal;
   t_shared *shared;
-  t_state state;
+  enum e_state state;
   pthread_mutex_t lock;
   pthread_t thread;
 } t_philo;
 
-typedef struct s_scheduler {
-  t_params *params;
-  pthread_t thread;
-} t_scheduler;
-
 // fork.c
 int fork_avail(t_fork *fork, int philo_id);
-int fork_take(t_fork *fork, int philo_id);
-int fork_drop(t_fork *fork, int philo_id);
+void fork_take(t_fork *fork, int philo_id);
+void fork_drop(t_fork *fork, int philo_id);
 
 // params.c
 void params_set_ready(t_params *params);
-void params_get_ready(t_params *params);
+int params_get_ready(t_params *params);
 void params_set_ended(t_params *params);
-void params_get_ended(t_params *params);
+int params_get_ended(t_params *params);
 
 // time.c
 time_t now_ms(void);
 time_t sim_time(t_philo *p);
 void ft_msleep(t_philo *p, time_t time);
-
-// time_test.c
-void test_ft_msleep_01(void);
-void test_ft_msleep_02(void);
 
 // util.c
 void *ft_malloc(size_t size);
@@ -101,11 +92,13 @@ int ft_atoi(const char *s);
 void *ft_memset(void *s, int c, size_t n);
 int ft_putstr(char *str);
 
-// util_test.c
-void test_ft_isnumeric(void);
-void test_ft_atoi(void);
-
 // simulation.c
-void sim_run(t_params *params);
+void sim_run(t_shared *shared);
+
+// schedule.c
+void schedule(t_shared *g, t_philo *philos);
+
+// philo.c
+void *philo_routine(void *philo);
 
 #endif
