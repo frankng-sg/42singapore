@@ -7,13 +7,18 @@ static void	philo_say(t_philo *philo, char *action)
 	pthread_mutex_unlock(&philo->shared->print_lock);
 }
 
-static void	eating(t_philo *philo)
+static void	eating(t_philo *p)
 {
-	philo_say(philo, MSG_EAT);
-	philo->meals++;
-	philo->last_meal = sim_time(philo);
-	philo->dead_at = philo->last_meal + philo->shared->t2live;
-	ft_msleep(philo, philo->shared->t2eat);
+	time_t now;
+
+	now = sim_time(p);
+	philo_say(p, MSG_EAT);
+	p->meals++;
+	if (p->think_time <= 1)
+		p->think_time = now - p->last_meal - p->shared->t2live - p->shared->t2live;
+	p->last_meal = sim_time(p);
+	p->dead_at = p->last_meal + p->shared->t2live;
+	ft_msleep(p, p->shared->t2eat);
 }
 
 static void	philo_eat(t_philo *philo)
@@ -35,10 +40,6 @@ static void	philo_eat(t_philo *philo)
 		release_fork(philo, left);
 		release_fork(philo, right);
 		philo->state = READY_SLEEP;
-	}
-	else
-	{
-		philo->state = DYING;
 	}
 }
 
@@ -69,7 +70,6 @@ void	*philo_routine(void *philo)
 		{
 			philo_say(p, MSG_THINK);
 			ft_msleep(p, p->think_time);
-			p->think_time = 0;
 			p->state = READY_EAT;
 		}
 	}

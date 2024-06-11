@@ -60,23 +60,23 @@ static void	schedule(t_shared *shared, t_philo *philos)
 static void	wait(t_shared *shared, t_philo *philos)
 {
 	int	i;
-	int	meals_eaten;
+	int	meal_ended;
 
 	if (shared->meals > 0)
 	{
 		while (!shared->stopped)
 		{
 			i = -1;
-			meals_eaten = 1;
+			meal_ended = 1;
 			while (++i < shared->philos)
 			{
-				if (philos[i].meals < shared->meals)
+				if (philos[i].meals <= shared->meals)
 				{
-					meals_eaten = 0;
+					meal_ended = 0;
 					break ;
 				}
 			}
-			if (meals_eaten)
+			if (meal_ended)
 				shared->stopped = 1;
 		}
 	}

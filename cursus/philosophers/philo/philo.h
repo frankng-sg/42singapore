@@ -32,7 +32,6 @@ enum e_state {
   READY_EAT,
   READY_SLEEP,
   READY_THINK,
-  DYING,
 };
 
 typedef struct s_shared {
