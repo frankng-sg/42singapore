@@ -13,25 +13,28 @@
 #include "philo.h"
 
 // now_ms return the current time in milliseconds
-time_t now_ms(void) {
-  struct timeval tv;
+time_t	now_ms(void)
+{
+	struct timeval	tv;
 
-  gettimeofday(&tv, NULL);
-  return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
+	gettimeofday(&tv, NULL);
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
-time_t sim_time(t_philo *p) {
-  time_t now;
+time_t	sim_time(t_philo *p)
+{
+	time_t	now;
 
-  now = now_ms();
-  return (now - p->shared->started_at);
+	now = now_ms();
+	return (now - p->shared->started_at);
 }
 
 // ft_msleep sleeps for a given time in milliseconds or until ended is set to 1
-void ft_msleep(t_philo *p, time_t time) {
-  time_t start;
+void	ft_msleep(t_philo *p, time_t time)
+{
+	time_t	start;
 
-  start = now_ms();
-  while (now_ms() - start < time && !p->shared->stopped)
-    usleep(150);
+	start = now_ms();
+	while (now_ms() - start < time && !p->shared->stopped)
+		usleep(150);
 }

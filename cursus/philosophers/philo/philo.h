@@ -44,6 +44,7 @@ typedef struct s_shared {
   int t2eat;
   int t2sleep;
   time_t started_at;
+  int fork_used[MAX_PHILO];
   pthread_mutex_t fork_lock[MAX_PHILO];
   pthread_mutex_t print_lock;
 } t_shared;
@@ -77,5 +78,10 @@ void *ft_malloc(size_t size);
 void *ft_memset(void *s, int c, size_t n);
 int ft_atoi(const char *s);
 int ft_isnumeric(const char *s);
+
+// fork.c
+int forks_avail(t_philo *philo, int left, int right);
+void take_fork(t_philo *philo, int fork_id);
+void release_fork(t_philo *philo, int fork_id);
 
 #endif
