@@ -21,7 +21,10 @@ time_t now_ms(void) {
 }
 
 time_t sim_time(t_philo *p) {
-  return (now_ms() - p->shared->started_at);
+  time_t now;
+
+  now = now_ms();
+  return (now - p->shared->started_at);
 }
 
 // ft_msleep sleeps for a given time in milliseconds or until ended is set to 1

@@ -6,27 +6,38 @@ static void philo_say(t_philo *philo, char *action) {
   pthread_mutex_unlock(&philo->shared->print_lock);
 }
 
+static void eating(t_philo *philo) {
+    philo_say(philo, MSG_EAT);
+    philo->meals++;
+    philo->last_meal = sim_time(philo);
+    philo->dead_at = philo->last_meal + philo->shared->t2live;
+    ft_msleep(philo, philo->shared->t2eat);
+}
+
 static void philo_eat(t_philo *philo) {
   int right;
   int left;
 
   left = philo->id;
-  if (left + 1 >= philo->shared->philos)
-    right = 0;
-  else
+  right = 0;
+  if (left + 1 < philo->shared->philos)
     right = left + 1;
-  pthread_mutex_lock(&philo->shared->fork_lock[left]);
-  philo_say(philo, MSG_FORK);
-  pthread_mutex_lock(&philo->shared->fork_lock[right]);
-  philo_say(philo, MSG_FORK);
-  philo_say(philo, MSG_EAT);
-  philo->meals++;
-  philo->last_meal = sim_time(philo);
-  philo->dead_at = philo->last_meal + philo->shared->t2live;
-  ft_msleep(philo, philo->shared->t2eat);
-  pthread_mutex_unlock(&philo->shared->fork_lock[left]);
-  pthread_mutex_unlock(&philo->shared->fork_lock[right]);
-  philo->state = READY_SLEEP;
+  if (left != right) {
+    pthread_mutex_lock(&philo->shared->fork_lock[left]);
+    if (sim_time(philo) > philo->dead_at)
+      return;
+    philo_say(philo, MSG_FORK);
+    pthread_mutex_lock(&philo->shared->fork_lock[right]);
+    if (sim_time(philo) > philo->dead_at)
+      return;
+    philo_say(philo, MSG_FORK);
+    eating(philo);
+    pthread_mutex_unlock(&philo->shared->fork_lock[left]);
+    pthread_mutex_unlock(&philo->shared->fork_lock[right]);
+    philo->state = READY_SLEEP;
+  } else {
+    philo->state = DYING;
+  }
 }
 
 static void philo_sleep(t_philo *philo) {
@@ -35,10 +46,7 @@ static void philo_sleep(t_philo *philo) {
   philo->state = READY_THINK;
 }
 
-static void philo_think(t_philo *philo) {
-    philo_say(philo, MSG_THINK);
-    philo->state = READY_EAT;
-}
+
 
 void *philo_routine(void *philo) {
   t_philo *p;
@@ -53,8 +61,13 @@ void *philo_routine(void *philo) {
       philo_eat(p);
     else if (p->state == READY_SLEEP)
       philo_sleep(p);
-    else
-      philo_think(p);
+    else if (p->state == READY_THINK)
+    {
+      philo_say(p, MSG_THINK);
+      ft_msleep(p, p->think_time);
+      p->think_time = 0;
+      p->state = READY_EAT;
+    }
   }
   if (!p->shared->stopped) {
     p->shared->stopped = 1;

@@ -32,6 +32,7 @@ enum e_state {
   READY_EAT,
   READY_SLEEP,
   READY_THINK,
+  DYING,
 };
 
 typedef struct s_shared {
@@ -51,6 +52,7 @@ typedef struct s_philo {
   int id;
   int meals;
   int ready;
+  time_t think_time;
   time_t last_meal;
   time_t dead_at;
   t_shared *shared;
