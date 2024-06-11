@@ -21,7 +21,7 @@ time_t now_ms(void) {
 }
 
 time_t sim_time(t_philo *p) {
-  return (now_ms() - p->shared->params.started_at);
+  return (now_ms() - p->shared->started_at);
 }
 
 // ft_msleep sleeps for a given time in milliseconds or until ended is set to 1
@@ -29,6 +29,6 @@ void ft_msleep(t_philo *p, time_t time) {
   time_t start;
 
   start = now_ms();
-  while (now_ms() - start < time && !params_get_ended(&p->shared->params))
+  while (now_ms() - start < time && !p->shared->stopped)
     usleep(150);
 }

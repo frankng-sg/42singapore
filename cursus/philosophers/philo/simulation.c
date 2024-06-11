@@ -12,48 +12,76 @@
 
 #include "philo.h"
 
-static void run_philos(int n, t_philo *philos) {
+
+static t_philo *init_philos(t_shared *shared, t_philo *philos) {
   int i;
 
   i = -1;
-  while (++i < n) {
-    if (pthread_create(&philos[i].thread, NULL, &philo_routine, &philos[i]) !=
-        0)
-      return ((void)printf("philo: failed to create thread\n"));
-  }
-}
-
-static t_philo *init_philos(t_shared *shared) {
-  t_philo *philos;
-  int i;
-
-  philos = ft_malloc(sizeof(t_philo) * shared->params.philos);
-  if (philos == NULL)
-    return (NULL);
-  i = -1;
-  while (++i < shared->params.philos) {
+  while (++i < shared->philos) {
     philos[i].id = i;
     philos[i].shared = shared;
-    philos[i].state = READY_THINK;
+    if ((i & 0x1) == 0)
+      philos[i].state = READY_EAT;
+    else
+      philos[i].state = READY_THINK;
     philos[i].last_meal = 0;
-    philos[i].dead_at = shared->params.t2live;
+    philos[i].dead_at = shared->t2live;
+  }
+  philos[shared->philos - 1].state = READY_THINK;
+  i = -1;
+  while (++i < shared->philos) {
+    if (pthread_create(&philos[i].thread, NULL, &philo_routine, &philos[i]) !=
+        0)
+        {
+          printf("philo: failed to create thread\n");
+          return (NULL);
+        }
   }
   return (philos);
 }
 
-void sim_run(t_shared *shared) {
-  t_philo *philos;
+static void schedule(t_shared *shared, t_philo *philos) {
   int i;
 
-  philos = init_philos(shared);
-  if (philos == NULL)
-    return;
-  run_philos(shared->params.philos, philos);
-  shared->params.started_at = now_ms();
-  params_set_ready(&shared->params);
-  schedule(shared, philos);
-  i = 0;
-  while (++i < shared->params.philos)
+  i = -1;
+  while (++i < shared->philos) {
+    while (!philos[i].ready);
+  }
+  shared->ready = 1;
+  shared->started_at = now_ms();
+}
+
+static void wait(t_shared *shared, t_philo *philos) {
+  int i;
+  int meals_eaten;
+
+  if (shared->meals > 0) {
+    while (!shared->stopped) {
+      i = -1;
+      meals_eaten = 1;
+      while (++i < shared->philos) {
+        if (philos[i].meals < shared->meals) {
+          meals_eaten = 0;
+          break;
+        }
+      }
+      if (meals_eaten)
+        shared->stopped = 1;
+    }
+  }
+  i = -1;
+  while (++i < shared->philos)
     pthread_join(philos[i].thread, NULL);
+}
+
+void sim_run(t_shared *shared) {
+  t_philo *philos;
+
+  philos = ft_malloc(sizeof(t_philo) * shared->philos);
+  if (philos == NULL)
+    return ;
+  init_philos(shared, philos);
+  schedule(shared, philos);
+  wait(shared, philos);
   free(philos);
 }
