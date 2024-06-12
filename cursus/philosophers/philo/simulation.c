@@ -12,15 +12,18 @@
 
 #include "philo.h"
 
-static void wait_ready(t_shared *shared, t_philo *philos, int start_at) {
+static void wait_ready(t_shared *shared, t_philo *philos, time_t delay) {
   int i;
 
-  i = start_at;
-  while (i < shared->philos) {
+  philos[shared->philos - 1].state = READY_THINK;
+  philos[shared->philos - 1].delay = delay;
+  i = -1;
+  while (++i < shared->philos) {
     while (!philos[i].ready)
       ;
-    i += 2;
   }
+  shared->started_at = now_ms();
+  shared->ready = 1;
 }
 
 static void init_philos(t_shared *shared, t_philo *philos, int start_at, time_t delay, enum e_state state) {
@@ -45,7 +48,6 @@ static void init_philos(t_shared *shared, t_philo *philos, int start_at, time_t 
     pthread_create(&philos[i].thread, NULL, &philo_routine, &philos[i]);
     i += 2;
   }
-  wait_ready(shared, philos, start_at);
 }
 
 static void wait_meals(t_shared *shared, t_philo *philos) {
@@ -75,6 +77,7 @@ static void wait_philos(t_shared *shared, t_philo *philos) {
 
 void sim_run(t_shared *shared) {
   t_philo *philos;
+  time_t delay;
 
   if (shared->philos == 1) {
     printf("0 1 has taken a fork\n");
@@ -85,10 +88,10 @@ void sim_run(t_shared *shared) {
   philos = ft_malloc(sizeof(t_philo) * shared->philos);
   if (philos == NULL)
     return;
+  delay = 5;
   init_philos(shared, philos, 0, 0, READY_EAT);
-  init_philos(shared, philos, 1, 5, READY_THINK);
-  shared->started_at = now_ms();
-  shared->ready = 1;
+  init_philos(shared, philos, 1, delay, READY_THINK);
+  wait_ready(shared, philos, delay);
   wait_philos(shared, philos);
   free(philos);
 }
