@@ -57,7 +57,7 @@ static void	schedule(t_shared *shared, t_philo *philos)
 	shared->ready = 1;
 }
 
-static void	wait(t_shared *shared, t_philo *philos)
+static void	wait_philos(t_shared *shared, t_philo *philos)
 {
 	int	i;
 	int	meal_ended;
@@ -94,6 +94,6 @@ void	sim_run(t_shared *shared)
 		return ;
 	init_philos(shared, philos);
 	schedule(shared, philos);
-	wait(shared, philos);
+	wait_philos(shared, philos);
 	free(philos);
 }
