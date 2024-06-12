@@ -25,7 +25,7 @@ static void	philo_eat(t_philo *philo)
 	right = 0;
 	if (left + 1 < philo->shared->philos)
 		right = left + 1;
-	if (forks_avail(philo, left, right))
+	if (left != right && !(philo->shared->fork_used[left] || philo->shared->fork_used[right]))
 	{
 		take_fork(philo, left);
 		philo_say(philo, MSG_FORK);
@@ -70,7 +70,7 @@ void	*philo_routine(void *philo)
 	}
 	if (!p->shared->stopped)
 	{
-		p->shared->stopped = 1;
+          p->shared->stopped = 1;
 		philo_say(p, MSG_DIE);
 	}
 	return (NULL);

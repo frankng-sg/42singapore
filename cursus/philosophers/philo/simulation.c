@@ -15,21 +15,28 @@
 static t_philo	*init_philos(t_shared *shared, t_philo *philos)
 {
 	int	i;
+        time_t delay;
 
 	i = -1;
+        delay = 1;
+        if (shared->philos > 100)
+          delay = 5;
 	while (++i < shared->philos)
 	{
 		philos[i].id = i;
 		philos[i].shared = shared;
-		philos[i].state = READY_THINK;
-		if ((i & 0x1) == 0)
-			philos[i].think_time = 0;
-		else
-			philos[i].think_time = 1;
+		if ((i & 0x1) == 0) {
+                  philos[i].state = READY_EAT;
+                  philos[i].think_time = 0;
+                }
+		else {
+                  philos[i].state = READY_THINK;
+                  philos[i].think_time = delay;
+                }
 		philos[i].last_meal = 0;
 		philos[i].dead_at = shared->t2live;
 	}
-	philos[shared->philos - 1].think_time = 1;
+	philos[shared->philos - 1].think_time = delay;
 	i = -1;
 	while (++i < shared->philos)
 	{
@@ -57,29 +64,31 @@ static void	schedule(t_shared *shared, t_philo *philos)
 	shared->ready = 1;
 }
 
+static void wait_meals(t_shared *shared, t_philo *philos)
+{
+  int i;
+
+  if (shared->meals <= 0)
+    return ;
+  while (!shared->stopped)
+  {
+    i = -1;
+    while (++i < shared->philos)
+    {
+      if (philos[i].meals >= shared->meals)
+      {
+        shared->stopped = 1;
+        return;
+      }
+    }
+  }
+}
+
 static void	wait_philos(t_shared *shared, t_philo *philos)
 {
 	int	i;
-	int	meal_ended;
 
-	if (shared->meals > 0)
-	{
-		while (!shared->stopped)
-		{
-			i = -1;
-			meal_ended = 1;
-			while (++i < shared->philos)
-			{
-				if (philos[i].meals <= shared->meals)
-				{
-					meal_ended = 0;
-					break ;
-				}
-			}
-			if (meal_ended)
-				shared->stopped = 1;
-		}
-	}
+        wait_meals(shared, philos);
 	i = -1;
 	while (++i < shared->philos)
 		pthread_join(philos[i].thread, NULL);

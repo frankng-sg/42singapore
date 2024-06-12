@@ -79,7 +79,6 @@ int ft_atoi(const char *s);
 int ft_isnumeric(const char *s);
 
 // fork.c
-int forks_avail(t_philo *philo, int left, int right);
 void take_fork(t_philo *philo, int fork_id);
 void release_fork(t_philo *philo, int fork_id);
 
