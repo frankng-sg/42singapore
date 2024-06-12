@@ -9,13 +9,8 @@ static void	philo_say(t_philo *philo, char *action)
 
 static void	eating(t_philo *p)
 {
-	time_t now;
-
-	now = sim_time(p);
 	philo_say(p, MSG_EAT);
 	p->meals++;
-	if (p->think_time <= 1)
-		p->think_time = now - p->last_meal - p->shared->t2live - p->shared->t2live;
 	p->last_meal = sim_time(p);
 	p->dead_at = p->last_meal + p->shared->t2live;
 	ft_msleep(p, p->shared->t2eat);
