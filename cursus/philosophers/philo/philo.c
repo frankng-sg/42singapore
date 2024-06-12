@@ -1,9 +1,9 @@
 #include "philo.h"
 
 static void philo_say(t_philo *philo, char *action) {
-  pthread_mutex_lock(&philo->shared->printer);
+  pthread_mutex_lock(philo->printer);
   printf("%ld %d %s\n", sim_time(philo), philo->id + 1, action);
-  pthread_mutex_unlock(&philo->shared->printer);
+  pthread_mutex_unlock(philo->printer);
 }
 
 static void eating(t_philo *p) {

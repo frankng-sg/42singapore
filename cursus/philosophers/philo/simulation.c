@@ -37,6 +37,7 @@ static void init_philos(t_shared *shared, t_philo *philos, int start_at, time_t 
     philos[i].dead_at = shared->t2live;
     philos[i].delay = delay;
     philos[i].state = state;
+    philos[i].printer = &shared->printer;
     if (philos[i].id + 1 < philos[i].shared->philos)
       philos[i].right_fork = &philos[i + 1].left_fork;
     else

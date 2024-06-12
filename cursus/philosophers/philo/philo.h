@@ -52,6 +52,7 @@ typedef struct s_philo {
   int ready;
   pthread_mutex_t left_fork;
   pthread_mutex_t *right_fork;
+  pthread_mutex_t *printer;
   time_t delay;
   time_t last_meal;
   time_t dead_at;
