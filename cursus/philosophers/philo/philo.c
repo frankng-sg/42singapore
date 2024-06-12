@@ -15,12 +15,12 @@ static void eating(t_philo *p) {
 }
 
 static void philo_eat(t_philo *p) {
-  pthread_mutex_lock(p->left_fork);
+  pthread_mutex_lock(&p->left_fork);
   philo_say(p, MSG_FORK);
   pthread_mutex_lock(p->right_fork);
   philo_say(p, MSG_FORK);
   eating(p);
-  pthread_mutex_unlock(p->left_fork);
+  pthread_mutex_unlock(&p->left_fork);
   pthread_mutex_unlock(p->right_fork);
   p->state = READY_SLEEP;
 }

@@ -43,7 +43,6 @@ typedef struct s_shared {
   int t2eat;
   int t2sleep;
   time_t started_at;
-  pthread_mutex_t forks[MAX_PHILO];
   pthread_mutex_t printer;
 } t_shared;
 
@@ -51,7 +50,7 @@ typedef struct s_philo {
   int id;
   int meals;
   int ready;
-  pthread_mutex_t *left_fork;
+  pthread_mutex_t left_fork;
   pthread_mutex_t *right_fork;
   time_t delay;
   time_t last_meal;
