@@ -37,8 +37,8 @@ static void routine_loop(t_philo *p) {
       p->state = READY_THINK;
     } else if (p->state == READY_THINK) {
       philo_say(p, MSG_THINK);
-      if (p->delay > 0)
-        ft_msleep(p, p->delay);
+      ft_msleep(p, p->delay);
+      p->delay = 0;
       p->state = READY_EAT;
     }
   }

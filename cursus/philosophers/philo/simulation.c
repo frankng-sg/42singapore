@@ -87,7 +87,7 @@ void sim_run(t_shared *shared) {
   if (philos == NULL)
     return;
   init_philos(shared, philos, 0, 0, READY_EAT);
-  init_philos(shared, philos, 1, 1, READY_THINK);
+  init_philos(shared, philos, 1, 5, READY_THINK);
   shared->started_at = now_ms();
   shared->ready = 1;
   wait_philos(shared, philos);
