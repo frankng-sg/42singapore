@@ -1,5 +1,5 @@
 NAME:=philo
-SRC:=time fork util philo simulation main
+SRC:=time util philo simulation main
 OBJS:=${SRC:=.o}
 CC:=cc
 CFLAGS:=-g -Wall -Wextra -Werror

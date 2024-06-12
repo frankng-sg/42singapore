@@ -26,7 +26,7 @@
 #define MSG_THINK "is thinking"
 #define MSG_DIE "died"
 #define MSG_FORK "has taken a fork"
-#define MAX_PHILO 200
+#define MAX_PHILO 201
 
 enum e_state {
   READY_EAT,
@@ -43,16 +43,17 @@ typedef struct s_shared {
   int t2eat;
   int t2sleep;
   time_t started_at;
-  int fork_used[MAX_PHILO];
-  pthread_mutex_t fork_lock[MAX_PHILO];
-  pthread_mutex_t print_lock;
+  pthread_mutex_t forks[MAX_PHILO];
+  pthread_mutex_t printer;
 } t_shared;
 
 typedef struct s_philo {
   int id;
   int meals;
   int ready;
-  time_t think_time;
+  pthread_mutex_t *left_fork;
+  pthread_mutex_t *right_fork;
+  time_t delay;
   time_t last_meal;
   time_t dead_at;
   t_shared *shared;
@@ -77,9 +78,5 @@ void *ft_malloc(size_t size);
 void *ft_memset(void *s, int c, size_t n);
 int ft_atoi(const char *s);
 int ft_isnumeric(const char *s);
-
-// fork.c
-void take_fork(t_philo *philo, int fork_id);
-void release_fork(t_philo *philo, int fork_id);
 
 #endif
