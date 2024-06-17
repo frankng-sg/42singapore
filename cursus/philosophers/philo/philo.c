@@ -27,7 +27,7 @@ static void philo_eat(t_philo *p) {
     philo_say(p, MSG_FORK);
 
   if (p->shared->t2eat >= p->shared->t2live) {
-    p->state = READY_DIE
+    p->state = READY_DIE;
     return;
   }
 
