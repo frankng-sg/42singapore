@@ -39,7 +39,7 @@ static void routine_loop(t_philo *p) {
   while (!p->shared->stopped) {
     if (sim_time(p) > p->dead_at)
       break;
-    if (p->state == READY_EAT)
+    if (p->state == READY_EAT ||  p->state == READY_FORKS)
       philo_eat(p);
     else if (p->state == READY_SLEEP) {
       philo_say(p, MSG_SLEEP);
