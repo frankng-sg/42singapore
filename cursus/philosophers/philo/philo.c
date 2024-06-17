@@ -20,15 +20,17 @@ static void eating(t_philo *p) {
 }
 
 static void philo_eat(t_philo *p) {
-  if (p->state != READY_FORKS) {
+
     pthread_mutex_lock(&p->left_fork);
     philo_say(p, MSG_FORK);
     pthread_mutex_lock(p->right_fork);
     philo_say(p, MSG_FORK);
-    p->state = READY_FORKS;
-  }
-  if (p->shared->t2eat >= p->shared->t2live)
+
+  if (p->shared->t2eat >= p->shared->t2live) {
+    p->state = READY_DIE
     return;
+  }
+
   eating(p);
   pthread_mutex_unlock(&p->left_fork);
   pthread_mutex_unlock(p->right_fork);
@@ -39,7 +41,7 @@ static void routine_loop(t_philo *p) {
   while (!p->shared->stopped) {
     if (sim_time(p) > p->dead_at)
       break;
-    if (p->state == READY_EAT ||  p->state == READY_FORKS)
+    if (p->state == READY_EAT)
       philo_eat(p);
     else if (p->state == READY_SLEEP) {
       philo_say(p, MSG_SLEEP);

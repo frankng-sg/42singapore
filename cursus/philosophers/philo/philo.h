@@ -31,7 +31,7 @@
 enum e_state {
   READY_EAT,
   READY_SLEEP,
-  READY_FORKS,
+  READY_DIE,
   READY_THINK,
 };
 
