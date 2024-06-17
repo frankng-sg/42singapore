@@ -1,0 +1,2 @@
+# philo should die at 200
+./philo 4 200 800 1

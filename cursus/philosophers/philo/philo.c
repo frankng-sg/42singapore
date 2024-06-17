@@ -1,8 +1,13 @@
 #include "philo.h"
 
 static void philo_say(t_philo *philo, char *action) {
+  time_t now;
+  int id;
+
+  now = sim_time(philo);
+  id = philo->id + 1;
   pthread_mutex_lock(philo->printer);
-  printf("%ld %d %s\n", sim_time(philo), philo->id + 1, action);
+  printf("%ld %d %s\n", now, id, action);
   pthread_mutex_unlock(philo->printer);
 }
 
@@ -15,10 +20,15 @@ static void eating(t_philo *p) {
 }
 
 static void philo_eat(t_philo *p) {
-  pthread_mutex_lock(&p->left_fork);
-  philo_say(p, MSG_FORK);
-  pthread_mutex_lock(p->right_fork);
-  philo_say(p, MSG_FORK);
+  if (p->state != READY_FORKS) {
+    pthread_mutex_lock(&p->left_fork);
+    philo_say(p, MSG_FORK);
+    pthread_mutex_lock(p->right_fork);
+    philo_say(p, MSG_FORK);
+    p->state = READY_FORKS;
+  }
+  if (p->shared->t2eat >= p->shared->t2live)
+    return;
   eating(p);
   pthread_mutex_unlock(&p->left_fork);
   pthread_mutex_unlock(p->right_fork);
